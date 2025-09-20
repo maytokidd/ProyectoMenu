@@ -1,0 +1,40 @@
+/* 
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS cafeteria_menus;
+USE cafeteria_menus;
+
+-- Eliminar tablas si ya existen (para evitar conflictos)
+DROP TABLE IF EXISTS versiones;
+DROP TABLE IF EXISTS menus;
+
+-- Crear tabla MENUS
+CREATE TABLE menus (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  descripcion VARCHAR(255),
+  precio DECIMAL(10,2) NOT NULL,
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Crear tabla VERSIONES
+CREATE TABLE versiones (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  fecha_cambio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  usuario VARCHAR(100),
+  motivo VARCHAR(255),
+  menu_id BIGINT,
+  FOREIGN KEY (menu_id) REFERENCES menus(id) ON DELETE CASCADE
+);
+
+-- Insertar registros iniciales en MENUS
+INSERT INTO menus (nombre, descripcion, precio, fecha_creacion) VALUES
+('Menú del Día', 'Arroz con pollo + ensalada + refresco', 12.50, '2025-09-18 23:02:25'),
+('Menú Económico', 'Sopa + arroz con huevo frito + refresco', 8.50, '2025-09-18 23:03:05'),
+('Menú Ejecutivo', 'Bistec a lo pobre + ensalada + jugo natural', 15.00, '2025-09-18 23:03:05'),
+('Menú Vegetariano', 'Lasaña de verduras + ensalada fresca + limonada', 13.00, '2025-09-18 23:03:05'),
+('Menú Marino', 'Ceviche de pescado + chicharrón de calamar + gaseosa', 20.00, '2025-09-18 23:03:05'),
+('Menú Criollo', 'Ají de gallina + papa a la huancaína + refresco', 14.00, '2025-09-18 23:03:05'),
+('Menú Saludable', 'Pechuga a la plancha + ensalada + agua de hierbas', 12.00, '2025-09-18 23:03:05'),
+('Menú Especial', 'Arroz chaufa + pollo broaster + gaseosa', 16.50, '2025-09-18 23:03:05');
+
+/*
