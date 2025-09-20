@@ -30,6 +30,10 @@ public class Menu {
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Version> versiones;
 
+     public Menu() {
+    this.fechaCreacion = LocalDateTime.now();
+ }
+
     // ====== Getters y Setters ======
 
     public Long getId() {
