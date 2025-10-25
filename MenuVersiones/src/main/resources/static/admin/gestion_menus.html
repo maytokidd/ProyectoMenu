@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Menús</title>
+  <link rel="stylesheet" href="css/gestion_menus.css">
+</head>
+<body>
+  <main class="container">
+    <section class="form-section">
+      <h2>Agregar Nuevo Menú</h2>
+      <p class="subtitle">Completa los datos para agregar un nuevo plato</p>
+
+      <form id="formMenu" class="menu-form">
+        <fieldset>
+          <legend>Información del Menú</legend>
+          <p class="info">Completa todos los campos requeridos</p>
+
+          <label for="nombre">Nombre del Plato *</label>
+          <input type="text" id="nombre" placeholder="Ej: Lomo Saltado" required>
+
+          <div class="form-row">
+            <div class="input-group">
+              <label for="categoria">Categoría *</label>
+              <select id="categoria" required>
+                <option value="">Selecciona una categoría</option>
+                <option value="entrada">Entrada</option>
+                <option value="plato_fondo">Plato de Fondo</option>
+                <option value="postre">Postre</option>
+                <option value="bebida">Bebida</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="precio">Precio (S/)*</label>
+              <input type="number" id="precio" step="0.01" value="0.00" required>
+            </div>
+          </div>
+
+          <div class="estado">
+            <label class="switch">
+              <input type="checkbox" id="disponible" checked>
+              <span class="slider"></span>
+            </label>
+            <div>
+              <strong>Disponible</strong>
+              <p>El plato se mostrará en el menú público</p>
+            </div>
+          </div>
+
+          <label for="motivo">Motivo del Cambio *</label>
+          <textarea id="motivo" rows="3" placeholder="Describe el motivo de esta modificación o adición..." required></textarea>
+          <p class="note">Este motivo quedará registrado en el historial de versiones</p>
+
+          <div class="buttons">
+            <button type="submit" class="guardar">💾 Guardar</button>
+            <button type="button" class="cancelar">✖ Cancelar</button>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+
+    <aside class="sidebar">
+      <div class="card historial">
+        <h3>⏱ Historial de Versiones</h3>
+        <p class="empty">No hay historial aún</p>
+        <small>El historial se creará después de guardar</small>
+      </div>
+
+      <div class="card acciones">
+        <h3>⚙️ Acciones Rápidas</h3>
+        <button class="duplicar">➕ Duplicar este menú</button>
+        <button class="ver-versiones">🔁 Ver todas las versiones</button>
+      </div>
+    </aside>
+  </main>
+
+  <script src="js/gestion_menus.js"></script>
+</body>
+</html>
