@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Actualizar Precios - Cafetería</title>
+  <link rel="stylesheet" href="CSS/actualizar_precios.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-circle">UTP</div>
+        <p>Gestión de Menús</p>
+      </div>
+
+      <div class="user">
+        <p>👤 1</p>
+        <button class="role-btn">Empleado</button>
+      </div>
+
+      <ul class="menu">
+        <li>🍽️ Menús</li>
+        <li class="active">💲 Actualizar Precios</li>
+        <li>🏷️ Promociones</li>
+        <li>📜 Historial Personal</li>
+      </ul>
+
+      <button class="logout">↩️ Cerrar Sesión</button>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main">
+      <div class="alert info">
+        💰 Todos los cambios requieren aprobación del administrador antes de aplicarse.
+      </div>
+
+      <h2>Actualización de Precios y Disponibilidad</h2>
+      <p class="subtitle">Edita los precios y envía para aprobación</p>
+
+      <div class="content">
+        <!-- Sección izquierda -->
+        <div class="left">
+          <div id="cardsContainer" class="cards"></div>
+        </div>
+
+        <!-- Sección derecha -->
+        <aside class="right">
+          <h3>Historial de Cambios Personales</h3>
+          <p class="small">Tus solicitudes recientes</p>
+          <div id="historialCambios" class="history"></div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/actualizar_precios.js"></script>
+</body>
+</html>
