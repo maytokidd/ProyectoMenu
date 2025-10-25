@@ -1,0 +1,117 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fbfd;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #022b54;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.sidebar .logo {
+  text-align: center;
+}
+
+.sidebar .role-btn {
+  background-color: #d9534f;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: white;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.sidebar li.active, .sidebar li:hover {
+  background-color: #ff4d4d;
+}
+
+.logout {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.main {
+  flex: 1;
+  padding: 30px;
+}
+
+.alert {
+  background-color: #e9f3ff;
+  color: #0056b3;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 15px 0;
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.stats div {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  flex: 1;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.card {
+  width: 48%;
+  padding: 15px;
+  border-radius: 8px;
+  background: white;
+}
+
+.card.blue {
+  border-left: 4px solid #007bff;
+}
+
+.card.red {
+  border-left: 4px solid #dc3545;
+}
