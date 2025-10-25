@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gestión de Promociones</title>
+  <link rel="stylesheet" href="css/gestion_promociones.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <div>
+        <h1 class="titulo">Gestión de <span>Promociones</span></h1>
+        <p class="sub">Administra las promociones y descuentos del sistema</p>
+      </div>
+      <div>
+        <button id="btnAgregar" class="btn-agregar">
+          <!-- plus SVG -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Agregar Promoción
+        </button>
+      </div>
+    </header>
+
+    <section class="content">
+      <div class="left-col card">
+        <h2 class="card-title">Promociones Registradas</h2>
+        <p class="card-sub">Gestiona todas las promociones del sistema</p>
+
+        <div class="table-wrapper">
+          <table class="tabla-promociones">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Descuento</th>
+                <th>Vigencia</th>
+                <th>Estado</th>
+                <th>Responsable</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaBody">
+              <!-- filas generadas por JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside class="right-col">
+        <div class="card summary">
+          <h3>Promociones Activas</h3>
+          <div id="cardsContainer" class="promo-cards">
+            <!-- tarjetas generadas por JS -->
+          </div>
+        </div>
+
+        <div class="card stats">
+          <h3>Estadísticas</h3>
+          <div class="stat-row"><span>Total Promociones</span><strong id="totalPromos">0</strong></div>
+          <div class="stat-row"><span>Activas</span><strong id="activePromos">0</strong></div>
+          <div class="stat-row"><span>Descuento Promedio</span><strong id="avgDiscount">0%</strong></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="modalPromocion" class="modal">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <button class="cerrar" id="closeModal" aria-label="Cerrar">&times;</button>
+      <h2 id="modalTitulo">Nueva Promoción</h2>
+
+      <form id="formPromocion" autocomplete="off">
+        <input type="hidden" id="promoId" value="">
+
+        <label for="nombre">Nombre de la Promoción *</label>
+        <input id="nombre" type="text" required placeholder="Combo Estudiante" />
+
+        <label for="descripcion">Descripción *</label>
+        <textarea id="descripcion" rows="2" required placeholder="Describe la promoción..."></textarea>
+
+        <div class="grid-2">
+          <div>
+            <label for="descuento">Descuento (%) *</label>
+            <input id="descuento" type="number" min="0" max="100" required />
+          </div>
+          <div>
+            <label for="estado">Estado *</label>
+            <select id="estado" required>
+              <option value="Activa">Activa</option>
+              <option value="Programada">Programada</option>
+              <option value="Inactiva">Inactiva</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label for="fechaInicio">Fecha de Inicio *</label>
+            <input id="fechaInicio" type="date" required />
+          </div>
+          <div>
+            <label for="fechaFin">Fecha de Fin *</label>
+            <input id="fechaFin" type="date" required />
+          </div>
+        </div>
+
+        <label for="responsable">Responsable</label>
+        <input id="responsable" type="text" placeholder="Ej: Juan Pérez" />
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancelar" id="btnCancel">Cancelar</button>
+          <button type="submit" class="btn-guardar">Crear Promoción</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/gestion_promociones.js"></script>
+</body>
+</html>

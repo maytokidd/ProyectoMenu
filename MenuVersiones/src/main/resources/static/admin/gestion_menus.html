@@ -9,7 +9,7 @@
 <body>
   <main class="container">
     <section class="form-section">
-      <h2>Agregar Nuevo Menú</h2>
+      <h2>🍽️ Agregar Nuevo Menú</h2>
       <p class="subtitle">Completa los datos para agregar un nuevo plato</p>
 
       <form id="formMenu" class="menu-form">
@@ -23,18 +23,20 @@
           <div class="form-row">
             <div class="input-group">
               <label for="categoria">Categoría *</label>
-              <select id="categoria" required>
-                <option value="">Selecciona una categoría</option>
-                <option value="entrada">Entrada</option>
-                <option value="plato_fondo">Plato de Fondo</option>
-                <option value="postre">Postre</option>
-                <option value="bebida">Bebida</option>
-              </select>
+              <div class="select-wrapper">
+                <select id="categoria" required>
+                  <option value="">Selecciona una categoría</option>
+                  <option value="entrada">🥗 Entrada</option>
+                  <option value="plato_fondo">🍛 Plato de Fondo</option>
+                  <option value="postre">🍰 Postre</option>
+                  <option value="bebida">🥤 Bebida</option>
+                </select>
+              </div>
             </div>
 
             <div class="input-group">
               <label for="precio">Precio (S/)*</label>
-              <input type="number" id="precio" step="0.01" value="0.00" required>
+              <input type="number" id="precio" step="0.50" value="0.00" required>
             </div>
           </div>
 
