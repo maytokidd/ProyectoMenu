@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión de Usuarios</title>
+  <link rel="stylesheet" href="CSS/usuarios.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Gestión de Usuarios</h1>
+      <p>Administra los usuarios del sistema de menús UTP</p>
+    </header>
+
+    <section class="stats">
+      <div class="card total">Total <span id="totalCount">0</span></div>
+      <div class="card admin">Admins <span id="adminCount">0</span></div>
+      <div class="card empleado">Empleados <span id="empleadoCount">0</span></div>
+      <div class="card activo">Activos <span id="activoCount">0</span></div>
+      <div class="card inactivo">Inactivos <span id="inactivoCount">0</span></div>
+    </section>
+
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Buscar por nombre o usuario..." />
+      <select id="roleFilter">
+        <option value="todos">Todos los roles</option>
+        <option value="Administrador">Administrador</option>
+        <option value="Empleado">Empleado</option>
+      </select>
+      <select id="stateFilter">
+        <option value="todos">Todos los estados</option>
+        <option value="Activo">Activo</option>
+        <option value="Inactivo">Inactivo</option>
+      </select>
+      <button id="addUserBtn">+ Agregar Usuario</button>
+    </div>
+
+    <section class="table-container">
+      <h2>Usuarios Registrados</h2>
+      <table id="userTable">
+        <thead>
+          <tr>
+            <th>Nombre Completo</th>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Último Acceso</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- Modal Agregar Usuario -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h3>Agregar Usuario</h3>
+      <form id="addUserForm">
+        <input type="text" id="nombre" placeholder="Nombre completo" required />
+        <input type="text" id="usuario" placeholder="Usuario" required />
+        <input type="email" id="correo" placeholder="Correo" required />
+        <select id="rol" required>
+          <option value="Empleado">Empleado</option>
+          <option value="Administrador">Administrador</option>
+        </select>
+        <select id="estado" required>
+          <option value="Activo">Activo</option>
+          <option value="Inactivo">Inactivo</option>
+        </select>
+        <input type="datetime-local" id="ultimoAcceso" required />
+        <div class="modal-actions">
+          <button type="submit">Guardar</button>
+          <button type="button" id="cancelBtn">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/usuarios.js"></script>
+</body>
+</html>
