@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - Gestión de Menús UTP</title>
+    <link rel="stylesheet" href="login.css">
+    <script src="login.js" defer></script>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="logo">UTP</div>
+
+    <h1>Gestión de Menús UTP</h1>
+    <p class="subtitulo">Sistema de Administración de Cafetería</p>
+
+    <div class="card">
+
+        <h2>Iniciar Sesión</h2>
+        <p class="texto-pequeño">Ingresa tus credenciales para acceder al sistema</p>
+
+        <form id="formLogin">
+
+            <label>Usuario</label>
+            <input type="text" id="usuario" required>
+
+            <label>Contraseña</label>
+            <input type="password" id="clave" required>
+
+            <label>Rol</label>
+            <select id="rol">
+                <option value="ADMIN">Administrador</option>
+                <option value="USER">Usuario</option>
+            </select>
+
+            <button class="btn" type="submit">Iniciar Sesión</button>
+
+        </form>
+
+        <div id="mensajeError" class="mensajeError" style="display:none;"></div>
+
+    </div>
+
+    <footer>
+        <p>Universidad Tecnológica del Perú – 2025</p>
+        <p>Todos los derechos reservados</p>
+    </footer>
+
+</div>
+
+</body>
+</html>

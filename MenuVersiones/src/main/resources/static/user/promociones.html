@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil</title>
-    <link rel="stylesheet" href="CSS/usuarios.css">
+    <title>Promociones</title>
+    <link rel="stylesheet" href="CSS/promociones.css">
 </head>
 <body>
 
@@ -23,30 +23,22 @@
 
         <nav class="menu">
             <a href="dashboard_user.html">🍽 Menús</a>
-            <a href="promociones.html">🎁 Promociones</a>
-            <a href="usuarios.html" class="active">👤 Mi Perfil</a>
+            <a href="promociones.html" class="active">🎁 Promociones</a>
+            <a href="usuarios.html">👤 Mi Perfil</a>
         </nav>
 
         <a href="/logout" class="logout">Cerrar Sesión</a>
     </aside>
 
     <main class="content">
-        <h1>Mi Perfil</h1>
-        <p class="subtitle">Información personal del usuario</p>
+        <h1>Promociones Activas</h1>
+        <p class="subtitle">Ofertas disponibles para los usuarios</p>
 
-        <div class="profile-box">
-            <img class="profile-img" src="/static/img/user.png" alt="profile">
-            
-            <div class="info">
-                <p><strong>Nombre:</strong> Juan Pérez</p>
-                <p><strong>Cargo:</strong> Empleado</p>
-                <p><strong>Correo:</strong> jperez@utp.edu.pe</p>
-            </div>
-        </div>
-
+        <div class="promo-list" id="promoList"></div>
     </main>
 
 </div>
 
+<script src="JS/promociones.js"></script>
 </body>
 </html>

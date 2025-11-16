@@ -1,16 +1,85 @@
+/* ============= SIDEBAR ADMIN COMPLETO ============= */
+
+.sidebar-admin {
+  width: 240px;
+  height: 100vh;
+  background: #0a3d62;
+  color: white;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.brand h2 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.brand p {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 14px;
+}
+
+.user-info {
+  text-align: center;
+  margin: 22px 0;
+}
+
+.user-avatar {
+  font-size: 45px;
+}
+
+.user-name {
+  background: #145a8d;
+  padding: 5px 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.menu-item {
+  display: block;
+  color: white;
+  padding: 10px 12px;
+  margin: 6px 0;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background: #ee5253;
+}
+
+.logout {
+  margin-top: auto;
+  background: #b71540;
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+}
+
+/* ============= ESTILOS GENERALES DEL FORMULARIO ============= */
+
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f5f6f8;
   color: #333;
   margin: 0;
-  padding: 2rem;
+  padding: 2rem 2rem 2rem 270px; /* espacio para sidebar */
 }
 
 .container {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
-  align-items: start;
 }
 
 /* FORMULARIO */
@@ -32,194 +101,63 @@ body {
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 1.8rem;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
 }
 
-.menu-form legend {
-  font-weight: 700;
-  font-size: 1.3rem; 
-  margin-bottom: 0.8rem;
+legend {
+  font-size: 1.3rem;
+  font-weight: bold;
   color: #d9534f;
 }
 
-.info {
-  color: #666;
-  margin-bottom: 1rem;
-}
-
 label {
-  display: block;
-  margin-top: 1rem;
   font-weight: 600;
-  color: #333;
+  margin-top: 1rem;
 }
 
-input[type="text"],
-input[type="number"],
+input,
 select,
 textarea {
   width: 100%;
   padding: 0.6rem;
-  border: 1px solid #ccc;
   border-radius: 8px;
+  border: 1px solid #ccc;
   margin-top: 0.4rem;
-  font-size: 0.95rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #d9534f;
-  box-shadow: 0 0 5px rgba(217, 83, 79, 0.3);
-  outline: none;
 }
 
 textarea {
-  resize: none; /* ← esto elimina el redimensionamiento con el mouse */
-}
-
-/* SELECT CON ICONOS */
-.select-wrapper {
-  position: relative;
-}
-
-.select-wrapper select {
-  appearance: none;
-  -webkit-appearance: none;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23666'%3E%3Cpath d='M7 10L2 5h10L7 10z'/%3E%3C/svg%3E") no-repeat right 0.8rem center;
-  background-size: 12px;
-  padding-right: 2rem;
-}
-
-/* LAYOUT */
-.form-row {
-  display: flex;
-  gap: 1rem;
-}
-
-.input-group {
-  flex: 1;
-}
-
-/* SWITCH */
-.estado {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 52px;
-  height: 26px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  border-radius: 26px;
-  transition: 0.3s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.3s;
-}
-
-.switch input:checked + .slider {
-  background-color: #28a745;
-}
-
-.switch input:checked + .slider:before {
-  transform: translateX(26px);
+  resize: none;
 }
 
 /* BOTONES */
 .buttons {
-  margin-top: 1.8rem;
+  margin-top: 1.5rem;
   display: flex;
   gap: 1rem;
 }
 
-button {
-  border: none;
-  padding: 0.6rem 1.4rem;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
 .guardar {
-  background-color: #d9534f;
+  background: #d9534f;
   color: white;
 }
 
-.guardar:hover {
-  background-color: #c94743;
-}
-
 .cancelar {
-  background-color: #f0f0f0;
-  color: #333;
+  background: #eee;
 }
 
-.cancelar:hover {
-  background-color: #e2e2e2;
-}
-
-/* SIDEBAR */
+/* SIDEBAR LATERAL DE ACCIONES */
 .sidebar .card {
   background: #fff;
-  border: 1px solid #ddd;
   border-radius: 10px;
   padding: 1.2rem;
-  margin-bottom: 1.2rem;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-}
-
-.card h3 {
-  margin-top: 0;
-  color: #d9534f;
-}
-
-.card p.empty {
-  color: #999;
-  margin: 0.5rem 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  border: 1px solid #ddd;
 }
 
 .card button {
   width: 100%;
-  margin-top: 0.5rem;
   padding: 0.6rem;
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
+  margin-top: 0.5rem;
+  background: #f8f9fa;
   border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.card button:hover {
-  background-color: #f1f1f1;
 }

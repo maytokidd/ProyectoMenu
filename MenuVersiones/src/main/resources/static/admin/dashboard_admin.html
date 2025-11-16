@@ -1,431 +1,143 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Panel de Administrador - Gestión de Menús UTP</title>
-  <style>
-    :root{
-      --bg:#f6f8fb;
-      --card:#ffffff;
-      --muted:#7b7f86;
-      --accent:#9d1bd6;
-      --accent-2:#7b61ff;
-      --success:#1fbf73;
-      --danger:#ff6b6b;
-      --shadow: 0 6px 18px rgba(15,23,42,0.06);
-      --radius:12px;
-      --radius-sm:8px;
-      --text:#0f1724;
-      --soft:#f3f6f9;
-      --border:#e8ebf0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador - Gestión de Menús UTP</title>
 
-    html,body{
-      height:100%;
-      margin:0;
-      background: linear-gradient(90deg, #f6f8fb 0%, #f6f8fb 94%, #338a3f 94%); /* slight green edge like screenshot */
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-
-    .container{
-      max-width:1180px;
-      margin:32px auto;
-      padding:28px;
-    }
-
-    header h1{
-      margin:0 0 6px 0;
-      font-size:28px;
-      color:#0f3a66;
-      font-weight:700;
-    }
-    header p{
-      margin:0 0 22px 0;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    /* Stat cards */
-    .stats{
-      display:grid;
-      grid-template-columns: repeat(4,1fr);
-      gap:18px;
-      margin-bottom:18px;
-    }
-    .card{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:18px;
-      box-shadow:var(--shadow);
-      border:1px solid var(--soft);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .card .left{
-      display:flex;
-      flex-direction:column;
-    }
-    .card .title{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
-    .card .value{
-      font-size:22px;
-      font-weight:700;
-    }
-    .circle{
-      width:56px;height:56px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      background:rgba(0,0,0,0.04);
-      color:#fff;
-      font-weight:700;
-    }
-    .circle.blue{ background: linear-gradient(135deg,#e9f0ff,#cfe0ff); color:#2c5bd6;}
-    .circle.green{ background: linear-gradient(135deg,#e9fdf0,#d7f6df); color:#0ea85f;}
-    .circle.pink{ background: linear-gradient(135deg,#fff0f2,#ffdfe6); color:#d43a5b;}
-    .circle.purple{ background: linear-gradient(135deg,#f5eefc,#efe3ff); color:#7b4ff5;}
-
-    /* Actions */
-    .actions{
-      margin:16px 0 22px 0;
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .btn{
-      background:#b71c24;color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;
-      box-shadow:none;font-weight:600;
-    }
-    .btn.secondary{
-      background:transparent;color:#333;border:1px solid var(--border);
-      padding:9px 12px;
-    }
-    .btn.ghost{
-      background:#fff;border:1px solid var(--border);
-    }
-
-    /* Table card */
-    .table-card{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:18px;
-      box-shadow:var(--shadow);
-      border:1px solid var(--soft);
-    }
-    .table-card h3{ margin:0 0 4px 0; font-size:16px;}
-    .table-card p{ margin:0 0 12px 0; color:var(--muted); font-size:13px;}
-
-    table{
-      width:100%;
-      border-collapse:collapse;
-      font-size:14px;
-    }
-    thead th{
-      text-align:left;
-      padding:14px 12px;
-      color:var(--muted);
-      font-weight:600;
-      border-bottom:1px solid var(--border);
-    }
-    tbody td{
-      padding:14px 12px;
-      border-bottom:1px solid #f1f3f6;
-      vertical-align:middle;
-    }
-    tbody tr:last-child td{ border-bottom:none; }
-
-    .badge{
-      padding:6px 10px;
-      background:#f3f4f7;
-      border-radius:999px;
-      font-size:13px;
-      display:inline-block;
-      color:#222;
-      border:1px solid var(--border);
-    }
-    .badge.available{
-      background:linear-gradient(180deg,#0f1724,#071427);
-      color:#fff;
-      padding:7px 12px;
-    }
-    .badge.na{
-      background:#eef0f5;color:#6b7280;padding:7px 12px;
-    }
-
-    .btn-sm{
-      padding:6px 10px;border-radius:8px;border:1px solid var(--border);
-      background:#fff;cursor:pointer;margin-left:8px;
-      font-weight:600;
-    }
-
-    .right-col{
-      text-align:right;
-    }
-
-    /* Responsive */
-    @media (max-width:980px){
-      .stats{ grid-template-columns: repeat(2,1fr); }
-      .right-col{ text-align:left; margin-top:8px;}
-    }
-    @media (max-width:640px){
-      .container{ padding:16px; }
-      table{ font-size:13px;}
-      thead th:nth-child(4), tbody td:nth-child(4),
-      thead th:nth-child(5), tbody td:nth-child(5){ display:none; } /* hide some columns on small screens */
-    }
-
-    /* Modal */
-    .modal-backdrop{
-      position:fixed;inset:0;background:rgba(10,15,25,0.45);display:none;align-items:center;justify-content:center;
-    }
-    .modal{
-      background:var(--card);padding:18px;border-radius:12px;max-width:520px;width:96%;
-      box-shadow:0 18px 40px rgba(10,20,40,0.2);
-    }
-    .modal h4{ margin:0 0 8px 0;}
-    .modal p{ margin:0 0 14px 0;color:var(--muted);}
-
-    /* small helpers */
-    .muted{ color:var(--muted); font-size:13px;}
-    .flex{ display:flex; gap:8px; align-items:center;}
-    .space-between{ display:flex; justify-content:space-between; align-items:center;}
-    .icon{
-      width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.03);
-    }
-
-  </style>
+    <!-- CSS EXTERNO -->
+    <link rel="stylesheet" href="CSS/dashboard_admin.css">
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <h1>Panel de Administrador</h1>
-      <p>Bienvenido al sistema de gestión de menús UTP</p>
-    </header>
 
-    <section class="stats" aria-label="estadísticas">
-      <div class="card">
-        <div class="left">
-          <span class="title">Total de Menús</span>
-          <span class="value" id="totalMenus">0</span>
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>UTP</h2>
+            <p>Gestión de Menús</p>
         </div>
-        <div class="circle blue" title="Menús"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="#27407b" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-      </div>
 
-      <div class="card">
-        <div class="left">
-          <span class="title">Cambios Recientes</span>
-          <span class="value" id="cambios">0</span>
+        <div class="user-info">
+            <div class="user-avatar">👤</div>
+            <p class="user-name">Administrador</p>
         </div>
-        <div class="circle green" title="Cambios"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2" stroke="#0a8a3e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12a9 9 0 11-9-9" stroke="#0a8a3e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
 
-      <div class="card">
-        <div class="left">
-          <span class="title">Promociones Activas</span>
-          <span class="value" id="promos">0</span>
-        </div>
-        <div class="circle pink" title="Promociones"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 12l-8-8-8 8 8 8 8-8z" stroke="#ff2b5b" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
+        <nav class="menu">
+    <a href="dashboard_admin.html" class="active">📊 Dashboard</a>
+    <a href="gestion_menus.html">🍽 Gestionar Menús</a>
+    <a href="gestion_promociones.html">🎁 Promociones</a>
+    <a href="usuarios_admin.html">👥 Usuarios</a>
+</nav>
 
-      <div class="card">
-        <div class="left">
-          <span class="title">Ventas del Día</span>
-          <span class="value" id="ventas">S/ 0</span>
-        </div>
-        <div class="circle purple" title="Ventas"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12h3l3 6 4-12 3 6h4" stroke="#6847c6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-    </section>
+        <a href="/logout" class="logout">Cerrar Sesión</a>
+    </aside>
 
-    <div class="actions">
-      <button class="btn" id="btnAgregar">+ Agregar Menú</button>
-      <button class="btn secondary" id="btnVerHistorial">Ver Historial</button>
-      <button class="btn ghost" id="btnReporte">Generar Reporte</button>
-    </div>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="content">
+        
+        <header>
+            <h1>Panel de Administrador</h1>
+            <p>Bienvenido al sistema de gestión de menús UTP</p>
+        </header>
 
-    <section class="table-card">
-      <h3>Menús Actuales</h3>
-      <p>Gestiona todos los menús disponibles en el sistema</p>
-
-      <div style="overflow:auto;">
-        <table id="tablaMenus" aria-label="Lista de menús">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Categoría</th>
-              <th>Precio</th>
-              <th>Estado</th>
-              <th>Última Modificación</th>
-              <th>Responsable</th>
-              <th style="text-align:right">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- filas insertadas por JS -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </div>
-
-  <!-- Modal Simulado -->
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-hidden="true">
-    <div class="modal" role="document">
-      <div class="space-between" style="margin-bottom:8px;">
-        <div>
-          <h4>Agregar Menú (simulado)</h4>
-          <p class="muted">Aquí se mostraría el formulario para agregar un menú. Esta demo no guarda cambios.</p>
-        </div>
-        <button class="btn-sm" id="closeModal">Cerrar</button>
-      </div>
-
-      <div>
-        <label class="muted">Nombre</label>
-        <input type="text" style="width:100%;padding:10px;margin:6px 0 12px;border-radius:8px;border:1px solid var(--border)" placeholder="Nombre del menú" />
-        <label class="muted">Categoría</label>
-        <input type="text" style="width:100%;padding:10px;margin:6px 0 12px;border-radius:8px;border:1px solid var(--border)" placeholder="Ej: Almuerzo" />
-        <div style="display:flex;justify-content:flex-end;">
-          <button class="btn secondary" id="modalGuardar">Guardar (simulado)</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Datos iniciales estáticos
-    const menus = [
-      { nombre: "Lomo Saltado", categoria: "Almuerzo", precio: 20.00, disponible: true, fecha: "2025-10-20 14:30", responsable: "Juan Pérez", promocion:false },
-      { nombre: "Ceviche", categoria: "Almuerzo", precio: 22.00, disponible: true, fecha: "2025-10-20 11:15", responsable: "María López", promocion:true },
-      { nombre: "Ají de Gallina", categoria: "Almuerzo", precio: 16.50, disponible: true, fecha: "2025-10-19 16:45", responsable: "Carlos Ramírez", promocion:false },
-      { nombre: "Arroz con Pollo", categoria: "Almuerzo", precio: 14.00, disponible: true, fecha: "2025-10-19 13:20", responsable: "Ana Torres", promocion:false },
-      { nombre: "Ensalada César", categoria: "Saludable", precio: 13.00, disponible: true, fecha: "2025-10-18 10:00", responsable: "Juan Pérez", promocion:false },
-      { nombre: "Desayuno Continental", categoria: "Desayuno", precio: 12.00, disponible: true, fecha: "2025-10-18 08:30", responsable: "María López", promocion:false },
-      { nombre: "Sándwich Club", categoria: "Snack", precio: 14.00, disponible: false, fecha: "2025-10-17 15:00", responsable: "Carlos Ramírez", promocion:false },
-      { nombre: "Causa Limeña", categoria: "Almuerzo", precio: 15.00, disponible: true, fecha: "2025-10-17 12:00", responsable: "Ana Torres", promocion:true }
-    ];
-
-    // Elementos
-    const tbody = document.querySelector("#tablaMenus tbody");
-    const totalMenusEl = document.getElementById("totalMenus");
-    const cambiosEl = document.getElementById("cambios");
-    const promosEl = document.getElementById("promos");
-    const ventasEl = document.getElementById("ventas");
-
-    let cambiosRecientes = 12; // contador inicial (parecido a la imagen)
-    cambiosEl.textContent = cambiosRecientes;
-
-    function formatPrice(n){
-      return "S/ " + n.toFixed(2);
-    }
-
-    function renderTable(){
-      tbody.innerHTML = "";
-      menus.forEach((m, idx) => {
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-          <td>${m.nombre}</td>
-          <td><span class="badge">${m.categoria}</span></td>
-          <td>${formatPrice(m.precio)}</td>
-          <td>
-            <span class="badge ${m.disponible ? 'available' : 'na'}" id="badge-${idx}">
-              ${m.disponible ? 'Disponible' : 'No disponible'}
-            </span>
-          </td>
-          <td class="muted">${m.fecha}</td>
-          <td>${m.responsable}</td>
-          <td class="right-col">
-            <div style="display:inline-flex;align-items:center;">
-              <button class="btn-sm" data-action="editar" data-idx="${idx}">Editar</button>
-              <button class="btn-sm" data-action="historial" data-idx="${idx}">Historial</button>
-              <button class="btn-sm" data-action="toggle" data-idx="${idx}">${m.disponible ? 'Cambiar' : 'Cambiar'}</button>
+        <!-- STAT CARDS -->
+        <section class="stats">
+            <div class="card">
+                <div class="left">
+                    <span class="title">Total de Menús</span>
+                    <span class="value" id="totalMenus">0</span>
+                </div>
+                <div class="circle blue">🍽</div>
             </div>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
 
-      // actualizar contadores
-      totalMenusEl.textContent = menus.length;
-      const promos = menus.filter(x => x.promocion).length;
-      promosEl.textContent = promos;
-      // ventas simuladas: suma precios de disponibles * 5 por ejemplo (solo demo)
-      const ventas = menus.filter(x=> x.disponible).reduce((s,x)=> s + x.precio*5, 0);
-      ventasEl.textContent = "S/ " + ventas.toFixed(2);
+            <div class="card">
+                <div class="left">
+                    <span class="title">Cambios Recientes</span>
+                    <span class="value" id="cambios">0</span>
+                </div>
+                <div class="circle green">⚙</div>
+            </div>
 
-      // attach event handlers to action buttons
-      tbody.querySelectorAll("button").forEach(btn => {
-        btn.removeEventListener("click", onActionClick);
-        btn.addEventListener("click", onActionClick);
-      });
-    }
+            <div class="card">
+                <div class="left">
+                    <span class="title">Promociones Activas</span>
+                    <span class="value" id="promos">0</span>
+                </div>
+                <div class="circle pink">🎁</div>
+            </div>
 
-    function onActionClick(e){
-      const action = e.currentTarget.dataset.action;
-      const idx = parseInt(e.currentTarget.dataset.idx, 10);
+            <div class="card">
+                <div class="left">
+                    <span class="title">Ventas del Día</span>
+                    <span class="value" id="ventas">S/ 0</span>
+                </div>
+                <div class="circle purple">💲</div>
+            </div>
+        </section>
 
-      if(action === "editar"){
-        alert("Editar (simulado): " + menus[idx].nombre);
-      } else if(action === "historial"){
-        alert("Ver historial (simulado) de: " + menus[idx].nombre);
-      } else if(action === "toggle"){
-        // cambiar estado disponible / no disponible
-        menus[idx].disponible = !menus[idx].disponible;
-        // incrementar cambios recientes
-        cambiosRecientes++;
-        cambiosEl.textContent = cambiosRecientes;
-        // actualizar fecha de modificación (simulada)
-        const now = new Date();
-        const y = now.getFullYear();
-        const mm = String(now.getMonth()+1).padStart(2,'0');
-        const d = String(now.getDate()).padStart(2,'0');
-        const hh = String(now.getHours()).padStart(2,'0');
-        const mn = String(now.getMinutes()).padStart(2,'0');
-        menus[idx].fecha = `${y}-${mm}-${d} ${hh}:${mn}`;
-        renderTable();
-      }
-    }
+        <!-- BOTONES -->
+        <div class="actions">
+            <button class="btn" id="btnAgregar">+ Agregar Menú</button>
+            <button class="btn secondary" id="btnVerHistorial">Ver Historial</button>
+            <button class="btn ghost" id="btnReporte">Generar Reporte</button>
+        </div>
 
-    // Modal handlers
-    const modal = document.getElementById("modalBackdrop");
-    document.getElementById("btnAgregar").addEventListener("click", () => {
-      modal.style.display = "flex";
-      modal.setAttribute("aria-hidden","false");
-    });
-    document.getElementById("closeModal").addEventListener("click", () => {
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden","true");
-    });
-    document.getElementById("modalGuardar").addEventListener("click", () => {
-      alert("Guardar (simulado). En esta demo no se agregan menús.");
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden","true");
-    });
+        <!-- TABLA -->
+        <section class="table-card">
+            <h3>Menús Actuales</h3>
+            <p>Gestiona todos los menús disponibles en el sistema</p>
 
-    // Otros botones de la barra
-    document.getElementById("btnVerHistorial").addEventListener("click", () => {
-      alert("Ver historial (simulado) - mostraría el historial completo.");
-    });
-    document.getElementById("btnReporte").addEventListener("click", () => {
-      alert("Generar reporte (simulado).");
-    });
+            <div style="overflow:auto;">
+                <table id="tablaMenus">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                            <th>Última Modificación</th>
+                            <th>Responsable</th>
+                            <th style="text-align:right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Filas generadas por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-    // Render inicial
-    renderTable();
+    </main>
+</div>
 
-    // accesibilidad: close modal con ESC
-    window.addEventListener("keydown", (ev) => {
-      if(ev.key === "Escape"){
-        modal.style.display = "none";
-        modal.setAttribute("aria-hidden","true");
-      }
-    });
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal">
+        <div class="space-between">
+            <div>
+                <h4>Agregar Menú (simulado)</h4>
+                <p class="muted">Aquí se mostraría el formulario para agregar un menú.</p>
+            </div>
+            <button class="btn-sm" id="closeModal">Cerrar</button>
+        </div>
 
-  </script>
+        <label class="muted">Nombre</label>
+        <input class="input" placeholder="Nombre del menú">
+
+        <label class="muted">Categoría</label>
+        <input class="input" placeholder="Ej: Almuerzo">
+
+        <div style="text-align:right;">
+            <button class="btn secondary" id="modalGuardar">Guardar (simulado)</button>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="JS/dashboard_admin.js"></script>
+
 </body>
 </html>
