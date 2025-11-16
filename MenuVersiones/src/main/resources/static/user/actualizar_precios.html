@@ -1,61 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Actualizar Precios - Cafetería</title>
-  <link rel="stylesheet" href="CSS/actualizar_precios.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Precios</title>
+    <link rel="stylesheet" href="CSS/actualizar_precios.css">
 </head>
 <body>
-  <div class="container">
 
-    <!-- Barra lateral -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="logo">
-        <div class="logo-circle">UTP</div>
-        <p>Gestión de Menús</p>
-      </div>
-
-      <div class="user">
-        <p>👤 1</p>
-        <button class="role-btn">Empleado</button>
-      </div>
-
-      <ul class="menu">
-        <li>🍽️ Menús</li>
-        <li class="active">💲 Actualizar Precios</li>
-        <li>🏷️ Promociones</li>
-        <li>📜 Historial Personal</li>
-      </ul>
-
-      <button class="logout">↩️ Cerrar Sesión</button>
-    </aside>
-
-    <!-- Contenido principal -->
-    <main class="main">
-      <div class="alert info">
-        💰 Todos los cambios requieren aprobación del administrador antes de aplicarse.
-      </div>
-
-      <h2>Actualización de Precios y Disponibilidad</h2>
-      <p class="subtitle">Edita los precios y envía para aprobación</p>
-
-      <div class="content">
-        <!-- Sección izquierda -->
-        <div class="left">
-          <div id="cardsContainer" class="cards"></div>
+        <div class="brand">
+            <h2>UTP</h2>
+            <p>Gestión de Menús</p>
         </div>
 
-        <!-- Sección derecha -->
-        <aside class="right">
-          <h3>Historial de Cambios Personales</h3>
-          <p class="small">Tus solicitudes recientes</p>
-          <div id="historialCambios" class="history"></div>
-        </aside>
-      </div>
-    </main>
-  </div>
+        <div class="user-info">
+            <div class="user-avatar">👤</div>
+            <p class="user-name">Empleado</p>
+        </div>
 
-  <script src="js/actualizar_precios.js"></script>
+        <nav class="menu">
+    <a href="dashboard_user.html">🍽 Menús</a>
+    <a href="actualizar_precios.html" class="active">💲 Actualizar Precios</a>
+    <a href="promociones.html">🎁 Promociones</a>
+    <a href="usuarios.html">📜 Historial Personal</a>
+</nav>
+
+
+        <a class="logout" href="/logout">Cerrar Sesión</a>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="content">
+        <h1>Actualizar Precios</h1>
+        <p class="subtitle">Modifica los precios de los platos disponibles</p>
+
+        <div class="alert-info">
+            ⚠ Recuerda guardar los cambios después de editar los precios.
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plato</th>
+                        <th>Categoría</th>
+                        <th>Precio Actual</th>
+                        <th>Nuevo Precio</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tablaPrecios">
+                    <!-- Aquí irán los precios desde el JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <button class="btn-secondary" style="margin-top:20px;">
+            Guardar Todos los Cambios
+        </button>
+
+    </main>
+</div>
+
+<script src="JS/actualizar_precios.js"></script>
+
 </body>
 </html>

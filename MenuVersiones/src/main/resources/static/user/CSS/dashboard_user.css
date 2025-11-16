@@ -10,7 +10,7 @@ body {
     height: 100vh;
 }
 
-/* --- SIDEBAR (MISMO DISEÑO DEL DASHBOARD) --- */
+/* --- SIDEBAR --- */
 .sidebar {
     width: 230px;
     background: #0a3d62;
@@ -23,12 +23,6 @@ body {
 .brand h2 {
     margin: 0;
     font-size: 26px;
-}
-
-.brand p {
-    margin: 0;
-    font-size: 14px;
-    opacity: 0.8;
 }
 
 .user-info {
@@ -45,17 +39,15 @@ body {
     background: #145a8d;
     padding: 4px 8px;
     border-radius: 5px;
-    display: inline-block;
-    margin-top: 5px;
 }
 
 .menu a {
-    display: block;
     color: white;
     padding: 10px;
     margin: 6px 0;
-    border-radius: 5px;
+    display: block;
     text-decoration: none;
+    border-radius: 5px;
     font-size: 15px;
 }
 
@@ -67,10 +59,9 @@ body {
 .logout {
     margin-top: auto;
     background: #b71540;
-    padding: 10px;
     text-align: center;
+    padding: 10px;
     border-radius: 5px;
-    text-decoration: none;
     color: white;
 }
 
@@ -78,20 +69,24 @@ body {
 .content {
     padding: 30px;
     width: 100%;
-    overflow-y: auto;
 }
 
 .subtitle {
     color: #555;
-    margin-top: -5px;
 }
 
 .alert-info {
-    background: #fff3cd;
-    padding: 12px;
-    border-left: 4px solid #ffbc00;
+    background: #e8f1ff;
+    padding: 15px;
+    border-left: 4px solid #4d7cff;
+    border-radius: 6px;
     margin-bottom: 20px;
-    border-radius: 8px;
+}
+
+.search {
+    padding: 8px;
+    width: 240px;
+    margin-bottom: 15px;
 }
 
 /* --- TABLA --- */
@@ -99,7 +94,7 @@ body {
     background: white;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px #0001;
 }
 
 table {
@@ -114,27 +109,4 @@ th, td {
 
 th {
     background: #f0f4f8;
-}
-
-input[type="number"] {
-    padding: 7px;
-    width: 90px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-/* --- BOTONES --- */
-.btn-secondary {
-    padding: 12px 20px;
-    background: #ee5253;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-secondary:hover {
-    background: #d93e3e;
 }

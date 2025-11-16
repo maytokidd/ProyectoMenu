@@ -4,15 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Menús</title>
-  <link rel="stylesheet" href="css/gestion_menus.css">
+
+  <!-- TODO EL ESTILO SE IMPORTA DE UN SOLO ARCHIVO -->
+  <link rel="stylesheet" href="CSS/gestion_menus.css">
 </head>
+
 <body>
+
+  <!-- SIDEBAR ADMIN -->
+  <aside class="sidebar-admin">
+      <div class="brand">
+          <h2>UTP</h2>
+          <p>Panel Administrador</p>
+      </div>
+
+      <div class="user-info">
+          <div class="user-avatar">👨‍💼</div>
+          <p class="user-name">Administrador</p>
+      </div>
+
+      <nav class="menu">
+          <a href="dashboard_admin.html" class="menu-item">📊 Dashboard</a>
+          <a href="gestion_menus.html" class="menu-item active">🍽 Gestión de Menús</a>
+          <a href="gestion_promociones.html" class="menu-item">🎁 Gestión de Promociones</a>
+          <a href="usuarios_admin.html" class="menu-item">👥 Usuarios</a>
+      </nav>
+
+      <a href="/logout" class="logout">Cerrar Sesión</a>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="container">
+
     <section class="form-section">
+
       <h2>🍽️ Agregar Nuevo Menú</h2>
       <p class="subtitle">Completa los datos para agregar un nuevo plato</p>
 
       <form id="formMenu" class="menu-form">
+
         <fieldset>
           <legend>Información del Menú</legend>
           <p class="info">Completa todos los campos requeridos</p>
@@ -45,6 +75,7 @@
               <input type="checkbox" id="disponible" checked>
               <span class="slider"></span>
             </label>
+
             <div>
               <strong>Disponible</strong>
               <p>El plato se mostrará en el menú público</p>
@@ -52,13 +83,14 @@
           </div>
 
           <label for="motivo">Motivo del Cambio *</label>
-          <textarea id="motivo" rows="3" placeholder="Describe el motivo de esta modificación o adición..." required></textarea>
+          <textarea id="motivo" rows="3" placeholder="Describe el motivo..." required></textarea>
           <p class="note">Este motivo quedará registrado en el historial de versiones</p>
 
           <div class="buttons">
             <button type="submit" class="guardar">💾 Guardar</button>
             <button type="button" class="cancelar">✖ Cancelar</button>
           </div>
+
         </fieldset>
       </form>
     </section>
@@ -76,8 +108,11 @@
         <button class="ver-versiones">🔁 Ver todas las versiones</button>
       </div>
     </aside>
+
   </main>
 
-  <script src="js/gestion_menus.js"></script>
+  <!-- JS -->
+  <script src="JS/gestion_menus.js"></script>
+
 </body>
 </html>

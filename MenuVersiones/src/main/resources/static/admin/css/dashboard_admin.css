@@ -1,0 +1,257 @@
+/* --- LAYOUT GENERAL --- */
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+/* --- SIDEBAR (MISMO DISEÑO QUE EL USUARIO) --- */
+.sidebar {
+    width: 230px;
+    background: #0a3d62;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand h2 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.brand p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.user-info {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.user-avatar {
+    font-size: 40px;
+}
+
+.user-name {
+    font-size: 14px;
+    background: #145a8d;
+    padding: 4px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.menu a {
+    display: block;
+    color: white;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.menu a.active,
+.menu a:hover {
+    background: #ee5253;
+}
+
+.logout {
+    margin-top: auto;
+    background: #b71540;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+/* --- CONTENIDO ADMIN --- */
+.content {
+    padding: 30px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+/* ESTILOS ORIGINALES DEL DASHBOARD ADMIN */
+:root {
+    --bg:#f6f8fb;
+    --card:#ffffff;
+    --muted:#7b7f86;
+    --accent:#9d1bd6;
+    --accent-2:#7b61ff;
+    --success:#1fbf73;
+    --danger:#ff6b6b;
+    --shadow:0 6px 18px rgba(15,23,42,0.06);
+    --radius:12px;
+    --border:#e8ebf0;
+    --text:#0f1724;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    font-family: Arial, sans-serif;
+    color: var(--text);
+}
+
+header h1 {
+    margin: 0 0 6px;
+    color: #0f3a66;
+}
+
+header p {
+    margin: 0 0 20px;
+    color: var(--muted);
+}
+
+/* CARDS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.card {
+    background: var(--card);
+    padding: 18px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card .title {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.card .value {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.circle {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.blue { background: #e5edff; }
+.green { background: #e3ffe9; }
+.pink { background: #ffe4ea; }
+.purple { background: #f3e8ff; }
+
+/* BOTONES */
+.actions {
+    margin: 20px 0;
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    background: #b71c24;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn.secondary {
+    background: white;
+    border: 1px solid var(--border);
+    color: #333;
+}
+
+.btn.ghost {
+    background: #fff;
+    border: 1px solid var(--border);
+}
+
+/* TABLA */
+.table-card {
+    background: var(--card);
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th {
+    padding: 12px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #f1f3f6;
+}
+
+.badge {
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #eef0f5;
+}
+
+.available {
+    background: black;
+    color: white;
+}
+
+.na {
+    background: #ccc;
+}
+
+/* MODAL */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    width: 400px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
