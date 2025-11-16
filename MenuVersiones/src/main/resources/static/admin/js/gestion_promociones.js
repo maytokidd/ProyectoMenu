@@ -64,88 +64,81 @@ const inputInicio = document.getElementById("fechaInicio");
 const inputFin = document.getElementById("fechaFin");
 const inputEstado = document.getElementById("estado");
 const inputResponsable = document.getElementById("responsable");
-const modalTitulo = document.getElementById("modalTitulo");
 
-/* render */
+/* ---------- RENDER TABLA ---------- */
 function renderTable(){
   tablaBody.innerHTML = "";
   promotions.forEach(p => {
     const tr = document.createElement("tr");
 
-    const vigenciaHtml = `<div style="line-height:1.1">
-      <div>${p.inicio}</div>
-      <small style="color:#6b7280">a ${p.fin}</small>
-    </div>`;
-
     tr.innerHTML = `
       <td>${p.nombre}</td>
       <td>${p.descripcion}</td>
       <td><span class="pill">${p.descuento}%</span></td>
-      <td>${vigenciaHtml}</td>
+      <td>${p.inicio} → ${p.fin}</td>
       <td>${renderBadge(p.estado)}</td>
-      <td>${p.responsable || "-"}</td>
-      <td class="acciones-tabla">
-        <button class="btn-editar" title="Editar" data-id="${p.id}">${svgEdit()}</button>
-        <button class="btn-eliminar" title="Eliminar" data-id="${p.id}">${svgTrash()}</button>
+      <td>${p.responsable}</td>
+      <td style="text-align:right">
+        <button onclick="openEditModal(${p.id})">✏️</button>
+        <button onclick="deletePromo(${p.id})">🗑</button>
       </td>
     `;
     tablaBody.appendChild(tr);
   });
-
-  // attach events
-  document.querySelectorAll(".btn-editar").forEach(b => b.addEventListener("click", e => {
-    const id = Number(e.currentTarget.dataset.id);
-    openEditModal(id);
-  }));
-  document.querySelectorAll(".btn-eliminar").forEach(b => b.addEventListener("click", e => {
-    const id = Number(e.currentTarget.dataset.id);
-    deletePromo(id);
-  }));
 }
 
+/* BADGE */
 function renderBadge(estado){
-  const cls = estado === "Activa" ? "badge activa" : (estado === "Programada" ? "badge programada" : "badge inactiva");
-  return `<span class="${cls}">${estado}</span>`;
+  if(estado === "Activa") return `<span class="badge activa">Activa</span>`;
+  if(estado === "Programada") return `<span class="badge programada">Programada</span>`;
+  return `<span class="badge inactiva">Inactiva</span>`;
 }
 
+/* ---------- RENDER TARJETAS ---------- */
 function renderCards(){
   cardsContainer.innerHTML = "";
-  promotions.filter(p => p.estado === "Activa" || p.estado === "Programada").forEach(p => {
-    const div = document.createElement("div");
-    div.className = "promo-card";
-    div.innerHTML = `
+
+  promotions.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "promo-card";
+
+    card.innerHTML = `
       <div class="info">
         <h4>${p.nombre}</h4>
         <p>${p.descripcion}</p>
-        <small style="color:#6b7280">Hasta: ${p.fin}</small>
+        <small style="color:#777">Hasta ${p.fin}</small>
       </div>
+
       <div class="pct">${p.descuento}%</div>
     `;
-    cardsContainer.appendChild(div);
+
+    cardsContainer.appendChild(card);
   });
 }
 
+/* ---------- RENDER STATS ---------- */
 function renderStats(){
   totalPromos.textContent = promotions.length;
-  activePromos.textContent = promotions.filter(p=>p.estado==="Activa").length;
-  const avg = Math.round(promotions.reduce((s,p)=>s+p.descuento,0)/promotions.length) || 0;
-  avgDiscount.textContent = avg + "%";
+  activePromos.textContent = promotions.filter(p => p.estado==="Activa").length;
+
+  const avg = promotions.reduce((s,p)=>s+p.descuento,0) / promotions.length;
+  avgDiscount.textContent = Math.round(avg) + "%";
 }
 
-/* CRUD simulada */
-function openAddModal(){
+/* ---------- AGREGAR ---------- */
+btnAgregar.addEventListener("click", () => {
   modal.style.display = "flex";
-  modalTitulo.textContent = "Agregar Promoción";
   form.reset();
   inputId.value = "";
-  document.querySelector(".btn-guardar").textContent = "Crear Promoción";
-}
+});
 
+/* ---------- EDITAR ---------- */
 function openEditModal(id){
   const p = promotions.find(x=>x.id===id);
   if(!p) return;
+
   modal.style.display = "flex";
-  modalTitulo.textContent = "Editar Promoción";
+
   inputId.value = p.id;
   inputNombre.value = p.nombre;
   inputDesc.value = p.descripcion;
@@ -154,61 +147,49 @@ function openEditModal(id){
   inputFin.value = p.fin;
   inputEstado.value = p.estado;
   inputResponsable.value = p.responsable;
-  document.querySelector(".btn-guardar").textContent = "Guardar Cambios";
 }
 
+/* ---------- ELIMINAR ---------- */
 function deletePromo(id){
-  if(!confirm("¿Eliminar esta promoción?")) return;
-  promotions = promotions.filter(p=>p.id!==id);
+  if(!confirm("¿Eliminar promoción?")) return;
+
+  promotions = promotions.filter(p => p.id !== id);
   reRenderAll();
 }
 
-form.addEventListener("submit", (e)=>{
+/* ---------- GUARDAR ---------- */
+form.addEventListener("submit", e =>{
   e.preventDefault();
-  const id = inputId.value ? Number(inputId.value) : null;
+
   const nuevo = {
-    id: id || (promotions.length?Math.max(...promotions.map(p=>p.id))+1:1),
-    nombre: inputNombre.value.trim(),
-    descripcion: inputDesc.value.trim(),
+    id: inputId.value ? Number(inputId.value) : Date.now(),
+    nombre: inputNombre.value,
+    descripcion: inputDesc.value,
     descuento: Number(inputDescPct.value),
     inicio: inputInicio.value,
     fin: inputFin.value,
     estado: inputEstado.value,
-    responsable: inputResponsable.value.trim() || "-"
+    responsable: inputResponsable.value
   };
 
-  if(id){
-    promotions = promotions.map(p => p.id===id ? nuevo : p);
+  if(inputId.value){
+    promotions = promotions.map(p => p.id===nuevo.id ? nuevo : p);
   } else {
     promotions.push(nuevo);
   }
+
   modal.style.display = "none";
   reRenderAll();
 });
 
+btnCancel.onclick = ()=> modal.style.display="none";
+closeModal.onclick = ()=> modal.style.display="none";
+
+/* RENDER GLOBAL */
 function reRenderAll(){
   renderTable();
   renderCards();
   renderStats();
 }
 
-/* helpers: SVG icons */
-function svgEdit(){
-  return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zM21.41 6.34a1.996 1.996 0 0 0 0-2.82l-1.93-1.93a1.996 1.996 0 0 0-2.82 0l-1.83 1.83 4.75 4.75 1.83-1.83z" fill="#1e88e5"/></svg>`;
-}
-function svgTrash(){
-  return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="#e53935"/></svg>`;
-}
-
-/* modal controls */
-btnAgregar.addEventListener("click", openAddModal);
-btnCancel.addEventListener("click", ()=> modal.style.display="none");
-closeModal.addEventListener("click", ()=> modal.style.display="none");
-
-/* cerrar al hacer clic fuera */
-window.addEventListener("click", (ev)=>{
-  if(ev.target === modal) modal.style.display = "none";
-});
-
-/* init */
 reRenderAll();

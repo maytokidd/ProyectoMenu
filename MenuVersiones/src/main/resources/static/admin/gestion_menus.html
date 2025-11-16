@@ -3,116 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Menús</title>
+  <title>Gestión de Menús - UTP</title>
 
-  <!-- TODO EL ESTILO SE IMPORTA DE UN SOLO ARCHIVO -->
   <link rel="stylesheet" href="CSS/gestion_menus.css">
 </head>
 
 <body>
 
-  <!-- SIDEBAR ADMIN -->
-  <aside class="sidebar-admin">
+<div class="layout">
+
+  <!-- SIDEBAR (MISMO DISEÑO QUE EN LA CAPTURA) -->
+  <aside class="sidebar">
       <div class="brand">
           <h2>UTP</h2>
-          <p>Panel Administrador</p>
+          <p>Gestion de menus</p>
       </div>
 
       <div class="user-info">
-          <div class="user-avatar">👨‍💼</div>
+          <div class="user-avatar">👤</div>
           <p class="user-name">Administrador</p>
       </div>
 
       <nav class="menu">
-          <a href="dashboard_admin.html" class="menu-item">📊 Dashboard</a>
-          <a href="gestion_menus.html" class="menu-item active">🍽 Gestión de Menús</a>
-          <a href="gestion_promociones.html" class="menu-item">🎁 Gestión de Promociones</a>
-          <a href="usuarios_admin.html" class="menu-item">👥 Usuarios</a>
+          <a href="dashboard_admin.html">📊 Dashboard</a>
+          <a class="active" href="gestion_menus.html">🍽 Gestión de Menús</a>
+          <a href="gestion_promociones.html">🎁 Gestión de Promociones</a>
+          <a href="usuarios_admin.html">👥 Usuarios</a>
       </nav>
 
       <a href="/logout" class="logout">Cerrar Sesión</a>
   </aside>
 
   <!-- CONTENIDO PRINCIPAL -->
-  <main class="container">
-
-    <section class="form-section">
-
-      <h2>🍽️ Agregar Nuevo Menú</h2>
+  <main class="content">
+      
+      <h1 class="page-title">🍽️ Agregar Nuevo Menú</h1>
       <p class="subtitle">Completa los datos para agregar un nuevo plato</p>
 
-      <form id="formMenu" class="menu-form">
+      <div class="grid-2">
 
-        <fieldset>
-          <legend>Información del Menú</legend>
-          <p class="info">Completa todos los campos requeridos</p>
+        <!-- FORMULARIO -->
+        <section class="form-section">
 
-          <label for="nombre">Nombre del Plato *</label>
-          <input type="text" id="nombre" placeholder="Ej: Lomo Saltado" required>
+          <form id="formMenu" class="menu-form">
+            <fieldset>
 
-          <div class="form-row">
-            <div class="input-group">
-              <label for="categoria">Categoría *</label>
-              <div class="select-wrapper">
-                <select id="categoria" required>
-                  <option value="">Selecciona una categoría</option>
-                  <option value="entrada">🥗 Entrada</option>
-                  <option value="plato_fondo">🍛 Plato de Fondo</option>
-                  <option value="postre">🍰 Postre</option>
-                  <option value="bebida">🥤 Bebida</option>
-                </select>
+              <legend>Información del Menú</legend>
+              <p class="info">Completa todos los campos requeridos</p>
+
+              <label>Nombre del Plato *</label>
+              <input type="text" id="nombre" placeholder="Ej: Lomo Saltado" required>
+
+              <div class="form-row">
+
+                <div class="input-group">
+                  <label>Categoría *</label>
+                  <select id="categoria" required>
+                    <option value="">Selecciona una categoría</option>
+                    <option>🥗 Entrada</option>
+                    <option>🍛 Plato de Fondo</option>
+                    <option>🍰 Postre</option>
+                    <option>🥤 Bebida</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Precio (S/)*</label>
+                  <input type="number" id="precio" step="0.50" min="0" value="0.00" required>
+                </div>
+
               </div>
-            </div>
 
-            <div class="input-group">
-              <label for="precio">Precio (S/)*</label>
-              <input type="number" id="precio" step="0.50" value="0.00" required>
-            </div>
+              <div class="estado">
+                <label class="switch">
+                  <input type="checkbox" id="disponible" checked>
+                  <span class="slider"></span>
+                </label>
+
+                <div>
+                  <strong>Disponible</strong>
+                  <p class="estado-text">El plato se mostrará en el menú público</p>
+                </div>
+              </div>
+
+              <label>Motivo del Cambio *</label>
+              <textarea id="motivo" rows="3" placeholder="Describe el motivo..." required></textarea>
+              <p class="note">Este motivo quedará registrado en el historial de versiones</p>
+
+              <div class="buttons">
+                <button class="btn guardar">💾 Guardar</button>
+                <button type="button" class="btn cancelar">✖ Cancelar</button>
+              </div>
+
+            </fieldset>
+          </form>
+
+        </section>
+
+        <!-- COLUMNA DERECHA -->
+        <aside class="right-sidebar">
+
+          <div class="card historial">
+            <h3>⏱ Historial de Versiones</h3>
+            <p class="empty">No hay historial aún</p>
+            <small>El historial se creará después de guardar</small>
           </div>
 
-          <div class="estado">
-            <label class="switch">
-              <input type="checkbox" id="disponible" checked>
-              <span class="slider"></span>
-            </label>
-
-            <div>
-              <strong>Disponible</strong>
-              <p>El plato se mostrará en el menú público</p>
-            </div>
+          <div class="card acciones">
+            <h3>⚙️ Acciones Rápidas</h3>
+            <button class="btn-secundario">➕ Duplicar este menú</button>
+            <button class="btn-secundario">🔁 Ver todas las versiones</button>
           </div>
 
-          <label for="motivo">Motivo del Cambio *</label>
-          <textarea id="motivo" rows="3" placeholder="Describe el motivo..." required></textarea>
-          <p class="note">Este motivo quedará registrado en el historial de versiones</p>
+        </aside>
 
-          <div class="buttons">
-            <button type="submit" class="guardar">💾 Guardar</button>
-            <button type="button" class="cancelar">✖ Cancelar</button>
-          </div>
-
-        </fieldset>
-      </form>
-    </section>
-
-    <aside class="sidebar">
-      <div class="card historial">
-        <h3>⏱ Historial de Versiones</h3>
-        <p class="empty">No hay historial aún</p>
-        <small>El historial se creará después de guardar</small>
       </div>
-
-      <div class="card acciones">
-        <h3>⚙️ Acciones Rápidas</h3>
-        <button class="duplicar">➕ Duplicar este menú</button>
-        <button class="ver-versiones">🔁 Ver todas las versiones</button>
-      </div>
-    </aside>
 
   </main>
 
-  <!-- JS -->
-  <script src="JS/gestion_menus.js"></script>
+</div>
 
+<script src="JS/gestion_menus.js"></script>
 </body>
 </html>

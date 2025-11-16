@@ -1,3 +1,4 @@
+/* Datos iniciales */
 const users = [
   { nombre: "Juan Pérez Rodríguez", usuario: "jperez", correo: "jperez@utp.edu.pe", rol: "Administrador", estado: "Activo", ultimoAcceso: "2025-10-20 14:30" },
   { nombre: "María López García", usuario: "mlopez", correo: "mlopez@utp.edu.pe", rol: "Empleado", estado: "Activo", ultimoAcceso: "2025-10-20 11:15" },
@@ -21,23 +22,27 @@ const stateFilter = document.getElementById("stateFilter");
 const modal = document.getElementById("modal");
 const addUserBtn = document.getElementById("addUserBtn");
 const cancelBtn = document.getElementById("cancelBtn");
+const closeModal = document.getElementById("closeModal");
 const addUserForm = document.getElementById("addUserForm");
 
+/* ------ RENDER TABLA ------ */
 function renderTable() {
   const search = searchInput.value.toLowerCase();
   const role = roleFilter.value;
   const state = stateFilter.value;
 
   const filtered = users.filter(u => {
-    const matchesSearch = u.nombre.toLowerCase().includes(search) || u.usuario.toLowerCase().includes(search);
-    const matchesRole = role === "todos" || u.rol === role;
-    const matchesState = state === "todos" || u.estado === state;
-    return matchesSearch && matchesRole && matchesState;
+    const matchSearch = u.nombre.toLowerCase().includes(search) || u.usuario.toLowerCase().includes(search);
+    const matchRole = role === "todos" || u.rol === role;
+    const matchState = state === "todos" || u.estado === state;
+    return matchSearch && matchRole && matchState;
   });
 
   tbody.innerHTML = "";
+
   filtered.forEach(u => {
     const tr = document.createElement("tr");
+
     tr.innerHTML = `
       <td>${u.nombre}</td>
       <td>${u.usuario}</td>
@@ -45,18 +50,20 @@ function renderTable() {
       <td><span class="rol ${u.rol}">${u.rol}</span></td>
       <td><span class="estado ${u.estado}">${u.estado}</span></td>
       <td>${u.ultimoAcceso}</td>
-      <td class="acciones">
+      <td class="acciones" style="text-align:right;">
         <button title="Editar">✏️</button>
         <button title="Ver">👁️</button>
         <button title="Contraseña">🔑</button>
       </td>
     `;
+
     tbody.appendChild(tr);
   });
 
   updateStats();
 }
 
+/* ------ STATS ------ */
 function updateStats() {
   totalCount.textContent = users.length;
   adminCount.textContent = users.filter(u => u.rol === "Administrador").length;
@@ -65,31 +72,38 @@ function updateStats() {
   inactivoCount.textContent = users.filter(u => u.estado === "Inactivo").length;
 }
 
+/* ------ EVENTOS ------ */
 searchInput.addEventListener("input", renderTable);
 roleFilter.addEventListener("change", renderTable);
 stateFilter.addEventListener("change", renderTable);
 
 addUserBtn.addEventListener("click", () => modal.style.display = "flex");
 cancelBtn.addEventListener("click", () => modal.style.display = "none");
+closeModal.addEventListener("click", () => modal.style.display = "none");
 
 addUserForm.addEventListener("submit", e => {
   e.preventDefault();
+
   const nuevo = {
     nombre: document.getElementById("nombre").value,
     usuario: document.getElementById("usuario").value,
     correo: document.getElementById("correo").value,
     rol: document.getElementById("rol").value,
     estado: document.getElementById("estado").value,
-    ultimoAcceso: document.getElementById("ultimoAcceso").value.replace("T", " "),
+    ultimoAcceso: document.getElementById("ultimoAcceso").value.replace("T", " ")
   };
+
   users.push(nuevo);
+
   modal.style.display = "none";
   addUserForm.reset();
   renderTable();
 });
 
-window.onclick = (e) => {
+/* CERRAR MODAL HACIENDO CLICK FUERA */
+window.onclick = e => {
   if (e.target === modal) modal.style.display = "none";
 };
 
+/* INICIO */
 renderTable();
