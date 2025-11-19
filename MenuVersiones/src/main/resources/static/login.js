@@ -1,27 +1,54 @@
 document.getElementById("formLogin").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const usuario = document.getElementById("usuario").value;
-    const clave = document.getElementById("clave").value;
-    const rol = document.getElementById("rol").value;
 
-    const respuesta = await fetch("/login-validar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario, clave, rol })
-    });
+    const username = document.getElementById("usuario").value; // 'usuario'
+    const password = document.getElementById("clave").value;   // 'clave'
+    const rol = document.getElementById("rol").value;         // 'rol'
 
-    const data = await respuesta.json();
-
-    if (!data.ok) {
-        mostrarError(data.mensaje);
+    // Limpiar mensaje de error antes de cada intento
+    document.getElementById("mensajeError").style.display = "none";
+    
+    if (rol === "") {
+        mostrarError("Debe seleccionar un rol para ingresar.");
         return;
     }
 
-    if (rol === "ADMIN") {
-        window.location.href = "/admin/dashboard_admin.html";
-    } else {
-        window.location.href = "/user/dashboard_user.html";
+    //  Realizar la petición POST al nuevo endpoint del Backend (AuthController.java)
+
+    try {
+        const respuesta = await fetch("http://localhost:8080/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+
+            body: JSON.stringify({ username: username, password: password, rol: rol }) 
+        });
+
+
+        if (!respuesta.ok) {
+
+            mostrarError("Error de conexión con el servidor. Revise el Backend.");
+            return;
+        }
+
+        const data = await respuesta.json(); // La respuesta del AuthController
+
+
+        if (data.success) {
+            // Si la autenticación es exitosa, redirigir según el rol VALIDADO por el Backend
+            if (data.rol === "administrador") { // Usamos 'administrador' (minúsculas) como en el Backend
+                window.location.href = "/admin/dashboard_admin.html";
+            } else if (data.rol === "empleado") { // Usamos 'empleado' (minúsculas) como en el Backend
+                window.location.href = "/user/dashboard_user.html";
+            }
+        } else {
+
+            mostrarError(data.message);
+        }
+    } catch (error) {
+
+        mostrarError("No se pudo conectar con el servidor (Backend). Verifique que esté activo.");
+        console.error("Fallo en fetch:", error);
     }
 });
 

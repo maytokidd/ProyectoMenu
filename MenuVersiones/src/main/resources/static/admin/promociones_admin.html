@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Gestión de Promociones</title>
+    <link rel="stylesheet" href="/css/admin-styles.css"> 
+    <style>
+        /* Estilos básicos para la tabla */
+        body { font-family: Arial, sans-serif; }
+        .container { padding: 20px; }
+        .table-container { margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .form-control { margin-bottom: 10px; width: 100%; padding: 8px; box-sizing: border-box; }
+        .btn { padding: 10px 15px; cursor: pointer; border: none; border-radius: 4px; margin-right: 5px; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn-warning { background-color: #ffc107; color: black; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Promociones</h1>
+
+        <div id="form-container">
+            <h2>Crear/Editar Promoción</h2>
+            <form id="formPromocion">
+                <input type="hidden" id="promocionId">
+                
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" class="form-control" required>
+
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion" class="form-control" required>
+
+                <label for="descuentoPorcentaje">Descuento (% como decimal, ej: 0.15 para 15%):</label>
+                <input type="number" step="0.01" id="descuentoPorcentaje" class="form-control" required>
+
+                <label for="fechaInicio">Fecha de Inicio:</label>
+                <input type="date" id="fechaInicio" class="form-control" required>
+
+                <label for="fechaFin">Fecha de Fin:</label>
+                <input type="date" id="fechaFin" class="form-control" required>
+
+                <label for="activo">Activo:</label>
+                <select id="activo" class="form-control" required>
+                    <option value="true">Sí</option>
+                    <option value="false">No</option>
+                </select>
+                
+                <button type="submit" class="btn btn-primary">Guardar Promoción</button>
+                <button type="button" class="btn btn-warning" onclick="resetForm()">Cancelar</button>
+            </form>
+        </div>
+        
+        <hr>
+
+        <div class="table-container">
+            <h2>Listado de Promociones</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Descuento</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Activo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="promocionesTableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="/js/promociones.js"></script> 
+</body>
+</html>

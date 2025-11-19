@@ -38,3 +38,29 @@ INSERT INTO menus (nombre, descripcion, precio, fecha_creacion) VALUES
 ('Menú Especial', 'Arroz chaufa + pollo broaster + gaseosa', 16.50, '2025-09-18 23:03:05');
 
 /*
+
+-- *******************************************
+-- * SCRIPT DE CREACIÓN DE TABLAS ADICIONALES *
+-- *******************************************
+
+-- 1. Crear tabla USUARIOS (Necesaria para Login y Admin de Usuarios)
+CREATE TABLE usuarios (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL, -- Clave larga para almacenar el cifrado BCrypt
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    rol VARCHAR(50) NOT NULL -- 'administrador' o 'empleado'
+);
+
+-- 2. Crear tabla PROMOCIONES (Necesaria para Admin de Promociones)
+CREATE TABLE promociones (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(255) NOT NULL,
+    descuento_porcentaje DOUBLE NOT NULL,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    activo BOOLEAN NOT NULL DEFAULT TRUE
+);
