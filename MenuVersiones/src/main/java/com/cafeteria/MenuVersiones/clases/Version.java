@@ -2,11 +2,12 @@ package com.cafeteria.MenuVersiones.clases;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
+@Table(name = "versiones")
 public class Version {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,8 +21,8 @@ public class Version {
     @JsonBackReference
     private Menu menu;
 
-    // Getters y Setters
-    public Long getId() { return id; }
+    // GETTERS y SETTERS...
+     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public LocalDateTime getFechaCambio() { return fechaCambio; }
