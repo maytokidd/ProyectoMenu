@@ -37,4 +37,47 @@ INSERT INTO menus (nombre, descripcion, precio, fecha_creacion) VALUES
 ('Menú Saludable', 'Pechuga a la plancha + ensalada + agua de hierbas', 12.00, '2025-09-18 23:03:05'),
 ('Menú Especial', 'Arroz chaufa + pollo broaster + gaseosa', 16.50, '2025-09-18 23:03:05');
 
+-- ==========================================
+-- TABLA PROMOCIONES
+-- ==========================================
+
+CREATE TABLE promociones (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  titulo VARCHAR(100) NOT NULL,
+  descripcion VARCHAR(255),
+  descuento DECIMAL(5,2) NOT NULL,
+  fecha_inicio DATE NOT NULL,
+  fecha_fin DATE NOT NULL,
+  creado_por BIGINT,
+  FOREIGN KEY (creado_por) REFERENCES usuarios(id)
+);
+
+-- ==========================================
+-- TABLA USUARIOS
+-- ==========================================
+CREATE TABLE usuarios (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  usuario VARCHAR(50) NOT NULL UNIQUE,
+  nombre VARCHAR(150) NOT NULL,
+  correo VARCHAR(100) NOT NULL,
+  clave VARCHAR(255) NOT NULL,
+  rol ENUM('administrador', 'empleado') NOT NULL,
+  estado ENUM('Activo', 'Inactivo') DEFAULT 'Activo',
+  ultimo_acceso DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+UPDATE usuarios 
+SET clave = '$2a$10$yWdMmlMhT2VVo7e1wjCI9.4fo3li4dDBrF0voxW8h41VzWPg8i02q' 
+WHERE usuario = 'admin';
+
+UPDATE usuarios 
+SET clave = '$2a$10$PlyB9QfrblI9ob5OB3RzsuF7CZwWRaTNYN574i.xqDV3LQQ4SJgo2' 
+WHERE usuario = 'user';
+
+
+SELECT id, usuario, clave, correo, estado, rol
+FROM usuarios
+WHERE usuario = 'admin';
+
 /*

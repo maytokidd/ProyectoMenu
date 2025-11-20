@@ -1,195 +1,145 @@
-/* Simulación de datos iniciales */
-let promotions = [
-  {
-    id: 1,
-    nombre: "Combo Estudiante",
-    descripcion: "Almuerzo + Bebida + Postre",
-    descuento: 15,
-    inicio: "2025-10-15",
-    fin: "2025-11-15",
-    estado: "Activa",
-    responsable: "Juan Pérez"
-  },
-  {
-    id: 2,
-    nombre: "Happy Hour",
-    descripcion: "Descuento en snacks de 3pm a 5pm",
-    descuento: 20,
-    inicio: "2025-10-01",
-    fin: "2025-12-31",
-    estado: "Activa",
-    responsable: "María López"
-  },
-  {
-    id: 3,
-    nombre: "Lunes Saludable",
-    descripcion: "Descuento en menús saludables",
-    descuento: 10,
-    inicio: "2025-10-20",
-    fin: "2025-11-20",
-    estado: "Activa",
-    responsable: "Carlos Ramírez"
-  },
-  {
-    id: 4,
-    nombre: "Black Friday UTP",
-    descripcion: "Mega descuento en todos los menús",
-    descuento: 30,
-    inicio: "2025-11-29",
-    fin: "2025-11-29",
-    estado: "Programada",
-    responsable: "Ana Torres"
-  }
-];
-
-/* elementos */
+const API_URL = "/api/admin/promociones"; // Endpoint REST de promociones
 const tablaBody = document.getElementById("tablaBody");
-const cardsContainer = document.getElementById("cardsContainer");
-const totalPromos = document.getElementById("totalPromos");
-const activePromos = document.getElementById("activePromos");
-const avgDiscount = document.getElementById("avgDiscount");
-
-const modal = document.getElementById("modalPromocion");
+const formPromocion = document.getElementById("formPromocion");
+const modalPromocion = document.getElementById("modalPromocion");
 const btnAgregar = document.getElementById("btnAgregar");
-const btnCancel = document.getElementById("btnCancel");
 const closeModal = document.getElementById("closeModal");
-const form = document.getElementById("formPromocion");
+const btnCancel = document.getElementById("btnCancel");
+const modalTitulo = document.getElementById("modalTitulo");
 
-/* inputs */
-const inputId = document.getElementById("promoId");
-const inputNombre = document.getElementById("nombre");
-const inputDesc = document.getElementById("descripcion");
-const inputDescPct = document.getElementById("descuento");
-const inputInicio = document.getElementById("fechaInicio");
-const inputFin = document.getElementById("fechaFin");
-const inputEstado = document.getElementById("estado");
-const inputResponsable = document.getElementById("responsable");
-
-/* ---------- RENDER TABLA ---------- */
-function renderTable(){
-  tablaBody.innerHTML = "";
-  promotions.forEach(p => {
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td>${p.nombre}</td>
-      <td>${p.descripcion}</td>
-      <td><span class="pill">${p.descuento}%</span></td>
-      <td>${p.inicio} → ${p.fin}</td>
-      <td>${renderBadge(p.estado)}</td>
-      <td>${p.responsable}</td>
-      <td style="text-align:right">
-        <button onclick="openEditModal(${p.id})">✏️</button>
-        <button onclick="deletePromo(${p.id})">🗑</button>
-      </td>
-    `;
-    tablaBody.appendChild(tr);
-  });
+/* ------ CARGAR PROMOCIONES ------ */
+async function fetchPromociones() {
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('Error al cargar promociones');
+        const promociones = await response.json();
+        renderTable(promociones);
+        updateStats(promociones);
+    } catch (error) {
+        console.error("Error al cargar promociones:", error);
+        alert("No se pudieron cargar las promociones.");
+    }
 }
 
-/* BADGE */
-function renderBadge(estado){
-  if(estado === "Activa") return `<span class="badge activa">Activa</span>`;
-  if(estado === "Programada") return `<span class="badge programada">Programada</span>`;
-  return `<span class="badge inactiva">Inactiva</span>`;
+/* ------ RENDER DE TABLA ------ */
+function renderTable(promociones) {
+    tablaBody.innerHTML = "";
+    promociones.forEach(p => {
+        const estadoTexto = p.activo ? 'Activa' : 'Inactiva';
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${p.titulo}</td>
+            <td>${p.descripcion ? p.descripcion.substring(0, 50) + '...' : ''}</td>
+            <td>${p.descuento}%</td>
+            <td>${p.fechaInicio} a ${p.fechaFin}</td>
+            <td><span class="estado ${estadoTexto}">${estadoTexto}</span></td>
+            <td>${p.creadoPor ? p.creadoPor.usuario : 'Admin'}</td>
+            <td style="text-align:right;">
+                <button title="Editar" onclick="editPromocion(${p.id})">✏️</button>
+                <button title="Eliminar" onclick="deletePromocion(${p.id})">🗑️</button>
+            </td>
+        `;
+        tablaBody.appendChild(tr);
+    });
 }
 
-/* ---------- RENDER TARJETAS ---------- */
-function renderCards(){
-  cardsContainer.innerHTML = "";
+/* ------ ESTADÍSTICAS ------ */
+function updateStats(promociones) {
+    const totalPromos = promociones.length;
+    const activePromos = promociones.filter(p => p.activo).length;
+    const totalDescuento = promociones.reduce((sum, p) => sum + p.descuento, 0);
+    const avgDiscount = totalPromos > 0 ? (totalDescuento / totalPromos).toFixed(0) : 0;
 
-  promotions.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "promo-card";
-
-    card.innerHTML = `
-      <div class="info">
-        <h4>${p.nombre}</h4>
-        <p>${p.descripcion}</p>
-        <small style="color:#777">Hasta ${p.fin}</small>
-      </div>
-
-      <div class="pct">${p.descuento}%</div>
-    `;
-
-    cardsContainer.appendChild(card);
-  });
+    document.getElementById("totalPromos").textContent = totalPromos;
+    document.getElementById("activePromos").textContent = activePromos;
+    document.getElementById("avgDiscount").textContent = `${avgDiscount}%`;
 }
 
-/* ---------- RENDER STATS ---------- */
-function renderStats(){
-  totalPromos.textContent = promotions.length;
-  activePromos.textContent = promotions.filter(p => p.estado==="Activa").length;
+/* ------ GUARDAR O ACTUALIZAR PROMOCIÓN ------ */
+async function savePromocion(promocionData) {
+    const isEditing = promocionData.id;
+    const method = isEditing ? 'PUT' : 'POST';
+    const url = isEditing ? `${API_URL}/${promocionData.id}` : API_URL;
 
-  const avg = promotions.reduce((s,p)=>s+p.descuento,0) / promotions.length;
-  avgDiscount.textContent = Math.round(avg) + "%";
+    try {
+        const response = await fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(promocionData)
+        });
+        if (!response.ok) throw new Error('Error al guardar promoción');
+
+        modalPromocion.style.display = "none";
+        formPromocion.reset();
+        fetchPromociones();
+    } catch (error) {
+        console.error("Error al guardar promoción:", error);
+        alert("No se pudo guardar la promoción.");
+    }
 }
 
-/* ---------- AGREGAR ---------- */
+/* ------ ELIMINAR PROMOCIÓN ------ */
+function deletePromocion(id) {
+    if (!confirm("¿Está seguro de eliminar esta promoción?")) return;
+
+    fetch(`${API_URL}/${id}`, { method: 'DELETE' })
+        .then(response => {
+            if (!response.ok) throw new Error('Error al eliminar promoción');
+            fetchPromociones();
+        })
+        .catch(error => {
+            console.error("Error al eliminar:", error);
+            alert("No se pudo eliminar la promoción.");
+        });
+}
+
+/* ------ EDITAR PROMOCIÓN ------ */
+function editPromocion(id) {
+    fetch(`${API_URL}/${id}`)
+        .then(res => res.json())
+        .then(p => {
+            modalTitulo.textContent = "Editar Promoción";
+            document.getElementById("promoId").value = p.id;
+            document.getElementById("nombre").value = p.titulo;
+            document.getElementById("descripcion").value = p.descripcion;
+            document.getElementById("descuento").value = p.descuento;
+            document.getElementById("estado").value = p.activo ? 'Activa' : 'Inactiva';
+            document.getElementById("fechaInicio").value = p.fechaInicio;
+            document.getElementById("fechaFin").value = p.fechaFin;
+            modalPromocion.style.display = "flex";
+        })
+        .catch(error => {
+            console.error("Error al cargar promoción:", error);
+            alert("No se pudo cargar la promoción.");
+        });
+}
+
+/* ------ MODAL Y FORMULARIO ------ */
 btnAgregar.addEventListener("click", () => {
-  modal.style.display = "flex";
-  form.reset();
-  inputId.value = "";
+    modalTitulo.textContent = "Nueva Promoción";
+    formPromocion.reset();
+    document.getElementById("promoId").value = '';
+    modalPromocion.style.display = "flex";
 });
 
-/* ---------- EDITAR ---------- */
-function openEditModal(id){
-  const p = promotions.find(x=>x.id===id);
-  if(!p) return;
-
-  modal.style.display = "flex";
-
-  inputId.value = p.id;
-  inputNombre.value = p.nombre;
-  inputDesc.value = p.descripcion;
-  inputDescPct.value = p.descuento;
-  inputInicio.value = p.inicio;
-  inputFin.value = p.fin;
-  inputEstado.value = p.estado;
-  inputResponsable.value = p.responsable;
-}
-
-/* ---------- ELIMINAR ---------- */
-function deletePromo(id){
-  if(!confirm("¿Eliminar promoción?")) return;
-
-  promotions = promotions.filter(p => p.id !== id);
-  reRenderAll();
-}
-
-/* ---------- GUARDAR ---------- */
-form.addEventListener("submit", e =>{
-  e.preventDefault();
-
-  const nuevo = {
-    id: inputId.value ? Number(inputId.value) : Date.now(),
-    nombre: inputNombre.value,
-    descripcion: inputDesc.value,
-    descuento: Number(inputDescPct.value),
-    inicio: inputInicio.value,
-    fin: inputFin.value,
-    estado: inputEstado.value,
-    responsable: inputResponsable.value
-  };
-
-  if(inputId.value){
-    promotions = promotions.map(p => p.id===nuevo.id ? nuevo : p);
-  } else {
-    promotions.push(nuevo);
-  }
-
-  modal.style.display = "none";
-  reRenderAll();
+formPromocion.addEventListener("submit", e => {
+    e.preventDefault();
+    const promocionData = {
+        id: document.getElementById("promoId").value || null,
+        titulo: document.getElementById("nombre").value,
+        descripcion: document.getElementById("descripcion").value,
+        descuento: parseFloat(document.getElementById("descuento").value),
+        activo: document.getElementById("estado").value === 'Activa',
+        fechaInicio: document.getElementById("fechaInicio").value,
+        fechaFin: document.getElementById("fechaFin").value
+    };
+    savePromocion(promocionData);
 });
 
-btnCancel.onclick = ()=> modal.style.display="none";
-closeModal.onclick = ()=> modal.style.display="none";
+/* ------ CIERRE DE MODAL ------ */
+btnCancel.addEventListener("click", () => modalPromocion.style.display = "none");
+closeModal.addEventListener("click", () => modalPromocion.style.display = "none");
+window.onclick = e => { if (e.target === modalPromocion) modalPromocion.style.display = "none"; };
 
-/* RENDER GLOBAL */
-function reRenderAll(){
-  renderTable();
-  renderCards();
-  renderStats();
-}
-
-reRenderAll();
+/* ------ INICIO: CARGA PROMOCIONES ------ */
+fetchPromociones();

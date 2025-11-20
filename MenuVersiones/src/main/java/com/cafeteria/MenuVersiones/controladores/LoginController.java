@@ -1,40 +1,67 @@
 package com.cafeteria.MenuVersiones.controladores;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpSession;
-import java.util.*;
+
+import com.cafeteria.MenuVersiones.clases.Usuario;
+import com.cafeteria.MenuVersiones.servicios.UsuarioService;
 
 @RestController
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class LoginController {
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @PostMapping("/login-validar")
-    public Map<String, Object> validar(@RequestBody Map<String, String> datos, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest rq) {
 
-        String usuario = datos.get("usuario");
-        String clave = datos.get("clave");
-        String rol = datos.get("rol");
-
-        Map<String, Object> resp = new HashMap<>();
-
-        if (usuario.equals("admin") && clave.equals("123") && rol.equals("ADMIN")) {
-            session.setAttribute("rol", "ADMIN");
-            resp.put("ok", true);
-            return resp;
+        Usuario u = usuarioService.login(rq.getUsuario(), rq.getClave());
+        if (u == null) {
+            return ResponseEntity.status(401).body(new ApiResponse(false, "Usuario o clave incorrecta / usuario inactivo"));
         }
 
-        if (usuario.equals("user") && clave.equals("123") && rol.equals("USER")) {
-            session.setAttribute("rol", "USER");
-            resp.put("ok", true);
-            return resp;
-        }
+        LoginResponse resp = new LoginResponse(
+                true,
+                u.getRol().toString(),
+                u.getUsuario(),
+                u.getCorreo()
+        );
 
-        resp.put("ok", false);
-        resp.put("mensaje", "Credenciales incorrectas");
-        return resp;
+        return ResponseEntity.ok(resp);
     }
 
-    @GetMapping("/logout")
-    public void logout(HttpSession session) {
-        session.invalidate();
+    // --- Clases internas para request / response ---
+    static class LoginRequest {
+        private String usuario;
+        private String clave;
+        public String getUsuario() { return usuario; }
+        public void setUsuario(String usuario) { this.usuario = usuario; }
+        public String getClave() { return clave; }
+        public void setClave(String clave) { this.clave = clave; }
+    }
+
+    static class LoginResponse {
+        private boolean exito;
+        private String rol;
+        private String usuario;
+        private String correo;
+        public LoginResponse(boolean exito, String rol, String usuario, String correo) {
+            this.exito = exito; this.rol = rol; this.usuario = usuario; this.correo = correo;
+        }
+        public boolean isExito() { return exito; }
+        public String getRol() { return rol; }
+        public String getUsuario() { return usuario; }
+        public String getCorreo() { return correo; }
+    }
+
+    static class ApiResponse {
+        private boolean exito;
+        private String mensaje;
+        public ApiResponse(boolean exito, String mensaje) { this.exito = exito; this.mensaje = mensaje; }
+        public boolean isExito() { return exito; }
+        public String getMensaje() { return mensaje; }
     }
 }
