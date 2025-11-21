@@ -1,0 +1,44 @@
+* [33m56737fc[m[33m ([m[1;31morigin/feature/fix-login[m[33m)[m feat(login): para revisar
+* [33m6128307[m[33m ([m[1;31morigin/gestion-promociones[m[33m)[m borrador
+*   [33m013e281[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m edicion de admin y creacion de la opcion de ventas en admin
+[32m|[m[33m\[m  
+[32m|[m * [33m6e4319e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32meditar-admin[m[33m, [m[1;31morigin/editar-admin[m[33m)[m dashboard y gestion de menus ademas de crear otra opcion en admin de ventas
+[32m|[m[32m/[m  
+*   [33mc606821[m Merge pull request #5 from maytokidd/admin
+[34m|[m[35m\[m  
+[34m|[m * [33mae10eed[m[33m ([m[1;31morigin/admin[m[33m)[m Cambios realizados en el panel admin
+[34m|[m[34m/[m  
+*   [33mad93396[m user y parte de admin
+[36m|[m[1;31m\[m  
+[36m|[m * [33mb365c11[m[33m ([m[1;31morigin/login[m[33m)[m funcionalidad de user y parte de admin
+[36m|[m[36m/[m  
+* [33m837335e[m Guardando cambios antes de mergear feature/dashboard-admin con master
+* [33m5185a51[m Agregando el usuario html
+* [33m8774b65[m Add initial content to README.md
+* [33m215de5e[m modificando
+* [33m4a602df[m Agregando el dashboard html y usuarios html
+[1;31m|[m * [33m61a746a[m[33m ([m[1;31morigin/feature/dashboard-admin[m[33m)[m Agregando el usuario html
+[1;31m|[m * [33m847afae[m Agregando el dashboard al feature
+[1;31m|[m * [33mb4e8665[m Add initial content to README.md
+[1;31m|[m[1;31m/[m  
+* [33mb210c74[m versión final paguinas agregadas admin/user
+*   [33m41d9050[m union admin gestion de menu y promociones y user precios y menus
+[1;33m|[m[1;34m\[m  
+[1;33m|[m * [33mff3752b[m ACTUALIZACION DE PRECIOS Y CONSULTA DE MENUS
+* [1;34m|[m [33mca077f7[m Integración con cambios de Anthony - estructura modular de menús y promociones
+* [1;34m|[m [33m560698a[m Creacion de modulo de Promociones y pequeñas mejoras en gestion_menus
+* [1;34m|[m [33m76ac20e[m feat: crear ventana de gestión de menús y reorganizar estructura de archivos estáticos
+* [1;34m|[m [33mb68d0db[m Ajustes iniciales en clase Producto
+[1;35m|[m[1;34m\[m[1;34m|[m 
+[1;35m|[m * [33m44889c9[m[33m ([m[1;31morigin/feature/daniel-backend[m[33m)[m fix(producto): ajustes iniciales en clase Producto y pruebas
+[1;35m|[m[1;35m/[m  
+[1;35m|[m * [33m2501a2b[m[33m ([m[1;31morigin/feature/gestion-menus-promociones[m[33m)[m Creacion de modulo de Promociones y pequeñas mejoras en gestion_menus
+[1;35m|[m * [33mfb6d377[m feat: crear ventana de gestión de menús y reorganizar estructura de archivos estáticos
+[1;35m|[m[1;35m/[m  
+[1;35m|[m * [33m8bbe914[m[33m ([m[1;31morigin/feature/login[m[33m)[m feat: Implementación del módulo de Login
+[1;35m|[m[1;35m/[m  
+* [33m6683640[m test: agregar pruebas unitarias para Producto
+* [33m49ad4e5[m feat: agregar toString en Producto
+* [33m5a49f12[m feat: agregar clase Producto
+* [33me1147df[m[33m ([m[1;31morigin/feature/fecha-creacion[m[33m)[m feat: inicializar fechaCreacion en Menu
+* [33m9a848af[m estructura inical del proyecto

@@ -1,95 +1,34 @@
+/* =========================================
+   DASHBOARD ADMIN UTP — VERSIÓN MEJORADA
+========================================= */
+
 /* --- LAYOUT GENERAL --- */
 .layout {
     display: flex;
     height: 100vh;
 }
 
-/* --- SIDEBAR (MISMO DISEÑO QUE EL USUARIO) --- */
-.sidebar {
-    width: 230px;
-    background: #0a3d62;
-    color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.brand h2 {
-    margin: 0;
-    font-size: 26px;
-}
-
-.brand p {
-    margin: 0;
-    font-size: 14px;
-    opacity: 0.8;
-}
-
-.user-info {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.user-avatar {
-    font-size: 40px;
-}
-
-.user-name {
-    font-size: 14px;
-    background: #145a8d;
-    padding: 4px 8px;
-    border-radius: 5px;
-    display: inline-block;
-    margin-top: 5px;
-}
-
-.menu a {
-    display: block;
-    color: white;
-    padding: 10px;
-    margin: 6px 0;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 15px;
-}
-
-.menu a.active,
-.menu a:hover {
-    background: #ee5253;
-}
-
-.logout {
-    margin-top: auto;
-    background: #b71540;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
-    text-decoration: none;
-    color: white;
-}
-
-/* --- CONTENIDO ADMIN --- */
+/* CONTENIDO PRINCIPAL */
 .content {
-    padding: 30px;
+    padding: 40px;
     width: 100%;
     overflow-y: auto;
+    padding-left: 300px; /* ESPACIO MEJORADO PARA SIDEBAR */
+    box-sizing: border-box;
 }
 
-/* ESTILOS ORIGINALES DEL DASHBOARD ADMIN */
+/* PALETA */
 :root {
     --bg:#f6f8fb;
     --card:#ffffff;
     --muted:#7b7f86;
-    --accent:#9d1bd6;
-    --accent-2:#7b61ff;
-    --success:#1fbf73;
-    --danger:#ff6b6b;
-    --shadow:0 6px 18px rgba(15,23,42,0.06);
+    --shadow:0 8px 22px rgba(15,23,42,0.08);
     --radius:12px;
     --border:#e8ebf0;
     --text:#0f1724;
 }
 
+/* GENERAL */
 body {
     margin: 0;
     background: var(--bg);
@@ -97,31 +36,52 @@ body {
     color: var(--text);
 }
 
+/* HEADER */
+header {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    z-index: 10;
+    border-bottom: 1px solid #e4e6e8;
+}
+
 header h1 {
     margin: 0 0 6px;
     color: #0f3a66;
+    font-size: 28px;
 }
 
 header p {
-    margin: 0 0 20px;
+    margin: 0;
     color: var(--muted);
+    font-size: 15px;
 }
 
-/* CARDS */
+/* STAT CARDS */
 .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    gap: 20px;
+    margin-top: 20px;
 }
 
 .card {
     background: var(--card);
-    padding: 18px;
+    padding: 22px;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all .25s ease;
+}
+
+/* HOVER MODERNO */
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 .card .title {
@@ -130,10 +90,11 @@ header p {
 }
 
 .card .value {
-    font-size: 22px;
+    font-size: 26px;
     font-weight: bold;
 }
 
+/* CIRCLES */
 .circle {
     width: 55px;
     height: 55px;
@@ -141,17 +102,17 @@ header p {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 24px;
 }
 
-.blue { background: #e5edff; }
-.green { background: #e3ffe9; }
-.pink { background: #ffe4ea; }
-.purple { background: #f3e8ff; }
+.blue { background: #d8e6ff; color:#2f57c7; }
+.green { background: #ddffe9; color:#2ca461; }
+.pink { background: #ffdce4; color:#c84e70; }
+.purple { background: #efe2ff; color:#8a4fe8; }
 
 /* BOTONES */
 .actions {
-    margin: 20px 0;
+    margin: 25px 0;
     display: flex;
     gap: 12px;
 }
@@ -163,6 +124,11 @@ header p {
     padding: 10px 16px;
     border-radius: 8px;
     cursor: pointer;
+    transition: .2s;
+}
+
+.btn:hover {
+    background: #92151c;
 }
 
 .btn.secondary {
@@ -171,24 +137,32 @@ header p {
     color: #333;
 }
 
+.btn.secondary:hover {
+    background: #f1f1f1;
+}
+
 .btn.ghost {
     background: #fff;
     border: 1px solid var(--border);
 }
 
+.btn.ghost:hover {
+    background: #f8f8f8;
+}
+
 /* TABLA */
 .table-card {
     background: var(--card);
-    padding: 18px;
+    padding: 25px;
     border-radius: 12px;
     box-shadow: var(--shadow);
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 th {
@@ -209,7 +183,7 @@ td {
 }
 
 .available {
-    background: black;
+    background: #1fbf73;
     color: white;
 }
 
@@ -221,7 +195,7 @@ td {
 .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.55);
     display: none;
     justify-content: center;
     align-items: center;
@@ -229,9 +203,10 @@ td {
 
 .modal {
     background: white;
-    padding: 18px;
+    padding: 22px;
     border-radius: 12px;
-    width: 400px;
+    width: 420px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.2);
 }
 
 .input {
@@ -250,8 +225,50 @@ td {
     cursor: pointer;
 }
 
+.btn-sm:hover {
+    background: #f4f4f4;
+}
+
 .space-between {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.estado.disponible {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.estado.no-disponible {
+  color: #c62828;
+  font-weight: bold;
+}
+
+.fila-no-disponible {
+  background: #f8d7da !important;
+}
+/* BOTÓN AZUL PROFESIONAL PARA PDF */
+#btnReporte {
+    background: #1e88e5;        /* azul moderno */
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+
+#btnReporte::before {
+    content: "📄";              
+    font-size: 16px;
+}
+
+#btnReporte:hover {
+    background: #1565c0;        
 }

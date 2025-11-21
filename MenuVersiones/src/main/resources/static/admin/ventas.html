@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas - UTP</title>
+
+    <link rel="stylesheet" href="CSS/ventas.css">
+    <link rel="stylesheet" href="CSS/sidebar.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>UTP</h2>
+            <p>Gestión de ventas</p>
+        </div>
+
+        <div class="user-info">
+            <div class="user-avatar">👤</div>
+            <p class="user-name">Administrador</p>
+        </div>
+
+        <nav class="menu">
+            <a href="dashboard_admin.html">📊 Dashboard</a>
+            <a href="gestion_menus.html">🍽 Gestión de Menús</a>
+            <a href="gestion_promociones.html">🎁 Promociones</a>
+            <a href="usuarios_admin.html">👥 Usuarios</a>
+            <a class="active" href="ventas.html">💵 Ventas</a>
+        </nav>
+
+        <a href="/logout" class="logout">Cerrar Sesión</a>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+        
+        <header>
+            <h1>💵 Ventas</h1>
+            <p>Consulta y administra todas las ventas registradas en el sistema</p>
+        </header>
+
+        <!-- Estadísticas -->
+        <section class="stats">
+            <div class="card">
+                <div class="left">
+                    <span class="title">Ventas del Día</span>
+                    <span class="value" id="ventasDelDia">S/ 0.00</span>
+                </div>
+                <div class="circle green">💰</div>
+            </div>
+
+            <div class="card">
+                <div class="left">
+                    <span class="title">Total de Ventas</span>
+                    <span class="value" id="totalVentas">0</span>
+                </div>
+                <div class="circle blue">🧾</div>
+            </div>
+
+            <div class="card">
+                <div class="left">
+                    <span class="title">Empleado con más ventas</span>
+                    <span class="value" id="empleadoTop">-</span>
+                </div>
+                <div class="circle purple">🏆</div>
+            </div>
+        </section>
+
+        <!-- Filtros -->
+        <section class="filters">
+            <input type="date" id="filtroFecha">
+            <input type="text" id="filtroEmpleado" placeholder="Buscar empleado...">
+            <input type="text" id="filtroMenu" placeholder="Buscar menú...">
+            <button class="btn" id="btnLimpiar">Limpiar</button>
+        </section>
+
+        <!-- Tabla -->
+        <section class="table-card">
+            <h3>Listado de Ventas</h3>
+
+            <div style="overflow:auto">
+                <table id="tablaVentas">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Empleado</th>
+                            <th>Menú</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Paginación -->
+        <div id="paginacion" class="paginacion"></div>
+
+    </main>
+</div>
+
+<script src="JS/ventas.js"></script>
+</body>
+</html>

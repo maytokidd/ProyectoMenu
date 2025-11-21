@@ -1,4 +1,6 @@
-/* VARIABLES UTP DEL DASHBOARD */
+/* =========================================
+   VARIABLES UTP DEL DASHBOARD
+========================================= */
 :root {
     --bg:#f6f8fb;
     --card:#ffffff;
@@ -18,61 +20,19 @@ body {
     color: var(--text);
 }
 
-/* LAYOUT GENERAL */
+/* =========================================
+   LAYOUT GENERAL
+========================================= */
 .layout {
     display: flex;
     height: 100vh;
-}
-
-/* SIDEBAR */
-.sidebar {
-    width: 230px;
-    background: #0a3d62;
-    color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.brand h2 { margin: 0; font-size: 26px; }
-.brand p { margin: 0; opacity: 0.8; }
-
-.user-info { text-align: center; margin: 20px 0; }
-.user-avatar { font-size: 40px; }
-.user-name {
-    padding: 5px 10px;
-    background:#145a8d;
-    display:inline-block;
-    border-radius:6px;
-    margin-top:5px;
-}
-
-.menu a {
-    color:white;
-    text-decoration:none;
-    padding:10px;
-    display:block;
-    border-radius:6px;
-    margin:6px 0;
-}
-.menu a:hover,
-.menu a.active { background:#ee5253; }
-
-.logout {
-    margin-top:auto;
-    background:#b71540;
-    padding:10px;
-    color:white;
-    text-align:center;
-    border-radius:6px;
-    text-decoration:none;
 }
 
 /* CONTENIDO PRINCIPAL */
 .content {
     width: 100%;
     padding: 30px;
-    padding-left: 260px;
+    padding-left: 260px; /* espacio del sidebar */
 }
 
 /* TITULO */
@@ -81,10 +41,14 @@ body {
     color:#0f3a66;
     font-size:26px;
 }
-.subtitle { color: var(--muted); margin-top: 4px; }
+.subtitle { 
+    color: var(--muted); 
+    margin-top: 4px; 
+}
 
-/* BOTON */
+/* BOTONES */
 .actions { margin: 15px 0; }
+
 .btn {
     background: var(--accent);
     color: white;
@@ -93,6 +57,7 @@ body {
     border: none;
     cursor: pointer;
 }
+
 .btn.secondary {
     background:white;
     border:1px solid var(--border);
@@ -113,6 +78,7 @@ body {
     border-radius: var(--radius);
     box-shadow: var(--shadow);
 }
+
 .card-title {
     margin: 0;
     color:#0f3a66;
@@ -120,7 +86,10 @@ body {
 }
 
 /* TABLA */
-.table-wrapper { overflow:auto; }
+.table-wrapper { 
+    overflow:auto; 
+}
+
 table {
     width:100%;
     border-collapse:collapse;
@@ -132,41 +101,40 @@ th {
     padding:12px;
     border-bottom:1px solid var(--border);
 }
+
 td {
     padding:12px;
     border-bottom:1px solid #f1f3f6;
 }
 
 /* BADGES */
-.pill {
-    background:#eef0f5;
-    padding:6px 8px;
-    border-radius:8px;
-    font-size:13px;
-    font-weight:bold;
-}
 .badge {
     padding:6px 8px;
     border-radius:6px;
     color:white;
     font-weight:bold;
+    font-size: 13px;
 }
+
 .badge.activa { background:#1fbf73; }
 .badge.programada { background:#7b61ff; }
 .badge.inactiva { background:#9ca3af; }
 
-/* PROMO CARDS */
-.promo-cards{ display:flex; flex-direction:column; gap:12px; }
+/* PROMOCIÓN CARDS DERECHA */
+.promo-cards{ 
+    display:flex; 
+    flex-direction:column; 
+    gap:12px; 
+}
+
 .promo-card{
-    border-left:6px solid #fdecec;
     background:white;
     padding:12px;
     border-radius:12px;
+    border-left:6px solid #fdecec;
     box-shadow: var(--shadow);
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
 }
+
 .promo-card h4 { margin:0; }
 .promo-card p { margin:3px 0; color:var(--muted); }
 
@@ -194,11 +162,14 @@ td {
     border-radius:12px;
     width:400px;
     box-shadow: var(--shadow);
+    position: relative;
 }
+
 .modal-content label {
     display:block;
     margin-top:12px;
 }
+
 .modal-content input,
 .modal-content textarea,
 .modal-content select {
@@ -208,20 +179,21 @@ td {
     border:1px solid #ccc;
 }
 
-/* form rows */
+/* FORM ROWS */
 .form-row {
     display:flex;
     gap:15px;
     margin-top:10px;
 }
 
-/* actions */
+/* MODAL ACTIONS */
 .modal-actions {
     display:flex;
     justify-content:flex-end;
     margin-top:20px;
     gap:10px;
 }
+
 .cerrar {
     background:none;
     border:none;

@@ -7,6 +7,7 @@
 
     <!-- CSS EXTERNO -->
     <link rel="stylesheet" href="CSS/dashboard_admin.css">
+    <link rel="stylesheet" href="CSS/sidebar.css">
 </head>
 
 <body>
@@ -26,11 +27,13 @@
         </div>
 
         <nav class="menu">
-    <a href="dashboard_admin.html" class="active">📊 Dashboard</a>
-    <a href="gestion_menus.html">🍽 Gestionar Menús</a>
-    <a href="gestion_promociones.html">🎁 Promociones</a>
-    <a href="usuarios_admin.html">👥 Usuarios</a>
-</nav>
+            <a href="dashboard_admin.html" class="active">📊 Dashboard</a>
+            <a href="gestion_menus.html">🍽 Gestionar Menús</a>
+            <a href="gestion_promociones.html">🎁 Promociones</a>
+            <a href="usuarios_admin.html">👥 Usuarios</a>
+            <a href="ventas.html">💵 Ventas</a>
+
+        </nav>
 
         <a href="/logout" class="logout">Cerrar Sesión</a>
     </aside>
@@ -43,7 +46,6 @@
             <p>Bienvenido al sistema de gestión de menús UTP</p>
         </header>
 
-        <!-- STAT CARDS -->
         <section class="stats">
             <div class="card">
                 <div class="left">
@@ -78,17 +80,34 @@
             </div>
         </section>
 
-        <!-- BOTONES -->
         <div class="actions">
             <button class="btn" id="btnAgregar">+ Agregar Menú</button>
             <button class="btn secondary" id="btnVerHistorial">Ver Historial</button>
             <button class="btn ghost" id="btnReporte">Generar Reporte</button>
         </div>
 
-        <!-- TABLA -->
         <section class="table-card">
             <h3>Menús Actuales</h3>
             <p>Gestiona todos los menús disponibles en el sistema</p>
+            <!-- BUSCADOR + FILTROS -->
+<div class="filters" style="display:flex; gap:15px; margin-bottom:15px; align-items:center;">
+
+    <input type="text" id="buscadorInput" placeholder="Buscar menú..." 
+           style="padding:8px 12px; border-radius:6px; border:1px solid #ccc; flex:1;">
+
+    <select id="filtroCategoria" 
+            style="padding:8px; border-radius:6px; border:1px solid #ccc;">
+        <option value="">Todas las categorías</option>
+    </select>
+
+    <select id="filtroEstado" 
+            style="padding:8px; border-radius:6px; border:1px solid #ccc;">
+        <option value="">Todos los estados</option>
+        <option value="true">Disponible</option>
+        <option value="false">No Disponible</option>
+    </select>
+</div>
+
 
             <div style="overflow:auto;">
                 <table id="tablaMenus">
@@ -109,11 +128,15 @@
                 </table>
             </div>
         </section>
+<!-- PAGINACIÓN -->
+<div id="paginacion" 
+     style="display:flex; justify-content:center; margin-top:15px; gap:8px;">
+</div>
 
     </main>
 </div>
 
-<!-- MODAL -->
+<!-- Modal simple que ya tenías (lo dejamos por si luego lo usas) -->
 <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
     <div class="modal">
         <div class="space-between">
@@ -136,8 +159,13 @@
     </div>
 </div>
 
-<!-- JS -->
-<script src="JS/dashboard_admin.js"></script>
+<!-- SweetAlert2 (para reemplazar alert/confirm/prompt) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- jsPDF para reportes PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
+<!-- JS propio del dashboard -->
+<script src="JS/dashboard_admin.js"></script>
 </body>
 </html>

@@ -1,4 +1,6 @@
-/* VARIABLES UTP */
+/* =========================================
+   VARIABLES UTP
+========================================= */
 :root {
     --bg:#f6f8fb;
     --card:#ffffff;
@@ -19,66 +21,28 @@ body {
 }
 
 /* LAYOUT GENERAL */
-.layout { display:flex; height:100vh; }
-
-/* SIDEBAR (MISMO ESTILO QUE DASHBOARD) */
-.sidebar {
-    width:230px;
-    background:#0a3d62;
-    color:white;
-    padding:20px;
-    display:flex;
-    flex-direction:column;
-}
-
-/* BRAND */
-.brand h2 { margin:0; font-size:26px; }
-.brand p { margin:0; opacity:0.8; }
-
-/* USER INFO */
-.user-info { text-align:center; margin:20px 0; }
-.user-avatar { font-size:40px; }
-.user-name {
-    background:#145a8d;
-    padding:6px 10px;
-    border-radius:8px;
-    display:inline-block;
-    margin-top:5px;
-}
-
-/* MENU */
-.menu a {
-    color:white;
-    text-decoration:none;
-    padding:10px;
-    display:block;
-    margin:6px 0;
-    border-radius:5px;
-}
-.menu a.active,
-.menu a:hover { background:#ee5253; }
-
-/* LOGOUT */
-.logout {
-    margin-top:auto;
-    background:#b71540;
-    padding:12px;
-    text-align:center;
-    color:white;
-    border-radius:6px;
-    text-decoration:none;
+.layout { 
+    display:flex; 
+    height:100vh; 
 }
 
 /* CONTENIDO PRINCIPAL */
 .content {
     width:100%;
     padding:30px;
-    padding-left:260px;
+    padding-left:260px; /* espacio del sidebar */
 }
 
 /* HEADER */
-.header-main h1 { margin:0; color:#0f3a66; font-size:26px; }
-.subtitle { color:var(--muted); }
+.header-main h1 { 
+    margin:0; 
+    color:#0f3a66; 
+    font-size:26px; 
+}
+
+.subtitle { 
+    color:var(--muted);
+}
 
 /* CARDS */
 .stats {
@@ -86,6 +50,7 @@ body {
     gap:15px;
     margin:20px 0;
 }
+
 .card {
     flex:1;
     padding:18px;
@@ -94,22 +59,25 @@ body {
     box-shadow:var(--shadow);
     text-align:center;
 }
+
 .card .title {
     color:var(--muted);
     font-size:14px;
 }
+
 .card .value {
     font-size:22px;
     font-weight:bold;
     color:var(--text);
 }
 
-/* FILTROS */
+/* TOOLBAR FILTROS */
 .toolbar {
     display:flex;
     gap:10px;
     margin-bottom:20px;
 }
+
 .toolbar input,
 .toolbar select {
     padding:10px;
@@ -117,7 +85,7 @@ body {
     border-radius:8px;
 }
 
-/* BOTÓN */
+/* BOTONES */
 .btn {
     background:var(--accent);
     color:white;
@@ -126,6 +94,7 @@ body {
     border-radius:8px;
     cursor:pointer;
 }
+
 .btn.secondary {
     background:white;
     border:1px solid var(--border);
@@ -139,31 +108,44 @@ body {
     border-radius:var(--radius);
     box-shadow:var(--shadow);
 }
+
 table {
     width:100%;
     border-collapse:collapse;
 }
+
 th {
     text-align:left;
     color:var(--muted);
     border-bottom:1px solid var(--border);
     padding:10px;
 }
+
 td {
     padding:10px;
     border-bottom:1px solid #f1f3f6;
 }
 
-/* BADGES */
+/* BADGES DE ROL */
 .rol {
     padding:6px 10px;
     border-radius:8px;
     font-size:13px;
     font-weight:bold;
+    display:inline-block;
 }
-.rol.Administrador { background:#ff7675; color:white; }
-.rol.Empleado { background:#dfe6ff; color:#2b4eff; }
 
+.rol.Administrador { 
+    background:#ff7675; 
+    color:white; 
+}
+
+.rol.Empleado { 
+    background:#dfe6ff; 
+    color:#2b4eff; 
+}
+
+/* BADGES DE ESTADO */
 .estado {
     padding:6px 10px;
     border-radius:8px;
@@ -171,6 +153,7 @@ td {
     color:white;
     font-weight:bold;
 }
+
 .estado.Activo { background:#1fbf73; }
 .estado.Inactivo { background:#9ca3af; }
 
@@ -182,7 +165,10 @@ td {
     border-radius:6px;
     cursor:pointer;
 }
-.acciones button:hover { background:#ddd; }
+
+.acciones button:hover { 
+    background:#ddd; 
+}
 
 /* MODAL */
 .modal {

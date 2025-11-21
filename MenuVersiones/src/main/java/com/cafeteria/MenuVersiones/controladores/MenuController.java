@@ -10,7 +10,7 @@ import com.cafeteria.MenuVersiones.repositorios.MenuRepository;
 import com.cafeteria.MenuVersiones.repositorios.VersionRepository;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/menus")
@@ -110,12 +110,32 @@ public class MenuController {
     }
 
     // ============================================================
-    // OBTENER HISTORIAL DE VERSIONES
+    // OBTENER HISTORIAL DE UN MENÚ ESPECÍFICO
     // ============================================================
     @GetMapping("/{id}/versiones")
     public List<Version> getVersiones(@PathVariable Long id) {
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Menú no encontrado"));
         return menu.getVersiones();
+    }
+
+    // ============================================================
+    // 🟩 *HISTORIAL GLOBAL* (LO QUE FALTABA)
+    // ============================================================
+    @GetMapping("/historial")
+    public List<Map<String, Object>> historialGlobal() {
+
+        List<Version> versiones = versionRepository.findAll();
+        List<Map<String, Object>> resultado = new ArrayList<>();
+
+        for (Version v : versiones) {
+            Map<String, Object> fila = new HashMap<>();
+            fila.put("menuNombre", v.getMenu().getNombre());
+            fila.put("fechaCambio", v.getFechaCambio());
+            fila.put("usuario", v.getUsuario());
+            resultado.add(fila);
+        }
+
+        return resultado;
     }
 }

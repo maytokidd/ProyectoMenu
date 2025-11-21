@@ -6,17 +6,17 @@
   <title>Gestión de Menús - UTP</title>
 
   <link rel="stylesheet" href="CSS/gestion_menus.css">
+  <link rel="stylesheet" href="CSS/sidebar.css">
 </head>
 
 <body>
 
 <div class="layout">
 
-  <!-- SIDEBAR (MISMO DISEÑO QUE EN LA CAPTURA) -->
   <aside class="sidebar">
       <div class="brand">
           <h2>UTP</h2>
-          <p>Gestion de menus</p>
+          <p>Gestión de menús</p>
       </div>
 
       <div class="user-info">
@@ -27,22 +27,23 @@
       <nav class="menu">
           <a href="dashboard_admin.html">📊 Dashboard</a>
           <a class="active" href="gestion_menus.html">🍽 Gestión de Menús</a>
-          <a href="gestion_promociones.html">🎁 Gestión de Promociones</a>
+          <a href="gestion_promociones.html">🎁 Promociones</a>
           <a href="usuarios_admin.html">👥 Usuarios</a>
+          <a href="ventas.html">💵 Ventas</a>
       </nav>
 
       <a href="/logout" class="logout">Cerrar Sesión</a>
   </aside>
 
-  <!-- CONTENIDO PRINCIPAL -->
   <main class="content">
       
       <h1 class="page-title">🍽️ Agregar Nuevo Menú</h1>
-      <p class="subtitle">Completa los datos para agregar un nuevo plato</p>
+      <p class="subtitle">Completa los datos para guardar el menú</p>
 
+      <!-- GRID: FORMULARIO (IZQ) + PREVIEW (DER) -->
       <div class="grid-2">
 
-        <!-- FORMULARIO -->
+        <!-- ================= FORMULARIO ================= -->
         <section class="form-section">
 
           <form id="formMenu" class="menu-form">
@@ -52,24 +53,33 @@
               <p class="info">Completa todos los campos requeridos</p>
 
               <label>Nombre del Plato *</label>
-              <input type="text" id="nombre" placeholder="Ej: Lomo Saltado" required>
+              <div class="input-with-icon">
+                <span class="input-icon">🍽️</span>
+                <input type="text" id="nombre" placeholder="Ej: Lomo Saltado" required>
+              </div>
 
               <div class="form-row">
 
                 <div class="input-group">
                   <label>Categoría *</label>
-                  <select id="categoria" required>
-                    <option value="">Selecciona una categoría</option>
-                    <option>🥗 Entrada</option>
-                    <option>🍛 Plato de Fondo</option>
-                    <option>🍰 Postre</option>
-                    <option>🥤 Bebida</option>
-                  </select>
+                  <div class="input-with-icon">
+                    <span class="input-icon">🏷️</span>
+                    <select id="categoria" required>
+                      <option value="">Selecciona una categoría</option>
+                      <option>🥗 Entrada</option>
+                      <option>🍛 Plato de Fondo</option>
+                      <option>🍰 Postre</option>
+                      <option>🥤 Bebida</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div class="input-group">
                   <label>Precio (S/)*</label>
-                  <input type="number" id="precio" step="0.50" min="0" value="0.00" required>
+                  <div class="input-with-icon">
+                    <span class="input-icon">💲</span>
+                    <input type="number" id="precio" step="0.50" min="0" value="0.00" required>
+                  </div>
                 </div>
 
               </div>
@@ -81,17 +91,19 @@
                 </label>
 
                 <div>
-                  <strong>Disponible</strong>
+                  <strong id="labelDisponible">Disponible</strong>
                   <p class="estado-text">El plato se mostrará en el menú público</p>
                 </div>
               </div>
 
-              <label>Motivo del Cambio *</label>
-              <textarea id="motivo" rows="3" placeholder="Describe el motivo..." required></textarea>
-              <p class="note">Este motivo quedará registrado en el historial de versiones</p>
+              <!-- INFO DE CAMBIOS (solo se muestra al editar) -->
+              <div id="infoCambios" class="info-cambios" style="display:none; margin:15px 0 10px;">
+                <p><strong>Última modificación:</strong> <span id="fechaMod">-</span></p>
+                <p><strong>Responsable:</strong> <span id="responsableMod">-</span></p>
+              </div>
 
               <div class="buttons">
-                <button class="btn guardar">💾 Guardar</button>
+                <button type="submit" class="btn guardar">💾 Guardar</button>
                 <button type="button" class="btn cancelar">✖ Cancelar</button>
               </div>
 
@@ -100,21 +112,28 @@
 
         </section>
 
-        <!-- COLUMNA DERECHA -->
-        <aside class="right-sidebar">
+        <!-- ================= VISTA PREVIA ================= -->
+        <aside class="preview-section">
+          <div class="preview-card">
+            <p class="preview-label">Vista previa del menú</p>
 
-          <div class="card historial">
-            <h3>⏱ Historial de Versiones</h3>
-            <p class="empty">No hay historial aún</p>
-            <small>El historial se creará después de guardar</small>
+            <div class="preview-header">
+              <span id="prevCategoriaIcon" class="preview-icon">🍽️</span>
+              <span id="prevCategoria" class="preview-category">Sin categoría</span>
+            </div>
+
+            <h2 id="prevNombre" class="preview-name">Nuevo plato sin nombre</h2>
+
+            <p id="prevPrecio" class="preview-price">S/ 0.00</p>
+
+            <span id="prevEstado" class="preview-badge disponible">🟢 Disponible</span>
+
+            <hr class="preview-separator">
+
+            <p class="preview-note">
+              Así se mostrará este plato en el sistema de menús.
+            </p>
           </div>
-
-          <div class="card acciones">
-            <h3>⚙️ Acciones Rápidas</h3>
-            <button class="btn-secundario">➕ Duplicar este menú</button>
-            <button class="btn-secundario">🔁 Ver todas las versiones</button>
-          </div>
-
         </aside>
 
       </div>
@@ -123,6 +142,10 @@
 
 </div>
 
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- JS propio -->
 <script src="JS/gestion_menus.js"></script>
 </body>
 </html>

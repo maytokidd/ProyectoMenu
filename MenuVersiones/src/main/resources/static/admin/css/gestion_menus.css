@@ -10,87 +10,17 @@ body {
     display: flex;
 }
 
-/* ---------------- SIDEBAR ---------------- */
-.sidebar {
-    width: 230px;
-    background: #0a3d62;
-    color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-.brand h2 {
-    margin: 0;
-    font-size: 26px;
-}
-
-.brand p {
-    margin: 0;
-    font-size: 14px;
-    opacity: 0.8;
-}
-
-.user-info {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.user-avatar {
-    font-size: 45px;
-}
-
-.user-name {
-    background: #145a8d;
-    padding: 6px 10px;
-    border-radius: 8px;
-    margin-top: 6px;
-    display: inline-block;
-}
-
-.menu a {
-    display: block;
-    color: white;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 6px;
-    text-decoration: none;
-}
-
-.menu a.active,
-.menu a:hover {
-    background: #ee5253;
-}
-
-/* BOTÓN CERRAR SESIÓN SUBIDO PERO VISIBLE */
-.logout {
-    margin-top: auto;
-    margin-bottom: 20px;
-    background: #b71540;
-    padding: 12px;
-    text-align: center;
-    border-radius: 6px;
-    color: white;
-    text-decoration: none;
-    display: block;
-}
-
-/* ---------------- CONTENIDO PRINCIPAL ---------------- */
 .content {
     width: 100%;
     padding: 30px;
-    padding-left: 270px;  /* espacio por el sidebar fijo */
+    padding-left: 300px;
     min-height: 100vh;
 }
 
 .page-title {
     margin: 0;
     font-size: 24px;
-    color: #d9534f;   /* rojo como en tu captura */
+    color: #d9534f;
 }
 
 .subtitle {
@@ -129,7 +59,6 @@ legend {
 
 label {
     font-weight: 600;
-    margin-top: 10px;
     display: block;
     font-size: 14px;
 }
@@ -160,7 +89,7 @@ textarea {
     flex: 1;
 }
 
-/* SWITCH DISPONIBLE */
+/* ---------------- SWITCH DISPONIBLE ---------------- */
 .estado {
     display: flex;
     align-items: center;
@@ -169,7 +98,6 @@ textarea {
 }
 
 .estado-text {
-    margin: 0;
     font-size: 13px;
     color: #777;
 }
@@ -212,18 +140,11 @@ textarea {
     transform: translateX(26px);
 }
 
-/* TEXTO AYUDA */
-.note {
-    font-size: 13px;
-    color: #777;
-    margin-top: 6px;
-}
-
-/* BOTONES FORM */
+/* ---------------- BOTONES ---------------- */
 .buttons {
     display: flex;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 22px;
 }
 
 .btn {
@@ -237,43 +158,74 @@ textarea {
 .guardar {
     background: #b71c24;
     color: white;
+    transition: 0.2s;
+}
+
+.guardar:hover {
+    background: #92151c;
 }
 
 .cancelar {
     background: #ccc;
 }
 
-/* ---------------- COLUMNA DERECHA ---------------- */
-.right-sidebar .card {
+.cancelar:hover {
+    background: #b4b4b4;
+}
+
+/* ---------------- TARJETA DE PREVIEW ---------------- */
+.preview-card {
     background: white;
-    padding: 20px;
+    padding: 22px;
     border-radius: 12px;
     border: 1px solid #ddd;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
 }
 
-.right-sidebar h3 {
-    margin-top: 0;
-    margin-bottom: 8px;
+.preview-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
 }
 
-.right-sidebar .empty {
-    margin: 0;
-    color: #777;
+.preview-section {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 10px;
+    background: #fafafa;
+    border: 1px solid #eee;
 }
 
-.right-sidebar small {
-    color: #999;
+.preview-label {
+    font-size: 13px;
+    color: #888;
 }
 
-.btn-secundario {
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #222;
-    background: #f9fafb;
-    cursor: pointer;
-    text-align: left;
+.preview-value {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 4px;
 }
+
+/* Estado Preview */
+.preview-disponible {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.preview-no-disponible {
+    color: #c62828;
+    font-weight: bold;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 980px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding-left: 40px;
+    }
+}
+
