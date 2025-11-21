@@ -1,0 +1,112 @@
+/* --- GENERAL --- */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f8fafc;
+}
+
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 230px;
+    background: #0a3d62;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand h2 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.user-info {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.user-avatar {
+    font-size: 40px;
+}
+
+.user-name {
+    font-size: 14px;
+    background: #145a8d;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.menu a {
+    color: white;
+    padding: 10px;
+    margin: 6px 0;
+    display: block;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.menu a.active,
+.menu a:hover {
+    background: #ee5253;
+}
+
+.logout {
+    margin-top: auto;
+    background: #b71540;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+/* --- CONTENIDO --- */
+.content {
+    padding: 30px;
+    width: 100%;
+}
+
+.subtitle {
+    color: #555;
+}
+
+.alert-info {
+    background: #e8f1ff;
+    padding: 15px;
+    border-left: 4px solid #4d7cff;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.search {
+    padding: 8px;
+    width: 240px;
+    margin-bottom: 15px;
+}
+
+/* --- TABLA --- */
+.table-container {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px #0001;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: #f0f4f8;
+}

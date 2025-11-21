@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Promociones - Admin</title>
+    <link rel="stylesheet" href="CSS/promociones.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>UTP</h2>
+            <p>Panel Admin</p>
+        </div>
+
+        <div class="user-info">
+            <div class="user-avatar">👤</div>
+            <p class="user-name">Administrador</p>
+        </div>
+
+        <nav class="menu">
+            <a href="dashboard_admin.html">📊 Dashboard</a>
+            <a href="gestion_menus.html">🍽 Menús</a>
+            <a href="gestion_promociones.html" class="active">🎁 Promociones</a>
+            <a href="usuarios_admin.html">👥 Usuarios</a>
+        </nav>
+
+        <a href="/logout" class="logout">Cerrar Sesión</a>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="content">
+        <h1>Promociones</h1>
+        <p class="subtitle">Gestiona las promociones de tu cafetería</p>
+
+        <button class="btn" id="btnAgregar">+ Nueva Promoción</button>
+
+        <section class="table-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Descuento</th>
+                        <th>Fechas</th>
+                        <th>Estado</th>
+                        <th>Responsable</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaBody">
+                    <!-- Filas generadas por JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- STATS -->
+        <div class="stats">
+            <p>Total promociones: <span id="totalPromos">0</span></p>
+            <p>Activas: <span id="activePromos">0</span></p>
+            <p>Descuento promedio: <span id="avgDiscount">0%</span></p>
+        </div>
+    </main>
+</div>
+
+<!-- MODAL PROMOCIÓN -->
+<div id="modalPromocion" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h2 id="modalTitulo">Nueva Promoción</h2>
+
+        <form id="formPromocion">
+            <input type="hidden" id="promoId">
+
+            <div class="form-group">
+                <label for="nombre">Título:</label>
+                <input type="text" id="nombre" name="nombre" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" maxlength="255"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="descuento">Descuento (%):</label>
+                <input type="number" id="descuento" name="descuento" required min="0" max="100" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="fechaInicio">Fecha Inicio:</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fechaFin">Fecha Fin:</label>
+                <input type="date" id="fechaFin" name="fechaFin" required>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado" required>
+                    <option value="Activa">Activa</option>
+                    <option value="Inactiva">Inactiva</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Guardar</button>
+                <button type="button" id="btnCancel">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="JS/gestion_promociones.js"></script>
+
+</body>
+</html>

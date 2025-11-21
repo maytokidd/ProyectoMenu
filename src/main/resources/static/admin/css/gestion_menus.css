@@ -1,0 +1,279 @@
+/* ---------------- LAYOUT GENERAL ---------------- */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f6f8fb;
+    color: #333;
+}
+
+.layout {
+    display: flex;
+}
+
+/* ---------------- SIDEBAR ---------------- */
+.sidebar {
+    width: 230px;
+    background: #0a3d62;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.brand h2 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.brand p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.user-info {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.user-avatar {
+    font-size: 45px;
+}
+
+.user-name {
+    background: #145a8d;
+    padding: 6px 10px;
+    border-radius: 8px;
+    margin-top: 6px;
+    display: inline-block;
+}
+
+.menu a {
+    display: block;
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.menu a.active,
+.menu a:hover {
+    background: #ee5253;
+}
+
+/* BOTÓN CERRAR SESIÓN SUBIDO PERO VISIBLE */
+.logout {
+    margin-top: auto;
+    margin-bottom: 20px;
+    background: #b71540;
+    padding: 12px;
+    text-align: center;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+/* ---------------- CONTENIDO PRINCIPAL ---------------- */
+.content {
+    width: 100%;
+    padding: 30px;
+    padding-left: 270px;  /* espacio por el sidebar fijo */
+    min-height: 100vh;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 24px;
+    color: #d9534f;   /* rojo como en tu captura */
+}
+
+.subtitle {
+    color: #777;
+    margin-top: 4px;
+    margin-bottom: 18px;
+}
+
+/* ---------------- GRID PRINCIPAL ---------------- */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+}
+
+/* ---------------- FORMULARIO ---------------- */
+.menu-form fieldset {
+    background: white;
+    border-radius: 12px;
+    padding: 20px 22px 22px;
+    border: 1px solid #ddd;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+legend {
+    font-weight: bold;
+    color: #d9534f;
+    font-size: 18px;
+}
+
+.info {
+    margin-top: 4px;
+    margin-bottom: 12px;
+    color: #555;
+}
+
+label {
+    font-weight: 600;
+    margin-top: 10px;
+    display: block;
+    font-size: 14px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 5px;
+}
+
+.input-group {
+    flex: 1;
+}
+
+/* SWITCH DISPONIBLE */
+.estado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.estado-text {
+    margin: 0;
+    font-size: 13px;
+    color: #777;
+}
+
+.switch {
+    position: relative;
+    width: 52px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+}
+
+.slider {
+    background: #ccc;
+    border-radius: 26px;
+    position: absolute;
+    inset: 0;
+    transition: 0.3s;
+}
+
+.slider:before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: white;
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+    background: #28a745;
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* TEXTO AYUDA */
+.note {
+    font-size: 13px;
+    color: #777;
+    margin-top: 6px;
+}
+
+/* BOTONES FORM */
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.btn {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.guardar {
+    background: #b71c24;
+    color: white;
+}
+
+.cancelar {
+    background: #ccc;
+}
+
+/* ---------------- COLUMNA DERECHA ---------------- */
+.right-sidebar .card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.right-sidebar h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.right-sidebar .empty {
+    margin: 0;
+    color: #777;
+}
+
+.right-sidebar small {
+    color: #999;
+}
+
+.btn-secundario {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #222;
+    background: #f9fafb;
+    cursor: pointer;
+    text-align: left;
+}

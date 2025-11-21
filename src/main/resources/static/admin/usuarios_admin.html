@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Usuarios - UTP</title>
+
+  <link rel="stylesheet" href="CSS/usuarios_admin.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+      <div class="brand">
+          <h2>UTP</h2>
+          <p>Administrador de Usuarios</p>
+      </div>
+
+      <div class="user-info">
+          <div class="user-avatar">👤</div>
+          <p class="user-name">Administrador</p>
+      </div>
+
+      <nav class="menu">
+          <a href="dashboard_admin.html">📊 Dashboard</a>
+          <a href="gestion_menus.html">🍽 Gestión de Menús</a>
+          <a href="gestion_promociones.html">🎁 Promociones</a>
+          <a class="active" href="usuarios_admin.html">👥 Usuarios</a>
+      </nav>
+
+      <a href="/logout" class="logout">Cerrar Sesión</a>
+  </aside>
+
+    <main class="content">
+
+      <header class="header-main">
+        <h1>👥 Gestión de Usuarios</h1>
+        <p class="subtitle">Administra los usuarios del sistema UTP</p>
+      </header>
+
+            <section class="stats">
+        <div class="card"><span class="title">Total Usuarios</span><span id="totalCount" class="value">0</span></div>
+        <div class="card"><span class="title">Administradores</span><span id="adminCount" class="value">0</span></div>
+        <div class="card"><span class="title">Empleados</span><span id="empleadoCount" class="value">0</span></div>
+        <div class="card"><span class="title">Activos</span><span id="activoCount" class="value">0</span></div>
+        <div class="card"><span class="title">Inactivos</span><span id="inactivoCount" class="value">0</span></div>
+      </section>
+
+            <div class="toolbar">
+        <input type="text" id="searchInput" placeholder="Buscar por nombre o usuario...">
+        
+        <select id="roleFilter">
+          <option value="todos">Todos los roles</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Empleado">Empleado</option>
+        </select>
+
+        <select id="stateFilter">
+          <option value="todos">Todos los estados</option>
+          <option value="Activo">Activo</option>
+          <option value="Inactivo">Inactivo</option>
+        </select>
+
+        <button id="addUserBtn" class="btn">➕ Agregar Usuario</button>
+      </div>
+
+            <section class="table-card">
+        <h3>Usuarios Registrados</h3>
+
+        <table id="userTable">
+          <thead>
+            <tr>
+              <th>Nombre Completo</th>
+              <th>Usuario</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Último Acceso</th>
+              <th style="text-align:right;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+  </main>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+      <button id="closeModal" class="close">&times;</button>
+
+      <h2 id="formTitle">Agregar Usuario</h2>
+
+      <form id="addUserForm">
+                <input type="hidden" id="userId">
+        
+        <label>Nombre completo *</label>
+        <input type="text" id="nombre" required>
+
+        <label>Usuario *</label>
+        <input type="text" id="usuario" required>
+
+        <label>Correo *</label>
+        <input type="email" id="correo" required>
+
+                <label id="claveLabel">Clave *</label>
+        <input type="password" id="clave" required>
+
+        <label>Rol *</label>
+        <select id="rol">
+          <option value="Empleado">Empleado</option>
+          <option value="Administrador">Administrador</option>
+        </select>
+
+        <label>Estado *</label>
+        <select id="estado">
+          <option value="Activo">Activo</option>
+          <option value="Inactivo">Inactivo</option>
+        </select>
+
+        <label>Último acceso *</label>
+        <input type="datetime-local" id="ultimoAcceso" required>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelBtn" class="btn secondary">Cancelar</button>
+          <button type="submit" class="btn">Guardar</button>
+        </div>
+
+      </form>
+    </div>
+</div>
+
+<script src="JS/usuarios_admin.js"></script>
+</body>
+</html>

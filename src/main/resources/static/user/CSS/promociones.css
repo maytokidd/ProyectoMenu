@@ -1,0 +1,24 @@
+@import url('dashboard_user.css');
+
+.promo-list {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.promo-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.promo-card h3 {
+    margin: 0;
+    color: #0a3d62;
+}
+
+.promo-card p {
+    margin: 6px 0 0;
+    color: #555;
+}

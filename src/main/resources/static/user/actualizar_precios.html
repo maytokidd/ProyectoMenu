@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Precios</title>
+    <link rel="stylesheet" href="CSS/actualizar_precios.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>UTP</h2>
+            <p>Gestión de Menús</p>
+        </div>
+
+        <div class="user-info">
+            <div class="user-avatar">👤</div>
+            <p class="user-name">Empleado</p>
+        </div>
+
+        <nav class="menu">
+    <a href="dashboard_user.html">🍽 Menús</a>
+    <a href="actualizar_precios.html" class="active">💲 Actualizar Precios</a>
+    <a href="promociones.html">🎁 Promociones</a>
+    <a href="usuarios.html">📜 Historial Personal</a>
+</nav>
+
+
+        <a class="logout" href="/logout">Cerrar Sesión</a>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="content">
+        <h1>Actualizar Precios</h1>
+        <p class="subtitle">Modifica los precios de los platos disponibles</p>
+
+        <div class="alert-info">
+            ⚠ Recuerda guardar los cambios después de editar los precios.
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plato</th>
+                        <th>Categoría</th>
+                        <th>Precio Actual</th>
+                        <th>Nuevo Precio</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tablaPrecios">
+                    <!-- Aquí irán los precios desde el JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <button class="btn-secondary" style="margin-top:20px;">
+            Guardar Todos los Cambios
+        </button>
+
+    </main>
+</div>
+
+<script src="JS/actualizar_precios.js"></script>
+
+</body>
+</html>

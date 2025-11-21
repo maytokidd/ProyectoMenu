@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador - Gestión de Menús UTP</title>
+
+    <!-- CSS EXTERNO -->
+    <link rel="stylesheet" href="CSS/dashboard_admin.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>UTP</h2>
+            <p>panel de Administrador</p>
+        </div>
+
+        <div class="user-info">
+            <div class="user-avatar">👤</div>
+            <p class="user-name">Administrador</p>
+        </div>
+
+        <nav class="menu">
+    <a href="dashboard_admin.html" class="active">📊 Dashboard</a>
+    <a href="gestion_menus.html">🍽 Gestionar Menús</a>
+    <a href="gestion_promociones.html">🎁 Promociones</a>
+    <a href="usuarios_admin.html">👥 Usuarios</a>
+</nav>
+
+        <a href="/logout" class="logout">Cerrar Sesión</a>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="content">
+        
+        <header>
+            <h1>Panel de Administrador</h1>
+            <p>Bienvenido al sistema de gestión de menús UTP</p>
+        </header>
+
+        <!-- STAT CARDS -->
+        <section class="stats">
+            <div class="card">
+                <div class="left">
+                    <span class="title">Total de Menús</span>
+                    <span class="value" id="totalMenus">0</span>
+                </div>
+                <div class="circle blue">🍽</div>
+            </div>
+
+            <div class="card">
+                <div class="left">
+                    <span class="title">Cambios Recientes</span>
+                    <span class="value" id="cambios">0</span>
+                </div>
+                <div class="circle green">⚙</div>
+            </div>
+
+            <div class="card">
+                <div class="left">
+                    <span class="title">Promociones Activas</span>
+                    <span class="value" id="promos">0</span>
+                </div>
+                <div class="circle pink">🎁</div>
+            </div>
+
+            <div class="card">
+                <div class="left">
+                    <span class="title">Ventas del Día</span>
+                    <span class="value" id="ventas">S/ 0</span>
+                </div>
+                <div class="circle purple">💲</div>
+            </div>
+        </section>
+
+        <!-- BOTONES -->
+        <div class="actions">
+            <button class="btn" id="btnAgregar">+ Agregar Menú</button>
+            <button class="btn secondary" id="btnVerHistorial">Ver Historial</button>
+            <button class="btn ghost" id="btnReporte">Generar Reporte</button>
+        </div>
+
+        <!-- TABLA -->
+        <section class="table-card">
+            <h3>Menús Actuales</h3>
+            <p>Gestiona todos los menús disponibles en el sistema</p>
+
+            <div style="overflow:auto;">
+                <table id="tablaMenus">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                            <th>Última Modificación</th>
+                            <th>Responsable</th>
+                            <th style="text-align:right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Filas generadas por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal">
+        <div class="space-between">
+            <div>
+                <h4>Agregar Menú (simulado)</h4>
+                <p class="muted">Aquí se mostraría el formulario para agregar un menú.</p>
+            </div>
+            <button class="btn-sm" id="closeModal">Cerrar</button>
+        </div>
+
+        <label class="muted">Nombre</label>
+        <input class="input" placeholder="Nombre del menú">
+
+        <label class="muted">Categoría</label>
+        <input class="input" placeholder="Ej: Almuerzo">
+
+        <div style="text-align:right;">
+            <button class="btn secondary" id="modalGuardar">Guardar (simulado)</button>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="JS/dashboard_admin.js"></script>
+
+</body>
+</html>

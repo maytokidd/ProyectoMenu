@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Menús - UTP</title>
+
+  <link rel="stylesheet" href="CSS/gestion_menus.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR (MISMO DISEÑO QUE EN LA CAPTURA) -->
+  <aside class="sidebar">
+      <div class="brand">
+          <h2>UTP</h2>
+          <p>Gestion de menus</p>
+      </div>
+
+      <div class="user-info">
+          <div class="user-avatar">👤</div>
+          <p class="user-name">Administrador</p>
+      </div>
+
+      <nav class="menu">
+          <a href="dashboard_admin.html">📊 Dashboard</a>
+          <a class="active" href="gestion_menus.html">🍽 Gestión de Menús</a>
+          <a href="gestion_promociones.html">🎁 Gestión de Promociones</a>
+          <a href="usuarios_admin.html">👥 Usuarios</a>
+      </nav>
+
+      <a href="/logout" class="logout">Cerrar Sesión</a>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+      
+      <h1 class="page-title">🍽️ Agregar Nuevo Menú</h1>
+      <p class="subtitle">Completa los datos para agregar un nuevo plato</p>
+
+      <div class="grid-2">
+
+        <!-- FORMULARIO -->
+        <section class="form-section">
+
+          <form id="formMenu" class="menu-form">
+            <fieldset>
+
+              <legend>Información del Menú</legend>
+              <p class="info">Completa todos los campos requeridos</p>
+
+              <label>Nombre del Plato *</label>
+              <input type="text" id="nombre" placeholder="Ej: Lomo Saltado" required>
+
+              <div class="form-row">
+
+                <div class="input-group">
+                  <label>Categoría *</label>
+                  <select id="categoria" required>
+                    <option value="">Selecciona una categoría</option>
+                    <option>🥗 Entrada</option>
+                    <option>🍛 Plato de Fondo</option>
+                    <option>🍰 Postre</option>
+                    <option>🥤 Bebida</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label>Precio (S/)*</label>
+                  <input type="number" id="precio" step="0.50" min="0" value="0.00" required>
+                </div>
+
+              </div>
+
+              <div class="estado">
+                <label class="switch">
+                  <input type="checkbox" id="disponible" checked>
+                  <span class="slider"></span>
+                </label>
+
+                <div>
+                  <strong>Disponible</strong>
+                  <p class="estado-text">El plato se mostrará en el menú público</p>
+                </div>
+              </div>
+
+              <label>Motivo del Cambio *</label>
+              <textarea id="motivo" rows="3" placeholder="Describe el motivo..." required></textarea>
+              <p class="note">Este motivo quedará registrado en el historial de versiones</p>
+
+              <div class="buttons">
+                <button class="btn guardar">💾 Guardar</button>
+                <button type="button" class="btn cancelar">✖ Cancelar</button>
+              </div>
+
+            </fieldset>
+          </form>
+
+        </section>
+
+        <!-- COLUMNA DERECHA -->
+        <aside class="right-sidebar">
+
+          <div class="card historial">
+            <h3>⏱ Historial de Versiones</h3>
+            <p class="empty">No hay historial aún</p>
+            <small>El historial se creará después de guardar</small>
+          </div>
+
+          <div class="card acciones">
+            <h3>⚙️ Acciones Rápidas</h3>
+            <button class="btn-secundario">➕ Duplicar este menú</button>
+            <button class="btn-secundario">🔁 Ver todas las versiones</button>
+          </div>
+
+        </aside>
+
+      </div>
+
+  </main>
+
+</div>
+
+<script src="JS/gestion_menus.js"></script>
+</body>
+</html>

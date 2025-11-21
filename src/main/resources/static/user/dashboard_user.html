@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Usuario - Menús</title>
+    <link rel="stylesheet" href="CSS/dashboard_user.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>UTP</h2>
+            <p>Gestión de Menús</p>
+        </div>
+
+        <div class="user-info">
+            <div class="user-avatar">👤</div>
+            <p class="user-name">Empleado</p>
+        </div>
+
+        <nav class="menu">
+            <a href="dashboard_user.html" class="active">🍽 Menús</a>
+            <a href="promociones.html">🎁 Promociones</a>
+            <a href="usuarios.html">👤 Mi Perfil</a>
+        </nav>
+
+        <a href="/logout" class="logout">Cerrar Sesión</a>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="content">
+        <h1>Menús Disponibles</h1>
+        <p class="subtitle">Consulta todos los platos activos en el sistema</p>
+
+        <div class="alert-info">
+            👀 Modo de solo lectura. No tienes permisos de edición.
+        </div>
+
+        <input type="text" id="buscar" placeholder="Buscar plato..." class="search">
+
+        <!-- TABLA -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plato</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Disponibilidad</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaMenus"></tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+<script src="JS/consulta_menus.js"></script>
+
+</body>
+</html>

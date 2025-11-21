@@ -1,0 +1,230 @@
+/* VARIABLES UTP */
+:root {
+    --bg:#f6f8fb;
+    --card:#ffffff;
+    --muted:#7b7f86;
+    --accent:#b71c24;
+    --success:#1fbf73;
+    --radius:12px;
+    --shadow:0 6px 18px rgba(15,23,42,0.06);
+    --border:#e8ebf0;
+    --text:#0f1724;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    font-family: Arial, sans-serif;
+    color: var(--text);
+}
+
+/* LAYOUT GENERAL */
+.layout { display:flex; height:100vh; }
+
+/* SIDEBAR (MISMO ESTILO QUE DASHBOARD) */
+.sidebar {
+    width:230px;
+    background:#0a3d62;
+    color:white;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+}
+
+/* BRAND */
+.brand h2 { margin:0; font-size:26px; }
+.brand p { margin:0; opacity:0.8; }
+
+/* USER INFO */
+.user-info { text-align:center; margin:20px 0; }
+.user-avatar { font-size:40px; }
+.user-name {
+    background:#145a8d;
+    padding:6px 10px;
+    border-radius:8px;
+    display:inline-block;
+    margin-top:5px;
+}
+
+/* MENU */
+.menu a {
+    color:white;
+    text-decoration:none;
+    padding:10px;
+    display:block;
+    margin:6px 0;
+    border-radius:5px;
+}
+.menu a.active,
+.menu a:hover { background:#ee5253; }
+
+/* LOGOUT */
+.logout {
+    margin-top:auto;
+    background:#b71540;
+    padding:12px;
+    text-align:center;
+    color:white;
+    border-radius:6px;
+    text-decoration:none;
+}
+
+/* CONTENIDO PRINCIPAL */
+.content {
+    width:100%;
+    padding:30px;
+    padding-left:260px;
+}
+
+/* HEADER */
+.header-main h1 { margin:0; color:#0f3a66; font-size:26px; }
+.subtitle { color:var(--muted); }
+
+/* CARDS */
+.stats {
+    display:flex;
+    gap:15px;
+    margin:20px 0;
+}
+.card {
+    flex:1;
+    padding:18px;
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    text-align:center;
+}
+.card .title {
+    color:var(--muted);
+    font-size:14px;
+}
+.card .value {
+    font-size:22px;
+    font-weight:bold;
+    color:var(--text);
+}
+
+/* FILTROS */
+.toolbar {
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+.toolbar input,
+.toolbar select {
+    padding:10px;
+    border:1px solid var(--border);
+    border-radius:8px;
+}
+
+/* BOTÓN */
+.btn {
+    background:var(--accent);
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.btn.secondary {
+    background:white;
+    border:1px solid var(--border);
+    color:#333;
+}
+
+/* TABLA */
+.table-card {
+    background:white;
+    padding:20px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+}
+table {
+    width:100%;
+    border-collapse:collapse;
+}
+th {
+    text-align:left;
+    color:var(--muted);
+    border-bottom:1px solid var(--border);
+    padding:10px;
+}
+td {
+    padding:10px;
+    border-bottom:1px solid #f1f3f6;
+}
+
+/* BADGES */
+.rol {
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:bold;
+}
+.rol.Administrador { background:#ff7675; color:white; }
+.rol.Empleado { background:#dfe6ff; color:#2b4eff; }
+
+.estado {
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:13px;
+    color:white;
+    font-weight:bold;
+}
+.estado.Activo { background:#1fbf73; }
+.estado.Inactivo { background:#9ca3af; }
+
+/* ACCIONES */
+.acciones button {
+    border:none;
+    background:#eee;
+    padding:6px 10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+.acciones button:hover { background:#ddd; }
+
+/* MODAL */
+.modal {
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background:white;
+    padding:20px;
+    width:400px;
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    position:relative;
+}
+
+.close {
+    position:absolute;
+    right:10px;
+    top:10px;
+    background:none;
+    border:none;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.modal-content input,
+.modal-content select {
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    margin-top:8px;
+}
+
+.modal-actions {
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:15px;
+}
