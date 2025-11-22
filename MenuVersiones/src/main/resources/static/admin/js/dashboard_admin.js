@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       menus = await resp.json();
       menusFiltrados = [...menus];
 
-      let categorias = [...new Set(menus.map((m) => m.categoria))];
+      let categorias = [...new Set(menus.map((m) => m.categoria || "Sin categoría"))];
       filtroCategoria.innerHTML =
         '<option value="">Todas las categorías</option>';
       categorias.forEach((cat) => {
@@ -152,10 +152,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     menusFiltrados = menus.filter((menu) => {
       const coincideTexto =
-        menu.nombre.toLowerCase().includes(texto) ||
-        menu.categoria.toLowerCase().includes(texto);
+       nombreLower.includes(texto) ||
+       categoriaLower.includes(texto);
 
-      const coincideCat = cat === "" || menu.categoria === cat;
+      const coincideCat = cat === "" || (menu.categoria || "Sin categoría") === cat;
       const coincideEst = est === "" || String(menu.disponible) === est;
 
       return coincideTexto && coincideCat && coincideEst;
@@ -404,7 +404,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const filas = menus.map((m) => [
     m.nombre,
-    m.categoria.replace(/[\u{1F300}-\u{1FAFF}]/gu, "").trim(),
+    (m.categoria || "").replace(/[\u{1F300}-\u{1FAFF}]/gu, "").trim(),
     "S/ " + Number(m.precio).toFixed(2),
     m.disponible ? "Disponible" : "No disponible",
     formatearFecha(m.ultimaModificacion || m.fechaCreacion),

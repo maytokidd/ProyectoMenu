@@ -30,16 +30,21 @@ public class MenuController {
     // LISTAR TODOS LOS MENÚS
     // ============================================================
     @GetMapping
-    public List<MenuSimpleDTO> getAllMenus() {
-        return menuRepository.findAll()
+public List<MenuSimpleDTO> getAllMenus() {
+    return menuRepository.findAll()
             .stream()
             .map(m -> new MenuSimpleDTO(
                     m.getId(),
                     m.getNombre(),
-                    m.getPrecio()
+                    m.getCategoria(),
+                    m.getPrecio(),
+                    m.getDisponible(),
+                    m.getFechaCreacion(),
+                    m.getUltimaModificacion(),
+                    m.getResponsable()
             ))
             .toList();
-    }
+}
 
     // ============================================================
     // OBTENER UN MENÚ POR ID
