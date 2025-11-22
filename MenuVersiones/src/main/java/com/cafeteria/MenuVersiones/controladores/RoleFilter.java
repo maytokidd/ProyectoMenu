@@ -18,13 +18,14 @@ public class RoleFilter implements Filter {
         String uri = request.getRequestURI();
         HttpSession session = request.getSession(false);
 
-        // permitir login y archivos estáticos
+        // Permitir login y archivos estáticos
         if (uri.contains("login") || uri.contains("css") || uri.contains("js") ||
             uri.endsWith(".png") || uri.endsWith(".jpg") || uri.endsWith(".jpeg") || uri.endsWith(".svg")) {
             chain.doFilter(req, res);
             return;
         }
 
+        // Si no hay sesión o no hay rol, redirigir al login
         if (session == null || session.getAttribute("rol") == null) {
             response.sendRedirect("/login.html");
             return;
@@ -32,18 +33,19 @@ public class RoleFilter implements Filter {
 
         String rol = session.getAttribute("rol").toString();
 
-        // proteger admin
-        if (uri.startsWith("/admin") && !rol.equals("ADMIN")) {
+        // Proteger admin
+        if (uri.startsWith("/admin") && !rol.equals("Administrador")) {
             response.sendRedirect("/user/dashboard_user.html");
             return;
         }
 
-        // proteger user
-        if (uri.startsWith("/user") && !rol.equals("USER")) {
+        // Proteger user
+        if (uri.startsWith("/user") && !rol.equals("Empleado")) {
             response.sendRedirect("/admin/dashboard_admin.html");
             return;
         }
 
+        // Todo está bien, continuar con la solicitud
         chain.doFilter(req, res);
     }
 }

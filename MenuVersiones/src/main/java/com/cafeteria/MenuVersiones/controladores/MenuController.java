@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.cafeteria.MenuVersiones.clases.Menu;
 import com.cafeteria.MenuVersiones.clases.Version;
 import com.cafeteria.MenuVersiones.dto.MenuDTO;
+import com.cafeteria.MenuVersiones.dto.MenuSimpleDTO;
 import com.cafeteria.MenuVersiones.repositorios.MenuRepository;
 import com.cafeteria.MenuVersiones.repositorios.VersionRepository;
 
@@ -29,8 +30,15 @@ public class MenuController {
     // LISTAR TODOS LOS MENÚS
     // ============================================================
     @GetMapping
-    public List<Menu> getAllMenus() {
-        return menuRepository.findAll();
+    public List<MenuSimpleDTO> getAllMenus() {
+        return menuRepository.findAll()
+            .stream()
+            .map(m -> new MenuSimpleDTO(
+                    m.getId(),
+                    m.getNombre(),
+                    m.getPrecio()
+            ))
+            .toList();
     }
 
     // ============================================================

@@ -29,4 +29,42 @@ INSERT INTO menus (categoria, disponible, fecha_creacion, nombre, precio, respon
 ('🍛 Plato de Fondo', b'1', '2025-11-25 18:09:00', 'LOMO SALTADO',            20,   'Administrador', '2025-11-25 18:09:00');
 
 
+
+
+
+
+esto use en mi my sql
+
+
+use cafeteria_menus;
+
+DESCRIBE usuarios;
+
+ALTER TABLE usuarios 
+MODIFY COLUMN estado ENUM('Activo','Inactivo') NOT NULL DEFAULT 'Activo';
+
+DESCRIBE usuarios;
+SELECT * FROM usuarios;
+
+ALTER TABLE usuarios
+MODIFY COLUMN rol ENUM('Administrador','Empleado') NOT NULL DEFAULT 'Empleado';
+
+DESCRIBE usuarios;
+DESCRIBE promociones;
+SELECT * FROM usuarios;
+
+DELETE FROM usuarios WHERE username = 'admin';
+
+-- 2. Insertar el nuevo registro (solo haz esto si realmente quieres sobrescribir el registro existente)
+INSERT INTO usuarios (nombre, apellido, email, username, password, rol, estado)
+VALUES ('Admin', 'UTP', 'admin@utp.edu.pe', 'admin', '1234', 'Administrador', 'Activo');
+
+--
+SELECT id, username, password, rol, estado
+FROM usuarios
+WHERE username = 'admin';
+
+UPDATE usuarios
+SET password = '$2a$10$u7RQdaDFkEjMPxZMdWdJx.2/SIizvd1N2d5QhZPQPpwl2d1eURSda'
+WHERE username = 'admin';
 /*
