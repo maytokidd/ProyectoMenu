@@ -40,20 +40,28 @@
             👀 Modo de solo lectura. No tienes permisos de edición.
         </div>
 
+        <!-- BUSCADOR -->
         <input type="text" id="buscar" placeholder="Buscar plato..." class="search">
+
+        <!-- LOADER -->
+        <div id="loader" class="loader" style="display: none;">Cargando datos...</div>
 
         <!-- TABLA -->
         <div class="table-container">
-            <table>
+            <table class="table-modern">
                 <thead>
-                    <tr>
-                        <th>Plato</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Disponibilidad</th>
-                    </tr>
+                <tr>
+                    <th>Plato</th>
+                    <th>Categoría</th>
+                    <th>Precio (S/)</th>
+                    <th>Disponibilidad</th>
+                </tr>
                 </thead>
-                <tbody id="tablaMenus"></tbody>
+                <tbody id="tablaMenus">
+                    
+                <!-- Los datos se llenarán desde consulta_menus.js -->
+                </tbody>
+                <div id="paginacion" style="margin-top: 15px; text-align: center;"></div>
             </table>
         </div>
 

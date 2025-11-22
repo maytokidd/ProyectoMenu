@@ -1,24 +1,92 @@
 @import url('dashboard_user.css');
 
+/* ====== TARJETAS DE PROMOCIONES ====== */
+
 .promo-list {
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 .promo-card {
-    background: white;
+    background: #fff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    transition: 0.2s ease-in-out;
+    border-left: 6px solid #d1d1d1;
+}
+
+.promo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
 }
 
 .promo-card h3 {
-    margin: 0;
-    color: #0a3d62;
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #333;
 }
 
 .promo-card p {
-    margin: 6px 0 0;
+    margin: 6px 0;
     color: #555;
+    font-size: 14px;
+}
+
+/* ====== ESTADOS DE PROMOCIÓN ====== */
+
+.estado {
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+/* Activa */
+.estado.Activa {
+    background: #d5f5dd;
+    color: #1e7b34;
+    border-left: 5px solid #1e7b34;
+}
+
+/* Programada */
+.estado.Programada {
+    background: #fff4d6;
+    color: #8a6d1f;
+    border-left: 5px solid #8a6d1f;
+}
+
+/* ====== PAGINACIÓN ====== */
+
+.paginacion {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.paginacion button {
+    padding: 8px 14px;
+    margin: 0 4px;
+    border: none;
+    background: #ddd;
+    color: #333;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.paginacion button:hover {
+    background: #ccc;
+}
+
+.paginacion button.active {
+    background: #333;
+    color: white;
+}
+
+.paginacion button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }

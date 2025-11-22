@@ -10,11 +10,12 @@ body {
     height: 100vh;
 }
 
-/* --- SIDEBAR --- */
+/* ====== SIDEBAR ====== */
+
 .sidebar {
-    width: 230px;
-    background: #0a3d62;
-    color: white;
+    width: 240px;
+    background: #1d1f27;
+    color: #fff;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -22,12 +23,18 @@ body {
 
 .brand h2 {
     margin: 0;
-    font-size: 26px;
+    font-size: 24px;
+}
+
+.brand p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.7;
 }
 
 .user-info {
+    margin-top: 20px;
     text-align: center;
-    margin: 20px 0;
 }
 
 .user-avatar {
@@ -35,37 +42,62 @@ body {
 }
 
 .user-name {
-    font-size: 14px;
-    background: #145a8d;
-    padding: 4px 8px;
-    border-radius: 5px;
+    margin: 5px 0 0;
+}
+
+.menu {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
 }
 
 .menu a {
-    color: white;
+    color: #ddd;
     padding: 10px;
-    margin: 6px 0;
-    display: block;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 15px;
+    margin-bottom: 8px;
 }
 
 .menu a.active,
 .menu a:hover {
-    background: #ee5253;
+    background: #323544;
 }
 
 .logout {
     margin-top: auto;
-    background: #b71540;
-    text-align: center;
+    color: #ff6b6b;
+    text-decoration: none;
     padding: 10px;
     border-radius: 5px;
-    color: white;
 }
 
 /* --- CONTENIDO --- */
+.badge {
+    padding: 5px 10px;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.badge-success {
+    background: #32CD32; /* Verde */
+}
+
+.badge-danger {
+    background: #E53935; /* Rojo */
+}
+
+.loader {
+    font-size: 1rem;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #444;
+}
+
+
 .content {
     padding: 30px;
     width: 100%;
@@ -110,3 +142,23 @@ th, td {
 th {
     background: #f0f4f8;
 }
+
+
+    #paginacion button {
+        margin: 3px;
+        padding: 5px 10px;
+        border: 1px solid #888;
+        border-radius: 5px;
+        cursor: pointer;
+        background: white;
+    }
+    #paginacion .active {
+        background: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+    #paginacion button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
