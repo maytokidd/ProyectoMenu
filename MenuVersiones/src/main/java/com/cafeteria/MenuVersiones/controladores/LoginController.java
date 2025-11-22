@@ -1,31 +1,46 @@
 package com.cafeteria.MenuVersiones.controladores;
 
+import com.cafeteria.MenuVersiones.clases.Usuario;
+import com.cafeteria.MenuVersiones.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class LoginController {
 
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/login-validar")
     public Map<String, Object> validar(@RequestBody Map<String, String> datos, HttpSession session) {
 
-        String usuario = datos.get("usuario");
+        String username = datos.get("usuario");
         String clave = datos.get("clave");
         String rol = datos.get("rol");
 
         Map<String, Object> resp = new HashMap<>();
 
-        if (usuario.equals("admin") && clave.equals("123") && rol.equals("ADMIN")) {
-            session.setAttribute("rol", "ADMIN");
-            resp.put("ok", true);
-            return resp;
-        }
+        Optional<Usuario> optionalUsuario = usuarioService.buscarPorUsername(username);
 
-        if (usuario.equals("user") && clave.equals("123") && rol.equals("USER")) {
-            session.setAttribute("rol", "USER");
-            resp.put("ok", true);
-            return resp;
+        if(optionalUsuario.isPresent()) {
+            Usuario usuario = optionalUsuario.get();
+
+            // Verificar contraseña y rol
+            if(passwordEncoder.matches(clave, usuario.getPassword()) && usuario.getRol().equalsIgnoreCase(rol)) {
+                session.setAttribute("rol", usuario.getRol());
+                session.setAttribute("usuario", usuario.getUsername());
+                resp.put("ok", true);
+                return resp;
+            }
         }
 
         resp.put("ok", false);

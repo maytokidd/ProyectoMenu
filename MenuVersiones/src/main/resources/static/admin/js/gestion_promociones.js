@@ -1,48 +1,3 @@
-/* Simulación de datos iniciales */
-let promotions = [
-  {
-    id: 1,
-    nombre: "Combo Estudiante",
-    descripcion: "Almuerzo + Bebida + Postre",
-    descuento: 15,
-    inicio: "2025-10-15",
-    fin: "2025-11-15",
-    estado: "Activa",
-    responsable: "Juan Pérez"
-  },
-  {
-    id: 2,
-    nombre: "Happy Hour",
-    descripcion: "Descuento en snacks de 3pm a 5pm",
-    descuento: 20,
-    inicio: "2025-10-01",
-    fin: "2025-12-31",
-    estado: "Activa",
-    responsable: "María López"
-  },
-  {
-    id: 3,
-    nombre: "Lunes Saludable",
-    descripcion: "Descuento en menús saludables",
-    descuento: 10,
-    inicio: "2025-10-20",
-    fin: "2025-11-20",
-    estado: "Activa",
-    responsable: "Carlos Ramírez"
-  },
-  {
-    id: 4,
-    nombre: "Black Friday UTP",
-    descripcion: "Mega descuento en todos los menús",
-    descuento: 30,
-    inicio: "2025-11-29",
-    fin: "2025-11-29",
-    estado: "Programada",
-    responsable: "Ana Torres"
-  }
-];
-
-/* elementos */
 const tablaBody = document.getElementById("tablaBody");
 const cardsContainer = document.getElementById("cardsContainer");
 const totalPromos = document.getElementById("totalPromos");
@@ -55,7 +10,6 @@ const btnCancel = document.getElementById("btnCancel");
 const closeModal = document.getElementById("closeModal");
 const form = document.getElementById("formPromocion");
 
-/* inputs */
 const inputId = document.getElementById("promoId");
 const inputNombre = document.getElementById("nombre");
 const inputDesc = document.getElementById("descripcion");
@@ -64,132 +18,174 @@ const inputInicio = document.getElementById("fechaInicio");
 const inputFin = document.getElementById("fechaFin");
 const inputEstado = document.getElementById("estado");
 const inputResponsable = document.getElementById("responsable");
+const selectMenu = document.getElementById("menuSelect");
 
-/* ---------- RENDER TABLA ---------- */
-function renderTable(){
-  tablaBody.innerHTML = "";
-  promotions.forEach(p => {
-    const tr = document.createElement("tr");
+const API_URL = "http://localhost:8080/api/promociones";
+const API_MENUS = "http://localhost:8080/api/menus";
 
-    tr.innerHTML = `
-      <td>${p.nombre}</td>
-      <td>${p.descripcion}</td>
-      <td><span class="pill">${p.descuento}%</span></td>
-      <td>${p.inicio} → ${p.fin}</td>
-      <td>${renderBadge(p.estado)}</td>
-      <td>${p.responsable}</td>
-      <td style="text-align:right">
-        <button onclick="openEditModal(${p.id})">✏️</button>
-        <button onclick="deletePromo(${p.id})">🗑</button>
-      </td>
-    `;
-    tablaBody.appendChild(tr);
-  });
+let promotions = [];
+let menus = [];
+
+// --------- CARGAR MENÚS PARA DROPDOWN ----------
+async function fetchMenus() {
+    const res = await fetch(API_MENUS);
+    menus = await res.json();
+
+    selectMenu.innerHTML = "";
+    menus.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m.id;
+        opt.textContent = `${m.nombre} (${m.precio} soles)`;
+        selectMenu.appendChild(opt);
+    });
 }
 
-/* BADGE */
+// --------- FETCH DE PROMOCIONES ----------
+async function fetchPromotions() {
+    try {
+        const res = await fetch(API_URL);
+        promotions = await res.json();
+        reRenderAll();
+    } catch (error) {
+        console.error("Error cargando promociones:", error);
+    }
+}
+
+// --------- RENDER TABLA ----------
+function renderTable() {
+    tablaBody.innerHTML = "";
+    promotions.forEach(p => {
+        const menuName = menus.find(m => m.id === p.menuId)?.nombre || "N/A";
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+        <td>${p.titulo}</td>
+        <td>${p.descripcion}</td>
+        <td>${p.precioOferta || 0}</td>
+        <td>${p.fechaInicio?.substring(0,10)} → ${p.fechaFin?.substring(0,10)}</td>
+        <td>${renderBadge(p.activa)}</td>
+        <td>${p.responsable || ""}</td>
+        <td>${menuName}</td>
+        <td style="text-align:right">
+            <button onclick="openEditModal(${p.id})">✏️</button>
+            <button onclick="deletePromo(${p.id})">🗑</button>
+        </td>
+        `;
+        tablaBody.appendChild(tr);
+    });
+}
+
 function renderBadge(estado){
-  if(estado === "Activa") return `<span class="badge activa">Activa</span>`;
-  if(estado === "Programada") return `<span class="badge programada">Programada</span>`;
-  return `<span class="badge inactiva">Inactiva</span>`;
+    if(estado === "Activa") return `<span class="badge activa">Activa</span>`;
+    if(estado === "Programada") return `<span class="badge programada">Programada</span>`;
+    return `<span class="badge inactiva">Inactiva</span>`;
 }
 
-/* ---------- RENDER TARJETAS ---------- */
+// --------- RENDER CARDS ----------
 function renderCards(){
-  cardsContainer.innerHTML = "";
-
-  promotions.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "promo-card";
-
-    card.innerHTML = `
-      <div class="info">
-        <h4>${p.nombre}</h4>
-        <p>${p.descripcion}</p>
-        <small style="color:#777">Hasta ${p.fin}</small>
-      </div>
-
-      <div class="pct">${p.descuento}%</div>
-    `;
-
-    cardsContainer.appendChild(card);
-  });
+    cardsContainer.innerHTML = "";
+    promotions.filter(p => p.activa === "Activa").forEach(p => {
+        const card = document.createElement("div");
+        card.className = "promo-card";
+        card.innerHTML = `
+        <div class="info">
+            <h4>${p.titulo}</h4>
+            <p>${p.descripcion}</p>
+            <small style="color:#777">Hasta ${p.fechaFin?.substring(0,10)}</small>
+        </div>
+        <div class="pct">${p.precioOferta || 0}</div>
+        `;
+        cardsContainer.appendChild(card);
+    });
 }
 
-/* ---------- RENDER STATS ---------- */
+// --------- STATS ----------
 function renderStats(){
-  totalPromos.textContent = promotions.length;
-  activePromos.textContent = promotions.filter(p => p.estado==="Activa").length;
-
-  const avg = promotions.reduce((s,p)=>s+p.descuento,0) / promotions.length;
-  avgDiscount.textContent = Math.round(avg) + "%";
+    totalPromos.textContent = promotions.length;
+    activePromos.textContent = promotions.filter(p=>p.activa==="Activa").length;
+    const avg = promotions.reduce((s,p)=>s+(p.precioOferta||0),0)/promotions.length;
+    avgDiscount.textContent = Math.round(avg) + "%";
 }
 
-/* ---------- AGREGAR ---------- */
-btnAgregar.addEventListener("click", () => {
-  modal.style.display = "flex";
-  form.reset();
-  inputId.value = "";
+// --------- MODAL ----------
+btnAgregar.addEventListener("click", ()=>{
+    modal.style.display="flex";
+    form.reset();
+    inputId.value="";
 });
 
-/* ---------- EDITAR ---------- */
+btnCancel.onclick = () => modal.style.display="none";
+closeModal.onclick = () => modal.style.display="none";
+
+// --------- GUARDAR / EDITAR ----------
+form.addEventListener("submit", async e=>{
+    e.preventDefault();
+
+    const data = {
+        titulo: inputNombre.value,
+        descripcion: inputDesc.value,
+        precioOferta: Number(inputDescPct.value),
+        fechaInicio: inputInicio.value+"T00:00:00",
+        fechaFin: inputFin.value+"T23:59:59",
+        activa: inputEstado.value,
+        responsable: inputResponsable.value,
+        menuId: parseInt(selectMenu.value)
+    };
+
+    try {
+        if(inputId.value){
+            await fetch(`${API_URL}/${inputId.value}`,{
+                method:"PUT",
+                headers:{"Content-Type":"application/json"},
+                body: JSON.stringify(data)
+            });
+        } else {
+            await fetch(API_URL,{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body: JSON.stringify(data)
+            });
+        }
+        modal.style.display="none";
+        fetchPromotions();
+    } catch(e){ console.error(e); }
+});
+
+// --------- EDITAR ----------
 function openEditModal(id){
-  const p = promotions.find(x=>x.id===id);
-  if(!p) return;
+    const p = promotions.find(x=>x.id===id);
+    if(!p) return;
 
-  modal.style.display = "flex";
-
-  inputId.value = p.id;
-  inputNombre.value = p.nombre;
-  inputDesc.value = p.descripcion;
-  inputDescPct.value = p.descuento;
-  inputInicio.value = p.inicio;
-  inputFin.value = p.fin;
-  inputEstado.value = p.estado;
-  inputResponsable.value = p.responsable;
+    modal.style.display="flex";
+    inputId.value = p.id;
+    inputNombre.value = p.titulo;
+    inputDesc.value = p.descripcion;
+    inputDescPct.value = p.precioOferta || 0;
+    inputInicio.value = p.fechaInicio?.substring(0,10);
+    inputFin.value = p.fechaFin?.substring(0,10);
+    inputEstado.value = p.activa;
+    inputResponsable.value = p.responsable || "";
+    selectMenu.value = p.menuId;
 }
 
-/* ---------- ELIMINAR ---------- */
-function deletePromo(id){
-  if(!confirm("¿Eliminar promoción?")) return;
-
-  promotions = promotions.filter(p => p.id !== id);
-  reRenderAll();
+// --------- ELIMINAR ----------
+async function deletePromo(id){
+    if(!confirm("¿Eliminar promoción?")) return;
+    try{
+        await fetch(`${API_URL}/${id}`,{method:"DELETE"});
+        fetchPromotions();
+    }catch(e){console.error(e);}
 }
 
-/* ---------- GUARDAR ---------- */
-form.addEventListener("submit", e =>{
-  e.preventDefault();
-
-  const nuevo = {
-    id: inputId.value ? Number(inputId.value) : Date.now(),
-    nombre: inputNombre.value,
-    descripcion: inputDesc.value,
-    descuento: Number(inputDescPct.value),
-    inicio: inputInicio.value,
-    fin: inputFin.value,
-    estado: inputEstado.value,
-    responsable: inputResponsable.value
-  };
-
-  if(inputId.value){
-    promotions = promotions.map(p => p.id===nuevo.id ? nuevo : p);
-  } else {
-    promotions.push(nuevo);
-  }
-
-  modal.style.display = "none";
-  reRenderAll();
-});
-
-btnCancel.onclick = ()=> modal.style.display="none";
-closeModal.onclick = ()=> modal.style.display="none";
-
-/* RENDER GLOBAL */
+// --------- RENDER GLOBAL ----------
 function reRenderAll(){
-  renderTable();
-  renderCards();
-  renderStats();
+    renderTable();
+    renderCards();
+    renderStats();
 }
 
-reRenderAll();
+// --------- INIT ----------
+(async ()=>{
+    await fetchMenus();
+    await fetchPromotions();
+})();
