@@ -10,6 +10,7 @@
 
 <div class="layout">
 
+    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="brand">
             <h2>UTP</h2>
@@ -30,11 +31,22 @@
         <a href="/logout" class="logout">Cerrar Sesión</a>
     </aside>
 
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="content">
-        <h1>Promociones Activas</h1>
-        <p class="subtitle">Ofertas disponibles para los usuarios</p>
 
+        <h1>Promociones Activas y Programadas</h1>
+        <p class="subtitle">Ofertas vigentes y próximas a iniciar</p>
+
+        <!-- LISTA DE PROMOS -->
         <div class="promo-list" id="promoList"></div>
+
+        <!-- PAGINACIÓN -->
+        <div class="pagination-container">
+            <button id="prevPage" class="pagination-btn">◀ Anterior</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage" class="pagination-btn">Siguiente ▶</button>
+        </div>
+
     </main>
 
 </div>
