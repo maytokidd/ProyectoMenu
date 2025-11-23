@@ -1,5 +1,16 @@
-@import url('dashboard_user.css');
+@import url('dashboard_user.css'); /* si necesitas mantenerlo */
 
+
+/* Content */
+.content {
+    flex: 1;
+    padding: 28px;
+    background: #f5f7fb;
+    box-sizing: border-box;
+}
+.subtitle { color: #666; margin-top: 6px; }
+
+/* --- PROFILE BOX (tal como pediste) --- */
 .profile-box {
     background: white;
     padding: 20px;
@@ -9,15 +20,130 @@
     align-items: center;
     max-width: 600px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 18px;
 }
 
 .profile-img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .info p {
     font-size: 16px;
     margin: 6px 0;
+}
+
+/* Acciones de perfil */
+.acciones-perfil { margin-top: 20px; display:flex; gap:18px; flex-wrap:wrap; }
+.card-opcion {
+    background: white;
+    padding: 14px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    width: 220px;
+}
+.card-opcion h3 { margin: 0 0 6px; }
+.card-opcion p { margin: 0 0 12px; color: #555; }
+.card-opcion .btn-accion {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background: #0077cc;
+    color: white;
+    cursor: pointer;
+}
+
+/* --- MODAL --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    display: none; /* se muestra con JS: display:flex */
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal[aria-hidden="false"] {
+    display: flex;
+}
+
+/* Caja del modal */
+.modal-content {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    animation: fadeIn 0.22s ease-out;
+}
+
+.modal-content h2 {
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+/* Inputs */
+.modal-content label {
+    display: block;
+    font-weight: 600;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #333;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0 0 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* Botones */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.btn-cancelar {
+    background: #e6e6e6;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-guardar {
+    background: #0077cc;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-cancelar:hover { filter: brightness(0.95); }
+.btn-guardar:hover { filter: brightness(0.92); }
+
+/* Actividad */
+.actividad-list ul { padding-left: 18px; margin: 8px 0; color: #444; }
+.actividad-list li { margin-bottom: 8px; }
+
+/* Animación suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }

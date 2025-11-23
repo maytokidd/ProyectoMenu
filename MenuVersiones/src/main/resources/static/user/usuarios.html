@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Mi Perfil</title>
     <link rel="stylesheet" href="CSS/usuarios.css">
 </head>
@@ -36,18 +36,139 @@
         <p class="subtitle">Información personal del usuario</p>
 
         <div class="profile-box">
-            <img class="profile-img" src="/static/img/user.png" alt="profile">
-            
-            <div class="info">
-                <p><strong>Nombre:</strong> Juan Pérez</p>
-                <p><strong>Cargo:</strong> Empleado</p>
-                <p><strong>Correo:</strong> jperez@utp.edu.pe</p>
+    <div class="profile-left">
+        <img class="profile-img" src="/static/img/user.png" alt="Foto de Perfil">
+    </div>
+
+    <div class="profile-right">
+        <h2 class="display-name">Tiofanes Flores</h2>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="label">Nombre:</span>
+                <span class="value">Tiofanes</span>
+            </div>
+
+            <div class="info-item">
+                <span class="label">Apellido:</span>
+                <span class="value">Flores</span>
+            </div>
+
+            <div class="info-item">
+                <span class="label">Usuario:</span>
+                <span class="value">Tiofanes</span>
+            </div>
+
+            <div class="info-item">
+                <span class="label">Correo:</span>
+                <span class="value">nuevoperu2022@gmail.com</span>
+            </div>
+
+            <div class="info-item">
+                <span class="label">Rol:</span>
+                <span class="value">Empleado</span>
+            </div>
+
+            <div class="info-item">
+                <span class="label">Estado:</span>
+                <span class="value estado-activo">Activo</span>
             </div>
         </div>
+    </div>
+</div>
+
+
+        <section class="acciones-perfil">
+            <h2>Opciones de cuenta</h2>
+
+            <div class="card-opcion">
+                <h3>Cambiar contraseña</h3>
+                <p>Actualiza tu contraseña para mantener tu cuenta segura.</p>
+                <button class="btn-accion" data-target="modalPassword">Cambiar contraseña</button>
+            </div>
+
+            <div class="card-opcion">
+                <h3>Editar información</h3>
+                <p>Modifica tus datos personales como nombre, apellido o correo.</p>
+                <button class="btn-accion" data-target="modalEditar">Editar datos</button>
+            </div>
+
+            <div class="card-opcion">
+                <h3>Ver actividad</h3>
+                <p>Consulta registros recientes relacionados con tu cuenta.</p>
+                <button class="btn-accion" data-target="modalActividad">Ver actividad</button>
+            </div>
+        </section>
 
     </main>
 
+    <!-- Modal Cambiar Contraseña -->
+    <div id="modalPassword" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="mp-title">
+            <h2 id="mp-title">Cambiar contraseña</h2>
+
+            <form>
+                <label>Contraseña actual</label>
+                <input type="password" placeholder="Ingrese contraseña actual" autocomplete="current-password">
+
+                <label>Nueva contraseña</label>
+                <input type="password" placeholder="Ingrese nueva contraseña" autocomplete="new-password">
+
+                <label>Confirmar nueva contraseña</label>
+                <input type="password" placeholder="Repita la nueva contraseña" autocomplete="new-password">
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar">Cancelar</button>
+                    <button type="submit" class="btn-guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Datos -->
+    <div id="modalEditar" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="me-title">
+            <h2 id="me-title">Editar información</h2>
+
+            <form>
+                <label>Nombre</label>
+                <input type="text" id="edit-nombre" placeholder="Nuevo nombre" value="Tiofanes">
+
+                <label>Apellido</label>
+                <input type="text" id="edit-apellido" placeholder="Nuevo apellido" value="Flores">
+
+                <label>Correo</label>
+                <input type="email" id="edit-email" placeholder="Nuevo correo" value="nuevoperu2022@gmail.com">
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar">Cancelar</button>
+                    <button type="submit" class="btn-guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Ver Actividad -->
+    <div id="modalActividad" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="ma-title">
+            <h2 id="ma-title">Actividad reciente</h2>
+
+            <div class="actividad-list">
+                <ul>
+                    <li><strong>Inicio de sesión</strong> — 10:22 AM</li>
+                    <li><strong>Actualizó información</strong> — 9:10 AM</li>
+                    <li><strong>Cambió contraseña</strong> — Ayer</li>
+                </ul>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancelar">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
+<script src="JS/usuarios.js"></script>
 </body>
 </html>
