@@ -162,3 +162,60 @@ th {
         cursor: not-allowed;
     }
 
+/* Tarjetas iguales al dashboard */
+.card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Inputs y selects */
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Botón primario del dashboard */
+.btn-primary {
+    background-color: #1ABC9C;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.btn-primary:hover {
+    background-color: #17a386;
+}
+
+/* Tabla estilo dashboard */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table th {
+    background: #2c3e50;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.table tr:hover {
+    background: #f5f5f5;
+}

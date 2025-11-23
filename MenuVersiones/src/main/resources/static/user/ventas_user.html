@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ventas - Usuario</title>
+    <link rel="stylesheet" href="CSS/dashboard_user.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>UTP</h2>
+            <p>Gestión de Ventas</p>
+        </div>
+
+            <div class="user-info">
+        <div class="user-avatar">👤</div>
+        <p class="user-name">Empleado</p>
+    </div>
+
+        <nav class="menu">
+            <a href="dashboard_user.html">🍽 Menús</a>
+            <a href="promociones.html">🎁 Promociones</a>
+            <a href="usuarios.html">👤 Mi Perfil</a>
+            <a href="ventas_user.html">💵 Gestión de Ventas</a>
+        </nav>
+         <a href="/logout" class="logout">Cerrar Sesión</a>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <h1 class="title">Registro de Ventas</h1>
+
+        <!-- FORMULARIO DE VENTAS -->
+        <section class="card">
+            <form id="ventaForm" class="form">
+
+                <label>Producto:</label>
+                <select id="productoSelect" required class="input"></select>
+
+                <label>Cantidad:</label>
+                <input type="number" id="cantidad" min="1" value="1" required class="input">
+
+                <label>Precio Unitario (S/):</label>
+                <input type="number" id="precio" step="0.01" readonly class="input">
+
+                <label>Total (S/):</label>
+                <input type="number" id="total" step="0.01" readonly class="input">
+
+                <button class="btn-primary" type="submit">Registrar Venta</button>
+            </form>
+        </section>
+
+        <!-- LISTA DE VENTAS -->
+        <section class="card">
+            <h2 class="subtitle">Ventas Realizadas</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody id="ventasTableBody"></tbody>
+            </table>
+        </section>
+
+    </main>
+</div>
+
+<script src="js/ventas_user.js"></script>
+
+</body>
+</html>
