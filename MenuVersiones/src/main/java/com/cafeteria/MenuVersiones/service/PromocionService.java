@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PromocionService {
@@ -22,16 +23,31 @@ public class PromocionService {
         return promocionRepository.findByActivaIgnoreCase(estado);
     }
 
-    // NUEVO: devuelve solo promociones activas y vigentes
-    public List<Promocion> listarActivasVigentes() {
-        LocalDate hoy = LocalDate.now();
+    // ⭐ MÉTODO CLAVE → devuelve solo promociones activas y vigentes HOY
+   public List<Promocion> listarActivasVigentes() {
+    LocalDate hoy = LocalDate.now();
 
-        return promocionRepository.findByActivaIgnoreCase("Activa").stream()
-                .filter(p -> p.getFechaInicio() != null)
-                .filter(p -> p.getFechaFin() != null)
-                .filter(p -> !p.getFechaInicio().toLocalDate().isAfter(hoy))  // fecha_inicio <= hoy
-                .filter(p -> !p.getFechaFin().toLocalDate().isBefore(hoy))    // fecha_fin >= hoy
-                .toList();
+    return promocionRepository.findAll().stream()
+            .filter(p -> {
+
+                // Validar nulls sin romper el filtro
+                if (p.getActiva() == null || p.getFechaInicio() == null || p.getFechaFin() == null) {
+                    return false;
+                }
+
+                boolean activa = p.getActiva().equalsIgnoreCase("activa");
+                boolean inicia = !p.getFechaInicio().toLocalDate().isAfter(hoy);
+                boolean termina = !p.getFechaFin().toLocalDate().isBefore(hoy);
+
+                return activa && inicia && termina;
+            })
+            .toList();
+}
+
+
+    public Promocion obtenerPorId(Long id) {
+        Optional<Promocion> promo = promocionRepository.findById(id);
+        return promo.orElse(null);
     }
 
     public Promocion guardar(Promocion promocion) {
@@ -40,9 +56,5 @@ public class PromocionService {
 
     public void eliminar(Long id) {
         promocionRepository.deleteById(id);
-    }
-
-    public Promocion obtenerPorId(Long id) {
-        return promocionRepository.findById(id).orElse(null);
     }
 }

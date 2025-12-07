@@ -3,7 +3,9 @@ package com.cafeteria.MenuVersiones.repositorios;
 import com.cafeteria.MenuVersiones.clases.Venta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface VentaRepository extends JpaRepository<Venta, Long> {
 
     // Monto total vendido HOY (para Dashboard y Ventas)

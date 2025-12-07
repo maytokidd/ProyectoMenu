@@ -17,19 +17,25 @@
             <p>Gestión de Ventas</p>
         </div>
 
-            <div class="user-info">
-        <div class="user-avatar">👤</div>
-        <p class="user-name">Empleado</p>
-    </div>
+        <div class="user-info">
+            <div class="user-avatar">👤</div>
+            <p class="user-name">Empleado</p>
+        </div>
 
         <nav class="menu">
             <a href="dashboard_user.html">🍽 Menús</a>
             <a href="promociones.html">🎁 Promociones</a>
             <a href="usuarios.html">👤 Mi Perfil</a>
-            <a href="ventas_user.html">💵 Gestión de Ventas</a>
+            <a href="ventas_user.html" class="active">💵 Gestión de Ventas</a>
         </nav>
-         <a href="/logout" class="logout">Cerrar Sesión</a>
+
+        <a href="/logout" class="logout">Cerrar Sesión</a>
     </aside>
+
+    <!-- ========================================= -->
+    <!--   👉 Usuario logueado (para registrar venta) -->
+    <!-- ========================================= -->
+    <input type="hidden" id="usuarioLogueado" value="">
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="main-content">
@@ -75,6 +81,25 @@
 
     </main>
 </div>
+
+<script>
+    // =======================================
+    //   IMPORTANTE — EXTRAER USUARIO LOGUEADO
+    // =======================================
+    async function obtenerUsuarioLogueado() {
+        try {
+            const resp = await fetch("/api/usuario/mi-info");
+            if (!resp.ok) return;
+
+            const data = await resp.json();
+            document.getElementById("usuarioLogueado").value = data.username;
+        } catch (e) {
+            console.error("No se pudo obtener el usuario logueado:", e);
+        }
+    }
+
+    obtenerUsuarioLogueado();
+</script>
 
 <script src="js/ventas_user.js"></script>
 

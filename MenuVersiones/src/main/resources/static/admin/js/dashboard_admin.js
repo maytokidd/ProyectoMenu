@@ -86,8 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cambiosHoy = menus.filter((m) => esHoy(m.ultimaModificacion)).length;
     cambiosEl.textContent = cambiosHoy;
 
-    // ❌ ESTA LÍNEA YA NO:
-    // promosEl.textContent = 0;
+   
 
   } catch (err) {
     console.error(err);
@@ -138,18 +137,20 @@ const cargarPromocionesActivas = async () => {
         : "<span class='estado no-disponible'>🔴 No disponible</span>";
 
       tr.innerHTML = `
-        <td>${menu.nombre}</td>
-        <td>${menu.categoria}</td>
-        <td>S/ ${Number(menu.precio).toFixed(2)}</td>
-        <td>${estadoTexto}</td>
-        <td>${formatearFecha(menu.ultimaModificacion || menu.fechaCreacion)}</td>
-        <td>${menu.responsable || "Administrador"}</td>
-        <td style="text-align:right;">
-          <button class="btn-sm" data-accion="editar" data-id="${menu.id}">✏ Editar</button>
-          <button class="btn-sm" data-accion="eliminar" data-id="${menu.id}">🗑 Eliminar</button>
-          <button class="btn-sm" data-accion="historial" data-id="${menu.id}">⏱ Historial</button>
-        </td>
-      `;
+  <td>${menu.nombre}</td>
+  <td>${menu.categoria}</td>
+  <td>S/ ${Number(menu.precio).toFixed(2)}</td>
+  <td>${menu.stock ?? 0}</td>  <!-- AQUÍ MOSTRAMOS EL STOCK -->
+  <td>${estadoTexto}</td>
+  <td>${formatearFecha(menu.ultimaModificacion || menu.fechaCreacion)}</td>
+  <td>${menu.responsable || "Administrador"}</td>
+  <td style="text-align:right;">
+    <button class="btn-sm" data-accion="editar" data-id="${menu.id}">✏ Editar</button>
+    <button class="btn-sm" data-accion="eliminar" data-id="${menu.id}">🗑 Eliminar</button>
+    <button class="btn-sm" data-accion="historial" data-id="${menu.id}">⏱ Historial</button>
+  </td>
+`;
+
 
       if (!menu.disponible) {
         tr.classList.add("fila-no-disponible");
@@ -473,11 +474,55 @@ const aplicarFiltros = () => {
     });
     modal.style.display = "none";
   });
-  
+  const promoDashboardContainer = document.getElementById("promoDashboardContainer");
+
+const cargarPromosParaDashboard = async () => {
+  try {
+    const resp = await fetch("/api/promociones/activas");
+    if (!resp.ok) throw new Error("Error obteniendo promociones");
+
+    const promos = await resp.json();
+    promoDashboardContainer.innerHTML = "";
+
+    if (promos.length === 0) {
+      promoDashboardContainer.innerHTML = "<p>No hay promociones activas actualmente.</p>";
+      return;
+    }
+
+    promos.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "promo-card-dashboard";
+
+      card.style.cssText = `
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-left: 5px solid #ff7b00;
+      `;
+
+      card.innerHTML = `
+        <h4 style="margin:0; font-weight:600;">${p.titulo}</h4>
+        <p style="margin:5px 0; color:#555;">${p.descripcion}</p>
+        <small style="color:#777;">Hasta: ${p.fechaFin.substring(0,10)}</small>
+        <div style="margin-top:8px; font-weight:bold; color:#e63946;">
+          ${p.precioOferta}% OFF
+        </div>
+      `;
+
+      promoDashboardContainer.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
   cargarMenus();
   cargarVentasDelDia();
   cargarPromocionesActivas();
+cargarPromosParaDashboard();
 
   
 

@@ -24,6 +24,10 @@ public class Menu {
     @Column(nullable = false)
     private Double precio;
 
+    // Stock disponible del producto
+    @Column
+    private Integer stock = 0;
+
     // Si está disponible o no
     @Column(nullable = false)
     private Boolean disponible = true;
@@ -56,6 +60,9 @@ public class Menu {
 
     public Double getPrecio() { return precio; }
     public void setPrecio(Double precio) { this.precio = precio; }
+
+    public Integer getStock() { return stock; }
+    public void setStock(Integer stock) { this.stock = stock; }
 
     public Boolean getDisponible() { return disponible; }
     public void setDisponible(Boolean disponible) { this.disponible = disponible; }

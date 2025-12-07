@@ -32,7 +32,6 @@
             <a href="gestion_promociones.html">🎁 Promociones</a>
             <a href="usuarios_admin.html">👥 Usuarios</a>
             <a href="ventas.html">💵 Ventas</a>
-
         </nav>
 
         <a href="/logout" class="logout">Cerrar Sesión</a>
@@ -89,25 +88,25 @@
         <section class="table-card">
             <h3>Menús Actuales</h3>
             <p>Gestiona todos los menús disponibles en el sistema</p>
+
             <!-- BUSCADOR + FILTROS -->
-<div class="filters" style="display:flex; gap:15px; margin-bottom:15px; align-items:center;">
+            <div class="filters" style="display:flex; gap:15px; margin-bottom:15px; align-items:center;">
 
-    <input type="text" id="buscadorInput" placeholder="Buscar menú..." 
-           style="padding:8px 12px; border-radius:6px; border:1px solid #ccc; flex:1;">
+                <input type="text" id="buscadorInput" placeholder="Buscar menú..." 
+                       style="padding:8px 12px; border-radius:6px; border:1px solid #ccc; flex:1;">
 
-    <select id="filtroCategoria" 
-            style="padding:8px; border-radius:6px; border:1px solid #ccc;">
-        <option value="">Todas las categorías</option>
-    </select>
+                <select id="filtroCategoria" 
+                        style="padding:8px; border-radius:6px; border:1px solid #ccc;">
+                    <option value="">Todas las categorías</option>
+                </select>
 
-    <select id="filtroEstado" 
-            style="padding:8px; border-radius:6px; border:1px solid #ccc;">
-        <option value="">Todos los estados</option>
-        <option value="true">Disponible</option>
-        <option value="false">No Disponible</option>
-    </select>
-</div>
-
+                <select id="filtroEstado" 
+                        style="padding:8px; border-radius:6px; border:1px solid #ccc;">
+                    <option value="">Todos los estados</option>
+                    <option value="true">Disponible</option>
+                    <option value="false">No Disponible</option>
+                </select>
+            </div>
 
             <div style="overflow:auto;">
                 <table id="tablaMenus">
@@ -116,6 +115,7 @@
                             <th>Nombre</th>
                             <th>Categoría</th>
                             <th>Precio</th>
+                            <th>Stock</th>
                             <th>Estado</th>
                             <th>Última Modificación</th>
                             <th>Responsable</th>
@@ -128,15 +128,26 @@
                 </table>
             </div>
         </section>
-<!-- PAGINACIÓN -->
-<div id="paginacion" 
-     style="display:flex; justify-content:center; margin-top:15px; gap:8px;">
-</div>
+
+        <!-- PAGINACIÓN -->
+        <div id="paginacion" 
+            style="display:flex; justify-content:center; margin-top:15px; gap:8px;">
+        </div>
+
+        <!-- ✔ PROMOCIONES DENTRO DEL MAIN (POSICIÓN CORRECTA) -->
+        <section class="table-card" style="margin-top: 25px;">
+            <h3>Promociones Activas</h3>
+            <p>Estas promociones están vigentes el día de hoy</p>
+
+            <div id="promoDashboardContainer" class="promo-cards" 
+                style="display:grid; gap:15px; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));">
+            </div>
+        </section>
 
     </main>
 </div>
 
-<!-- Modal simple que ya tenías (lo dejamos por si luego lo usas) -->
+<!-- Modal simple -->
 <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
     <div class="modal">
         <div class="space-between">
@@ -159,9 +170,8 @@
     </div>
 </div>
 
-<!-- SweetAlert2 (para reemplazar alert/confirm/prompt) -->
+<!-- Librerías externas -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- jsPDF para reportes PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 

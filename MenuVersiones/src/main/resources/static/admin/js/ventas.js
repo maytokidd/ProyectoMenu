@@ -1,3 +1,4 @@
+// admin/js/ventas.js
 document.addEventListener("DOMContentLoaded", () => {
 
     const tbody = document.querySelector("#tablaVentas tbody");
@@ -15,77 +16,115 @@ document.addEventListener("DOMContentLoaded", () => {
     let ventas = [];
     let ventasFiltradas = [];
     let paginaActual = 1;
-    const filasPorPagina = 10;
+    const filasPorPagina = 5;
 
     // ============================
-    // Cargar datos
+    // Utils
+    // ============================
+    const formatearFecha = (fechaIso) => {
+        if (!fechaIso) return "-";
+        const d = new Date(fechaIso);
+        if (isNaN(d)) return "-";
+        return d.toLocaleString("es-PE", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+    };
+
+    const mismaFecha = (fechaIso, yyyyMmDd) => {
+        if (!yyyyMmDd) return true; // sin filtro → mostrar todo
+        return fechaIso.substring(0, 10) === yyyyMmDd;
+    };
+
+    const obtenerVentasPaginadas = () => {
+        const inicio = (paginaActual - 1) * filasPorPagina;
+        const fin = inicio + filasPorPagina;
+        return ventasFiltradas.slice(inicio, fin);
+    };
+
+    // ============================
+    // Carga de datos
     // ============================
     const cargarVentas = async () => {
-        const resp = await fetch("/api/ventas");
-        ventas = await resp.json();
-        ventasFiltradas = [...ventas];
+        try {
+            // 1) Todas las ventas
+            const resp = await fetch("/api/ventas");
+            if (!resp.ok) throw new Error("Error al cargar ventas");
+            ventas = await resp.json();
+            ventasFiltradas = [...ventas];
 
-        renderTabla();
-        renderPaginacion();
-        actualizarEstadisticas();
-    };
+            // Total de ventas (número de registros)
+            totalVentasEl.textContent = ventas.length;
 
-    const actualizarEstadisticas = async () => {
-        const resp = await fetch("/api/ventas/del-dia");
-        const monto = await resp.json();
-        ventasDelDiaEl.textContent = "S/ " + Number(monto || 0).toFixed(2);
+            aplicarFiltros(); // Render inicial de tabla
 
-        totalVentasEl.textContent = ventas.length;
+            // 2) Monto del día
+            const respDia = await fetch("/api/ventas/del-dia");
+            if (respDia.ok) {
+                const monto = await respDia.json();
+                ventasDelDiaEl.textContent = "S/ " + Number(monto || 0).toFixed(2);
+            } else {
+                ventasDelDiaEl.textContent = "S/ 0.00";
+            }
 
-        // Empleado top
-        const conteo = {};
-        ventas.forEach(v => {
-            conteo[v.empleado] = (conteo[v.empleado] || 0) + 1;
-        });
+            calcularEmpleadoTop();
 
-        const top = Object.entries(conteo).sort((a, b) => b[1] - a[1])[0];
-        empleadoTopEl.textContent = top ? top[0] : "-";
+        } catch (err) {
+            console.error(err);
+            ventasDelDiaEl.textContent = "S/ 0.00";
+            totalVentasEl.textContent = "0";
+            empleadoTopEl.textContent = "-";
+        }
     };
 
     // ============================
-    // Render tabla
+    // Render tabla y paginación
     // ============================
     const renderTabla = () => {
         tbody.innerHTML = "";
-
-        const lista = ventasFiltradas.slice(
-            (paginaActual - 1) * filasPorPagina,
-            paginaActual * filasPorPagina
-        );
+        const lista = obtenerVentasPaginadas();
 
         lista.forEach(v => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${v.id}</td>
-                <td>${new Date(v.fecha).toLocaleString("es-PE")}</td>
-                <td>${v.empleado}</td>
-                <td>${v.menuNombre}</td>
-                <td>${v.cantidad}</td>
-                <td>S/ ${v.total.toFixed(2)}</td>
+                <td>${formatearFecha(v.fechaVenta)}</td>
+                <td>${v.empleado || "-"}</td>
+                <td>${v.menuNombre || "-"}</td>
+                <td>${v.cantidad || 0}</td>
+                <td>S/ ${Number(v.total || 0).toFixed(2)}</td>
             `;
             tbody.appendChild(tr);
         });
     };
 
-    // ============================
-    // Paginación
-    // ============================
     const renderPaginacion = () => {
         paginacionDiv.innerHTML = "";
-
         const totalPaginas = Math.ceil(ventasFiltradas.length / filasPorPagina);
+        if (totalPaginas <= 1) return;
+
         for (let i = 1; i <= totalPaginas; i++) {
             const btn = document.createElement("button");
             btn.textContent = i;
+            btn.className = "page-btn";
+
+            btn.style.padding = "6px 12px";
+            btn.style.borderRadius = "6px";
+            btn.style.border = "1px solid #ccc";
+            btn.style.margin = "0 4px";
+            btn.style.cursor = "pointer";
+            btn.style.background = (i === paginaActual) ? "#007bff" : "#fff";
+            btn.style.color = (i === paginaActual) ? "#fff" : "#000";
+
             btn.onclick = () => {
                 paginaActual = i;
                 renderTabla();
+                renderPaginacion();
             };
+
             paginacionDiv.appendChild(btn);
         }
     };
@@ -94,16 +133,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // Filtros
     // ============================
     const aplicarFiltros = () => {
-        const fEmpleado = filtroEmpleado.value.toLowerCase();
-        const fMenu = filtroMenu.value.toLowerCase();
-        const fFecha = filtroFecha.value;
+        const fechaFiltro = filtroFecha.value;
+        const empleadoFiltro = filtroEmpleado.value.trim().toLowerCase();
+        const menuFiltro = filtroMenu.value.trim().toLowerCase();
 
         ventasFiltradas = ventas.filter(v => {
-            const coincideEmpleado = v.empleado.toLowerCase().includes(fEmpleado);
-            const coincideMenu = v.menuNombre.toLowerCase().includes(fMenu);
-            const coincideFecha = !fFecha || v.fecha.startsWith(fFecha);
+            const coincideFecha = mismaFecha(v.fechaVenta, fechaFiltro);
 
-            return coincideEmpleado && coincideMenu && coincideFecha;
+            const empleado = (v.empleado || "").toLowerCase();
+            const coincideEmpleado = !empleadoFiltro || empleado.includes(empleadoFiltro);
+
+            const menu = (v.menuNombre || "").toLowerCase();
+            const coincideMenu = !menuFiltro || menu.includes(menuFiltro);
+
+            return coincideFecha && coincideEmpleado && coincideMenu;
         });
 
         paginaActual = 1;
@@ -120,8 +163,39 @@ document.addEventListener("DOMContentLoaded", () => {
         filtroEmpleado.value = "";
         filtroMenu.value = "";
         ventasFiltradas = [...ventas];
-        aplicarFiltros();
+        paginaActual = 1;
+        renderTabla();
+        renderPaginacion();
     });
+
+    // ============================
+    // Empleado con más ventas
+    // ============================
+    const calcularEmpleadoTop = () => {
+        if (!ventas.length) {
+            empleadoTopEl.textContent = "-";
+            return;
+        }
+
+        const mapa = {};
+
+        ventas.forEach(v => {
+            const emp = v.empleado || "Sin nombre";
+            mapa[emp] = (mapa[emp] || 0) + Number(v.total || 0);
+        });
+
+        let topEmpleado = "-";
+        let maxTotal = 0;
+
+        Object.entries(mapa).forEach(([emp, total]) => {
+            if (total > maxTotal) {
+                maxTotal = total;
+                topEmpleado = emp;
+            }
+        });
+
+        empleadoTopEl.textContent = topEmpleado;
+    };
 
     // ============================
     // Carga inicial
