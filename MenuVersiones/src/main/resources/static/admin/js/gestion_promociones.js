@@ -26,7 +26,32 @@ const API_MENUS = "http://localhost:8080/api/menus";
 let promotions = [];
 let menus = [];
 
-// --------- CARGAR MENÚS PARA DROPDOWN ----------
+function getRealStatus(p) {
+    const hoy = new Date();
+    const inicio = new Date(p.fechaInicio);
+    const fin = new Date(p.fechaFin);
+
+    if (p.activa !== "Activa") return p.activa; // Programada / Inactiva
+
+    if (hoy < inicio) return "Programada";
+    if (hoy > fin) return "Expirada";
+
+    return "Activa";
+}
+
+function renderBadgeReal(p) {
+    const estado = getRealStatus(p);
+
+    if (estado === "Activa")
+        return `<span class="badge activa">Activa</span>`;
+    if (estado === "Programada")
+        return `<span class="badge programada">Programada</span>`;
+    if (estado === "Expirada")
+        return `<span class="badge expirada">Expirada</span>`;
+
+    return `<span class="badge inactiva">Inactiva</span>`;
+}
+
 async function fetchMenus() {
     const res = await fetch(API_MENUS);
     menus = await res.json();
@@ -40,7 +65,6 @@ async function fetchMenus() {
     });
 }
 
-// --------- FETCH DE PROMOCIONES ----------
 async function fetchPromotions() {
     try {
         const res = await fetch(API_URL);
@@ -51,19 +75,20 @@ async function fetchPromotions() {
     }
 }
 
-// --------- RENDER TABLA ----------
 function renderTable() {
     tablaBody.innerHTML = "";
+
     promotions.forEach(p => {
         const menuName = menus.find(m => m.id === p.menuId)?.nombre || "N/A";
 
         const tr = document.createElement("tr");
+
         tr.innerHTML = `
         <td>${p.titulo}</td>
         <td>${p.descripcion}</td>
         <td>${p.precioOferta || 0}</td>
         <td>${p.fechaInicio?.substring(0,10)} → ${p.fechaFin?.substring(0,10)}</td>
-        <td>${renderBadge(p.activa)}</td>
+        <td>${renderBadgeReal(p)}</td>
         <td>${p.responsable || ""}</td>
         <td>${menuName}</td>
         <td style="text-align:right">
@@ -71,121 +96,115 @@ function renderTable() {
             <button onclick="deletePromo(${p.id})">🗑</button>
         </td>
         `;
+
         tablaBody.appendChild(tr);
     });
 }
 
-function renderBadge(estado){
-    if(estado === "Activa") return `<span class="badge activa">Activa</span>`;
-    if(estado === "Programada") return `<span class="badge programada">Programada</span>`;
-    return `<span class="badge inactiva">Inactiva</span>`;
-}
-
-// --------- RENDER CARDS ----------
-function renderCards(){
+function renderCards() {
     cardsContainer.innerHTML = "";
-    promotions.filter(p => p.activa === "Activa").forEach(p => {
-        const card = document.createElement("div");
-        card.className = "promo-card";
-        card.innerHTML = `
-        <div class="info">
-            <h4>${p.titulo}</h4>
-            <p>${p.descripcion}</p>
-            <small style="color:#777">Hasta ${p.fechaFin?.substring(0,10)}</small>
-        </div>
-        <div class="pct">${p.precioOferta || 0}</div>
+
+    promotions
+        .filter(p => getRealStatus(p) === "Activa")
+        .forEach(p => {
+            const card = document.createElement("div");
+            card.className = "promo-card";
+
+            card.innerHTML = `
+            <div class="info">
+                <h4>${p.titulo}</h4>
+                <p>${p.descripcion}</p>
+                <small style="color:#777">Hasta ${p.fechaFin?.substring(0,10)}</small>
+            </div>
+            <div class="pct">${p.precioOferta || 0}%</div>
         `;
-        cardsContainer.appendChild(card);
-    });
+            cardsContainer.appendChild(card);
+        });
 }
 
-// --------- STATS ----------
-function renderStats(){
+function renderStats() {
     totalPromos.textContent = promotions.length;
-    activePromos.textContent = promotions.filter(p=>p.activa==="Activa").length;
-    const avg = promotions.reduce((s,p)=>s+(p.precioOferta||0),0)/promotions.length;
+
+    activePromos.textContent = promotions.filter(p => getRealStatus(p) === "Activa").length;
+
+    const avg = promotions.reduce((s, p) => s + (p.precioOferta || 0), 0) / promotions.length;
     avgDiscount.textContent = Math.round(avg) + "%";
 }
 
-// --------- MODAL ----------
-btnAgregar.addEventListener("click", ()=>{
-    modal.style.display="flex";
+btnAgregar.addEventListener("click", () => {
+    modal.style.display = "flex";
     form.reset();
-    inputId.value="";
+    inputId.value = "";
 });
 
-btnCancel.onclick = () => modal.style.display="none";
-closeModal.onclick = () => modal.style.display="none";
+btnCancel.onclick = () => modal.style.display = "none";
+closeModal.onclick = () => modal.style.display = "none";
 
-// --------- GUARDAR / EDITAR ----------
-form.addEventListener("submit", async e=>{
+form.addEventListener("submit", async e => {
     e.preventDefault();
 
     const data = {
         titulo: inputNombre.value,
         descripcion: inputDesc.value,
         precioOferta: Number(inputDescPct.value),
-        fechaInicio: inputInicio.value+"T00:00:00",
-        fechaFin: inputFin.value+"T23:59:59",
+        fechaInicio: inputInicio.value + "T00:00:00",
+        fechaFin: inputFin.value + "T23:59:59",
         activa: inputEstado.value,
         responsable: inputResponsable.value,
         menuId: parseInt(selectMenu.value)
     };
 
     try {
-        if(inputId.value){
-            await fetch(`${API_URL}/${inputId.value}`,{
-                method:"PUT",
-                headers:{"Content-Type":"application/json"},
+        if (inputId.value) {
+            await fetch(`${API_URL}/${inputId.value}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
         } else {
-            await fetch(API_URL,{
-                method:"POST",
-                headers:{"Content-Type":"application/json"},
+            await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
         }
-        modal.style.display="none";
+        modal.style.display = "none";
         fetchPromotions();
-    } catch(e){ console.error(e); }
+    } catch (e) { console.error(e); }
 });
 
-// --------- EDITAR ----------
-function openEditModal(id){
-    const p = promotions.find(x=>x.id===id);
-    if(!p) return;
+function openEditModal(id) {
+    const p = promotions.find(x => x.id === id);
+    if (!p) return;
 
-    modal.style.display="flex";
+    modal.style.display = "flex";
     inputId.value = p.id;
     inputNombre.value = p.titulo;
     inputDesc.value = p.descripcion;
     inputDescPct.value = p.precioOferta || 0;
-    inputInicio.value = p.fechaInicio?.substring(0,10);
-    inputFin.value = p.fechaFin?.substring(0,10);
+    inputInicio.value = p.fechaInicio?.substring(0, 10);
+    inputFin.value = p.fechaFin?.substring(0, 10);
     inputEstado.value = p.activa;
     inputResponsable.value = p.responsable || "";
     selectMenu.value = p.menuId;
 }
 
-// --------- ELIMINAR ----------
-async function deletePromo(id){
-    if(!confirm("¿Eliminar promoción?")) return;
-    try{
-        await fetch(`${API_URL}/${id}`,{method:"DELETE"});
+async function deletePromo(id) {
+    if (!confirm("¿Eliminar promoción?")) return;
+
+    try {
+        await fetch(`${API_URL}/${id}`, { method: "DELETE" });
         fetchPromotions();
-    }catch(e){console.error(e);}
+    } catch (e) { console.error(e); }
 }
 
-// --------- RENDER GLOBAL ----------
-function reRenderAll(){
+function reRenderAll() {
     renderTable();
     renderCards();
     renderStats();
 }
 
-// --------- INIT ----------
-(async ()=>{
+(async () => {
     await fetchMenus();
     await fetchPromotions();
 })();

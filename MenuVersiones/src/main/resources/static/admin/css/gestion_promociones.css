@@ -203,3 +203,33 @@ td {
     right:15px;
     top:10px;
 }
+/* BADGES DE ESTADO */
+.badge {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+    color: #fff;
+}
+
+/* Estado REAL: Activa */
+.badge.activa {
+    background-color: #28a745;   /* verde */
+}
+
+/* Estado REAL: Expirada */
+.badge.expirada {
+    background-color: #dc3545;   /* rojo */
+}
+
+/* Estado REAL: Programada */
+.badge.programada {
+    background-color: #ffc107;   /* amarillo */
+    color: #000;
+}
+
+/* Estado REAL: Inactiva manualmente */
+.badge.inactiva {
+    background-color: #6c757d;   /* gris */
+}

@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface PromocionRepository extends JpaRepository<Promocion, Long> {
-    List<Promocion> findByActiva(String activa); // Filtrar por estado "Activa", "Programada", "Inactiva"
+
+    // FILTRA por estado ignorando mayúsculas
+    List<Promocion> findByActivaIgnoreCase(String activa);
 }

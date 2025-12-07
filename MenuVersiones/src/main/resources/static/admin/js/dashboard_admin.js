@@ -62,41 +62,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   const cargarMenus = async () => {
-    try {
-      const resp = await fetch("/api/menus");
-      if (!resp.ok) throw new Error("Error al cargar menús");
+  try {
+    const resp = await fetch("/api/menus");
+    if (!resp.ok) throw new Error("Error al cargar menús");
 
-      menus = await resp.json();
-      menusFiltrados = [...menus];
+    menus = await resp.json();
+    menusFiltrados = [...menus];
 
-      let categorias = [...new Set(menus.map((m) => m.categoria || "Sin categoría"))];
-      filtroCategoria.innerHTML =
-        '<option value="">Todas las categorías</option>';
-      categorias.forEach((cat) => {
-        const op = document.createElement("option");
-        op.value = cat;
-        op.textContent = cat;
-        filtroCategoria.appendChild(op);
-      });
+    let categorias = [...new Set(menus.map((m) => m.categoria || "Sin categoría"))];
+    filtroCategoria.innerHTML =
+      '<option value="">Todas las categorías</option>';
+    categorias.forEach((cat) => {
+      const op = document.createElement("option");
+      op.value = cat;
+      op.textContent = cat;
+      filtroCategoria.appendChild(op);
+    });
 
-      renderTablaMenus();
-      renderPaginacion();
+    renderTablaMenus();
+    renderPaginacion();
 
-      totalMenusEl.textContent = menus.length;
-      const cambiosHoy = menus.filter((m) => esHoy(m.ultimaModificacion)).length;
-      cambiosEl.textContent = cambiosHoy;
+    totalMenusEl.textContent = menus.length;
+    const cambiosHoy = menus.filter((m) => esHoy(m.ultimaModificacion)).length;
+    cambiosEl.textContent = cambiosHoy;
 
-      promosEl.textContent = 0;
+    // ❌ ESTA LÍNEA YA NO:
+    // promosEl.textContent = 0;
 
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se pudieron cargar los menús desde el servidor.",
-      });
-    }
-  };
+  } catch (err) {
+    console.error(err);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudieron cargar los menús desde el servidor.",
+    });
+  }
+};
+
 
   const cargarVentasDelDia = async () => {
     try {
@@ -109,6 +111,19 @@ document.addEventListener("DOMContentLoaded", () => {
       ventasEl.textContent = "S/ 0.00";
     }
   };
+const cargarPromocionesActivas = async () => {
+  try {
+    const resp = await fetch("/api/promociones/activas"); 
+    if (!resp.ok) throw new Error("Error al cargar promociones");
+
+    const promos = await resp.json();
+
+    promosEl.textContent = promos.length;
+
+  } catch (err) {
+    console.error(err);
+  }
+};
 
  
   const renderTablaMenus = () => {
@@ -145,26 +160,39 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 
-  const aplicarFiltros = () => {
-    const texto = buscadorInput.value.toLowerCase();
-    const cat = filtroCategoria.value;
-    const est = filtroEstado.value;
+  // Aplica buscador + categoría + estado
+const aplicarFiltros = () => {
+  const texto = buscadorInput.value.trim().toLowerCase();
+  const cat = filtroCategoria.value;
+  const est = filtroEstado.value; // "true", "false" o ""
 
-    menusFiltrados = menus.filter((menu) => {
-      const coincideTexto =
-       nombreLower.includes(texto) ||
-       categoriaLower.includes(texto);
+  menusFiltrados = menus.filter((menu) => {
+    const nombreLower = (menu.nombre || "").toLowerCase();
+    const categoriaLower = (menu.categoria || "").toLowerCase();
 
-      const coincideCat = cat === "" || (menu.categoria || "Sin categoría") === cat;
-      const coincideEst = est === "" || String(menu.disponible) === est;
+    // Si el usuario no escribe nada, no filtramos por texto
+    const coincideTexto =
+      texto === "" ||
+      nombreLower.includes(texto) ||
+      categoriaLower.includes(texto);
 
-      return coincideTexto && coincideCat && coincideEst;
-    });
+    // Filtro por categoría (exacta, usando las opciones cargadas)
+    const coincideCat =
+      cat === "" || (menu.categoria || "Sin categoría") === cat;
 
-    paginaActual = 1;
-    renderTablaMenus();
-    renderPaginacion();
-  };
+    // Filtro por estado (select tiene value="true"/"false")
+    const coincideEst =
+      est === "" || String(menu.disponible) === est;
+
+    return coincideTexto && coincideCat && coincideEst;
+  });
+
+  // Siempre volvemos a la primera página cuando se cambian filtros
+  paginaActual = 1;
+  renderTablaMenus();
+  renderPaginacion();
+};
+
 
   const obtenerMenusPaginados = () => {
     const inicio = (paginaActual - 1) * filasPorPagina;
@@ -445,7 +473,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     modal.style.display = "none";
   });
+  
 
   cargarMenus();
   cargarVentasDelDia();
+  cargarPromocionesActivas();
+
+  
+
 });

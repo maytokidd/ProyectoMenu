@@ -10,13 +10,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/promociones")
-@CrossOrigin(origins = "*") // Para permitir llamadas desde tu frontend
+@CrossOrigin(origins = "*")
 public class PromocionController {
 
     @Autowired
     private PromocionService promocionService;
 
-    // Listar todas o filtrar activas
+    // Listar todas o filtradas por estado
     @GetMapping
     public List<Promocion> listar(@RequestParam(value = "activas", required = false) Boolean activas) {
         if (activas != null && activas) {
@@ -25,26 +25,28 @@ public class PromocionController {
         return promocionService.listarTodas();
     }
 
-    // Obtener por ID
-    @GetMapping("/{id}")
-    public Optional<Promocion> obtener(@PathVariable Long id) {
-        return promocionService.obtenerPorId(id);
+    // NUEVO: solo activas y vigentes
+    @GetMapping("/activas")
+    public List<Promocion> promocionesActivas() {
+        return promocionService.listarActivasVigentes();
     }
 
-    // Crear nueva
+    @GetMapping("/{id}")
+    public Optional<Promocion> obtener(@PathVariable Long id) {
+        return Optional.ofNullable(promocionService.obtenerPorId(id));
+    }
+
     @PostMapping
     public Promocion crear(@RequestBody Promocion promocion) {
         return promocionService.guardar(promocion);
     }
 
-    // Editar existente
     @PutMapping("/{id}")
     public Promocion actualizar(@PathVariable Long id, @RequestBody Promocion promocion) {
         promocion.setId(id);
         return promocionService.guardar(promocion);
     }
 
-    // Eliminar
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
         promocionService.eliminar(id);

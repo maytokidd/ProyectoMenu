@@ -5,8 +5,8 @@ import com.cafeteria.MenuVersiones.repositorios.PromocionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PromocionService {
@@ -19,11 +19,19 @@ public class PromocionService {
     }
 
     public List<Promocion> listarPorEstado(String estado) {
-        return promocionRepository.findByActiva(estado);
+        return promocionRepository.findByActivaIgnoreCase(estado);
     }
 
-    public Optional<Promocion> obtenerPorId(Long id) {
-        return promocionRepository.findById(id);
+    // NUEVO: devuelve solo promociones activas y vigentes
+    public List<Promocion> listarActivasVigentes() {
+        LocalDate hoy = LocalDate.now();
+
+        return promocionRepository.findByActivaIgnoreCase("Activa").stream()
+                .filter(p -> p.getFechaInicio() != null)
+                .filter(p -> p.getFechaFin() != null)
+                .filter(p -> !p.getFechaInicio().toLocalDate().isAfter(hoy))  // fecha_inicio <= hoy
+                .filter(p -> !p.getFechaFin().toLocalDate().isBefore(hoy))    // fecha_fin >= hoy
+                .toList();
     }
 
     public Promocion guardar(Promocion promocion) {
@@ -32,5 +40,9 @@ public class PromocionService {
 
     public void eliminar(Long id) {
         promocionRepository.deleteById(id);
+    }
+
+    public Promocion obtenerPorId(Long id) {
+        return promocionRepository.findById(id).orElse(null);
     }
 }
