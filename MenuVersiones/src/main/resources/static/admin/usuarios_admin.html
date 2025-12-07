@@ -86,7 +86,7 @@
               <th>Correo</th>
               <th>Rol</th>
               <th>Estado</th>
-              <th>Último Acceso</th>
+              <!-- Último Acceso eliminado según tu indicación -->
               <th style="text-align:right;">Acciones</th>
             </tr>
           </thead>
@@ -121,6 +121,10 @@
         <label>Contraseña <span id="passwordHint">(obligatoria al crear)</span></label>
         <input type="password" id="password">
 
+        <!-- Nuevo: confirmar contraseña -->
+        <label>Repetir Contraseña</label>
+        <input type="password" id="passwordConfirm">
+
         <label>Rol *</label>
         <select id="rol">
           <option value="Empleado">Empleado</option>
@@ -133,8 +137,7 @@
           <option value="Inactivo">Inactivo</option>
         </select>
 
-        <label>Último acceso</label>
-        <input type="datetime-local" id="ultimoAcceso">
+        <!-- Campo "Último acceso" eliminado del modal -->
 
         <div class="modal-actions">
           <button type="button" id="cancelBtn" class="btn secondary">Cancelar</button>

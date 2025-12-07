@@ -3,6 +3,7 @@ package com.cafeteria.MenuVersiones.clases;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "usuarios")
@@ -12,10 +13,19 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // ------------ VALIDACIONES NUEVAS ------------
     @NotBlank(message = "El nombre es obligatorio")
+    @Pattern(
+        regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$",
+        message = "El nombre solo debe contener letras y espacios"
+    )
     private String nombre;
 
     @NotBlank(message = "El apellido es obligatorio")
+    @Pattern(
+        regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$",
+        message = "El apellido solo debe contener letras y espacios"
+    )
     private String apellido;
 
     @Email(message = "El email debe ser válido")
@@ -23,6 +33,10 @@ public class Usuario {
     private String email;
 
     @NotBlank(message = "El username es obligatorio")
+    @Pattern(
+        regexp = "^[A-Za-z0-9]+$",
+        message = "El nombre de usuario solo puede contener letras y números"
+    )
     @Column(unique = true)
     private String username;
 
@@ -38,7 +52,7 @@ public class Usuario {
     // Constructor vacío (obligatorio para JPA)
     public Usuario() {}
 
-    // Constructor con todos los campos (opcional)
+    // Constructor con todos los campos
     public Usuario(String nombre, String apellido, String email, String username, String password, String rol, String estado) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -49,7 +63,10 @@ public class Usuario {
         this.estado = estado;
     }
 
-    // Getters y Setters
+    // ---------------------------------------------------
+    // GETTERS & SETTERS
+    // ---------------------------------------------------
+
     public Long getId() {
         return id;
     }

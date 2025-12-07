@@ -28,9 +28,9 @@ const apellidoInput = document.getElementById("apellido");
 const usuarioInput = document.getElementById("usuario");
 const correoInput = document.getElementById("correo");
 const passwordInput = document.getElementById("password");
+const passwordConfirmInput = document.getElementById("passwordConfirm"); // nuevo
 const rolInput = document.getElementById("rol");
 const estadoInput = document.getElementById("estado");
-const ultimoAccesoInput = document.getElementById("ultimoAcceso");
 const passwordHint = document.getElementById("passwordHint");
 
 // --- Utilidades ---
@@ -43,19 +43,6 @@ function showAlert(msg, type = "info", timeout = 3500) {
   setTimeout(() => {
     div.remove();
   }, timeout);
-}
-
-function formatDateTimeLocalToDB(value) {
-  // value from input datetime-local: "YYYY-MM-DDTHH:mm" -> "YYYY-MM-DD HH:mm:ss"
-  if (!value) return null;
-  return value.replace("T", " ");
-}
-
-function formatDBToInputDatetime(value) {
-  if (!value) return "";
-  // accept "YYYY-MM-DD HH:mm[:ss]" -> "YYYY-MM-DDTHH:mm"
-  const v = value.split(".")[0]; // drop fractions
-  return v.replace(" ", "T").slice(0,16);
 }
 
 // --- API calls ---
@@ -139,7 +126,7 @@ function renderTable() {
       <td>${u.email || ""}</td>
       <td><span class="rol ${u.rol}">${u.rol || ""}</span></td>
       <td><span class="estado ${u.estado}">${u.estado || ""}</span></td>
-      <td>${u.ultimoAcceso || ""}</td>
+      <!-- Último acceso eliminado de la fila -->
       <td class="acciones" style="text-align:right;">
         <button title="Editar" class="editBtn">✏️</button>
         <button title="Activar/Desactivar" class="toggleBtn">${u.estado === 'Activo' ? '🔒 Desactivar' : '✅ Activar'}</button>
@@ -156,10 +143,10 @@ function renderTable() {
       usuarioInput.value = u.username || "";
       correoInput.value = u.email || "";
       passwordInput.value = ""; // vacío: editar contraseña es opcional
+      passwordConfirmInput.value = ""; // limpiar confirm
       passwordHint.innerText = "(dejar vacío para mantener la misma)";
       rolInput.value = u.rol || "Empleado";
       estadoInput.value = u.estado || "Activo";
-      ultimoAccesoInput.value = formatDBToInputDatetime(u.ultimoAcceso);
       modal.style.display = "flex";
     });
 
@@ -203,6 +190,13 @@ function updateStats() {
   inactivoCount.textContent = users.filter(u => (u.estado || "") === "Inactivo").length;
 }
 
+// --- Validaciones ---
+function esNombreValido(text) {
+  // Solo letras (mayúsculas/minúsculas), tildes y espacios, y ñ/Ñ
+  const re = /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/;
+  return re.test(text);
+}
+
 // --- Eventos UI ---
 searchInput.addEventListener("input", renderTable);
 roleFilter.addEventListener("change", renderTable);
@@ -213,6 +207,7 @@ addUserBtn.addEventListener("click", () => {
   modalTitle.innerText = "Agregar Usuario";
   addUserForm.reset();
   passwordHint.innerText = "(obligatoria al crear)";
+  passwordConfirmInput.value = "";
   modal.style.display = "flex";
 });
 
@@ -229,11 +224,12 @@ addUserForm.addEventListener("submit", async (e) => {
     username: usuarioInput.value.trim(),
     email: correoInput.value.trim(),
     rol: rolInput.value,
-    estado: estadoInput.value,
-    ultimoAcceso: formatDateTimeLocalToDB(ultimoAccesoInput.value) // optional
+    estado: estadoInput.value
+    // eliminado ultimoAcceso del frontend (ya no se envía)
   };
 
   const passValue = passwordInput.value;
+  const passConfirm = passwordConfirmInput.value;
 
   try {
     // VALIDACIONES frontend básicas
@@ -242,13 +238,45 @@ addUserForm.addEventListener("submit", async (e) => {
       return;
     }
 
-    // si crear -> contraseña obligatoria
-    if (!editUserId && (!passValue || passValue.length < 4)) {
-      showAlert("Contraseña obligatoria (mínimo 4 caracteres) al crear usuario.", "danger");
+    // Validar nombre y apellido (sin números ni caracteres extra)
+    if (!esNombreValido(usuarioData.nombre)) {
+      showAlert("El nombre solo puede contener letras y espacios.", "danger");
+      return;
+    }
+    if (usuarioData.apellido && !esNombreValido(usuarioData.apellido)) {
+      showAlert("El apellido solo puede contener letras y espacios.", "danger");
       return;
     }
 
-    // verificar username único (si es creación o nombre cambiado en edición)
+    // si crear -> contraseña obligatoria y ambas deben coincidir
+    if (!editUserId) {
+      if (!passValue || passValue.length < 4) {
+        showAlert("Contraseña obligatoria (mínimo 4 caracteres) al crear usuario.", "danger");
+        return;
+      }
+      if (!passConfirm) {
+        showAlert("Confirma la contraseña.", "danger");
+        return;
+      }
+      if (passValue !== passConfirm) {
+        showAlert("Las contraseñas no coinciden.", "danger");
+        return;
+      }
+    } else {
+      // edición: si el admin decide cambiar contraseña, verificar confirmación y mínimo
+      if (passValue) {
+        if (passValue.length < 4) {
+          showAlert("La nueva contraseña debe tener al menos 4 caracteres.", "danger");
+          return;
+        }
+        if (passValue !== passConfirm) {
+          showAlert("Las contraseñas no coinciden.", "danger");
+          return;
+        }
+      }
+    }
+
+    // verificar username único (si es creación o username modificado en edición)
     const existing = await fetchUserByUsername(usuarioData.username);
     if (existing && existing.id) {
       // si estamos editando y el username encontrado NO es el mismo id -> error
