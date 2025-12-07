@@ -27,24 +27,25 @@ public class MenuController {
     }
 
     // ============================================================
-    // LISTAR TODOS LOS MENÚS
+    // LISTAR TODOS LOS MENÚS (YA INCLUYE STOCK)
     // ============================================================
     @GetMapping
-public List<MenuSimpleDTO> getAllMenus() {
-    return menuRepository.findAll()
-            .stream()
-            .map(m -> new MenuSimpleDTO(
-                    m.getId(),
-                    m.getNombre(),
-                    m.getCategoria(),
-                    m.getPrecio(),
-                    m.getDisponible(),
-                    m.getFechaCreacion(),
-                    m.getUltimaModificacion(),
-                    m.getResponsable()
-            ))
-            .toList();
-}
+    public List<MenuSimpleDTO> getAllMenus() {
+        return menuRepository.findAll()
+                .stream()
+                .map(m -> new MenuSimpleDTO(
+                        m.getId(),
+                        m.getNombre(),
+                        m.getCategoria(),
+                        m.getPrecio(),
+                        m.getDisponible(),
+                        m.getStock(), // ← IMPORTANTE: STOCK INCLUIDO
+                        m.getFechaCreacion(),
+                        m.getUltimaModificacion(),
+                        m.getResponsable()
+                ))
+                .toList();
+    }
 
     // ============================================================
     // OBTENER UN MENÚ POR ID
@@ -56,7 +57,7 @@ public List<MenuSimpleDTO> getAllMenus() {
     }
 
     // ============================================================
-    // CREAR MENÚ + REGISTRAR VERSIÓN
+    // CREAR MENÚ + REGISTRAR HISTORIAL
     // ============================================================
     @PostMapping
     public ResponseEntity<?> crearMenu(@RequestBody MenuDTO data) {
@@ -66,6 +67,7 @@ public List<MenuSimpleDTO> getAllMenus() {
         menu.setCategoria(data.getCategoria());
         menu.setPrecio(data.getPrecio());
         menu.setDisponible(data.getDisponible());
+        menu.setStock(0); // por defecto si no lo envían
         menu.setFechaCreacion(LocalDateTime.now());
         menu.setUltimaModificacion(LocalDateTime.now());
         menu.setResponsable("Administrador");
@@ -78,14 +80,13 @@ public List<MenuSimpleDTO> getAllMenus() {
         v.setUsuario("Administrador");
         v.setMotivo(data.getMotivo());
         v.setFechaCambio(LocalDateTime.now());
-
         versionRepository.save(v);
 
         return ResponseEntity.ok(saved);
     }
 
     // ============================================================
-    // ACTUALIZAR MENÚ + REGISTRAR VERSIÓN
+    // ACTUALIZAR MENÚ + REGISTRAR HISTORIAL
     // ============================================================
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarMenu(@PathVariable Long id, @RequestBody MenuDTO data) {
@@ -123,7 +124,7 @@ public List<MenuSimpleDTO> getAllMenus() {
     }
 
     // ============================================================
-    // OBTENER HISTORIAL DE UN MENÚ ESPECÍFICO
+    // HISTORIAL POR MENÚ
     // ============================================================
     @GetMapping("/{id}/versiones")
     public List<Version> getVersiones(@PathVariable Long id) {
@@ -133,7 +134,7 @@ public List<MenuSimpleDTO> getAllMenus() {
     }
 
     // ============================================================
-    // 🟩 *HISTORIAL GLOBAL* (LO QUE FALTABA)
+    // HISTORIAL GLOBAL
     // ============================================================
     @GetMapping("/historial")
     public List<Map<String, Object>> historialGlobal() {

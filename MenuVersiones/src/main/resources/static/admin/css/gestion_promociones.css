@@ -233,3 +233,7 @@ td {
 .badge.inactiva {
     background-color: #6c757d;   /* gris */
 }
+.input-error {
+    border: 2px solid #e74c3c !important;
+    background-color: #fdecea;
+}

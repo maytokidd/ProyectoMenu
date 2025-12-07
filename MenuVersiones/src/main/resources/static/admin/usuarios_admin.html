@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gestión de Usuarios - UTP</title>
 
-  <!-- Rutas relativas asumiendo dashboard en /admin/ -->
   <link rel="stylesheet" href="css/usuarios_admin.css">
   <link rel="stylesheet" href="css/sidebar.css">
 </head>
@@ -38,12 +37,13 @@
 
   <!-- CONTENIDO -->
   <main class="content">
+
       <header class="header-main">
         <h1>👥 Gestión de Usuarios</h1>
         <p class="subtitle">Administra los usuarios del sistema UTP</p>
       </header>
 
-      <!-- AREA DE NOTIFICACIONES -->
+      <!-- NOTIFICACIONES -->
       <div id="alertArea" style="margin-bottom:12px;"></div>
 
       <!-- CARDS -->
@@ -58,7 +58,7 @@
       <!-- FILTROS -->
       <div class="toolbar">
         <input type="text" id="searchInput" placeholder="Buscar por nombre o usuario...">
-        
+
         <select id="roleFilter">
           <option value="todos">Todos los roles</option>
           <option value="Administrador">Administrador</option>
@@ -97,7 +97,7 @@
   </main>
 </div>
 
-<!-- MODAL (crear / editar) -->
+<!-- MODAL CREAR / EDITAR USUARIO -->
 <div id="modal" class="modal" style="display:none;">
     <div class="modal-content">
       <button id="closeModal" class="close">&times;</button>
@@ -120,6 +120,10 @@
 
         <label>Contraseña <span id="passwordHint">(obligatoria al crear)</span></label>
         <input type="password" id="password">
+
+        <!-- Confirmar contraseña -->
+        <label>Repetir Contraseña</label>
+        <input type="password" id="passwordConfirm">
 
         <label>Rol *</label>
         <select id="rol">

@@ -7,14 +7,13 @@
 
   <link rel="stylesheet" href="CSS/gestion_promociones.css">
   <link rel="stylesheet" href="CSS/sidebar.css">
-
 </head>
 
 <body>
 
 <div class="layout">
 
-  <!-- SIDEBAR OFICIAL UTP -->
+  <!-- SIDEBAR -->
   <aside class="sidebar">
       <div class="brand">
           <h2>UTP</h2>
@@ -32,12 +31,10 @@
           <a class="active" href="gestion_promociones.html">🎁 Promociones</a>
           <a href="usuarios_admin.html">👥 Usuarios</a>
           <a href="ventas.html">💵 Ventas</a>
-
       </nav>
 
       <a href="/logout" class="logout">Cerrar Sesión</a>
   </aside>
-
 
   <!-- CONTENIDO PRINCIPAL -->
   <main class="content">
@@ -68,10 +65,12 @@
                               <th>Nombre</th>
                               <th>Descripción</th>
                               <th>Descuento</th>
+                              <th>Precio (antes → oferta)</th>
                               <th>Vigencia</th>
                               <th>Estado</th>
                               <th>Responsable</th>
-                              <th>Menú</th>
+                              <th>Items</th>
+                              <th>Stock</th>
                               <th style="text-align:right">Acciones</th>
                           </tr>
                       </thead>
@@ -93,6 +92,7 @@
                   <div class="stat-row"><span>Total Promociones</span><strong id="totalPromos">0</strong></div>
                   <div class="stat-row"><span>Activas</span><strong id="activePromos">0</strong></div>
                   <div class="stat-row"><span>Descuento Promedio</span><strong id="avgDiscount">0%</strong></div>
+                  <div class="stat-row"><span>Precio Promedio Oferta</span><strong id="avgOferta">S/0</strong></div>
               </div>
 
           </aside>
@@ -101,7 +101,6 @@
 
   </main>
 </div>
-
 
 <!-- MODAL -->
 <div id="modalPromocion" class="modal">
@@ -119,13 +118,25 @@
         <label>Descripción *</label>
         <textarea id="descripcion" rows="2" required></textarea>
 
-        <label>Menú *</label>
-        <select id="menuSelect" required></select>
+        
+
+        <!-- NUEVOS SELECTS DE COMBO -->
+        <label>Plato de fondo</label>
+        <select id="selectPlatoFondo"></select>
+
+        <label>Entrada</label>
+        <select id="selectEntrada"></select>
+
+        <label>Postre</label>
+        <select id="selectPostre"></select>
+
+        <label>Bebida</label>
+        <select id="selectBebida"></select>
 
         <div class="form-row">
           <div class="input-group">
             <label>Descuento (%)</label>
-            <input id="descuento" type="number" min="0" max="100" required>
+            <input id="descuento" type="number" min="0" max="100" value="0">
           </div>
 
           <div class="input-group">
@@ -149,9 +160,19 @@
             <input id="fechaFin" type="date" required>
           </div>
         </div>
+      <label>Stock disponible para la promoción *</label>
+<input id="stockMaximo" type="number" min="1" placeholder="Ej: 5" required>
+<!-- NUEVO MENSAJE DE ERROR VISUAL -->
+<p id="stockError" style="color:#c0392b; font-size:14px; display:none; margin-top:4px;">
+</p>
+     
 
-        <label>Responsable</label>
-        <input id="responsable" placeholder="Ej: Juan Pérez">
+        <!-- RESUMEN -->
+        <div class="resumen-box">
+          <div><strong>Precio real total:</strong> <span id="precioRealText">S/. 0.00</span></div>
+          <div><strong>Precio final:</strong> <span id="precioFinalText">S/. 0.00</span></div>
+          <div><strong>Stock combo:</strong> <span id="stockComboText">N/A</span></div>
+        </div>
 
         <div class="modal-actions">
             <button type="button" id="btnCancel" class="btn secondary">Cancelar</button>
@@ -163,5 +184,6 @@
 </div>
 
 <script src="JS/gestion_promociones.js"></script>
+
 </body>
 </html>
