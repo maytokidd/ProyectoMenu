@@ -1,15 +1,27 @@
 package com.cafeteria.MenuVersiones.controladores;
 
-import com.cafeteria.MenuVersiones.clases.Usuario;
-import com.cafeteria.MenuVersiones.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cafeteria.MenuVersiones.clases.Usuario;
+import com.cafeteria.MenuVersiones.service.UsuarioService;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -82,4 +94,37 @@ public class UsuarioController {
 
         return data;
     }
+ // =============================
+// OBTENER DATOS COMPLETOS DEL USUARIO LOGUEADO
+// =============================
+@GetMapping("/mi-perfil")
+public Map<String, Object> obtenerMiPerfil(HttpSession session) {
+
+    String username = (String) session.getAttribute("usuario");
+
+    Map<String, Object> response = new HashMap<>();
+
+    if (username == null) {
+        response.put("error", "No hay usuario en sesión");
+        return response;
+    }
+
+    Optional<Usuario> usuario = usuarioService.buscarPorUsername(username);
+
+    if (usuario.isEmpty()) {
+        response.put("error", "Usuario no encontrado");
+        return response;
+    }
+
+    response.put("usuario", usuario.get());
+    return response;
+}
+// =============================
+// CAMBIAR CONTRASEÑA
+// =============================
+@PatchMapping("/{id}/password")
+public Usuario cambiarPassword(@PathVariable Long id, @RequestParam String nuevaPassword) {
+    return usuarioService.cambiarPassword(id, nuevaPassword);
+}
+
 }

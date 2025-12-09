@@ -1,13 +1,14 @@
 package com.cafeteria.MenuVersiones.service;
 
-import com.cafeteria.MenuVersiones.clases.Usuario;
-import com.cafeteria.MenuVersiones.repositorios.UsuarioRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.cafeteria.MenuVersiones.clases.Usuario;
+import com.cafeteria.MenuVersiones.repositorios.UsuarioRepository;
 
 @Service
 public class UsuarioService {
@@ -92,4 +93,14 @@ public class UsuarioService {
     public Optional<Usuario> buscarPorUsername(String username) {
         return usuarioRepository.findByUsername(username);
     }
+    
+    public Usuario cambiarPassword(Long id, String nuevaPass) {
+    Usuario usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No encontrado"));
+
+    usuario.setPassword(nuevaPass);
+    return usuarioRepository.save(usuario);
+}
+
+    
 }

@@ -1,38 +1,98 @@
-// Obtener todos los botones
-const botones = document.querySelectorAll(".btn-accion");
+document.addEventListener("DOMContentLoaded", () => {
 
-// Modales individuales
-const modalPassword = document.getElementById("modalPassword");
-const modalEditar = document.getElementById("modalEditar");
-const modalActividad = document.getElementById("modalActividad");
+    // =============================
+    // 1. Cargar datos del usuario
+    // =============================
+    fetch("/api/usuarios/mi-perfil")
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                alert("No hay usuario en sesión");
+                return;
+            }
 
-// Asignar funcionalidad a cada botón según su orden
-botones[0].addEventListener("click", () => {
-    modalPassword.style.display = "flex";
-});
+            const u = data.usuario;
 
-botones[1].addEventListener("click", () => {
-    modalEditar.style.display = "flex";
-});
+            // Guardamos ID oculto
+            document.getElementById("perfil-id").value = u.id;
 
-botones[2].addEventListener("click", () => {
-    modalActividad.style.display = "flex";
-});
+            // Insertamos los valores
+            document.getElementById("perfil-nombre").textContent = u.nombre;
+            document.getElementById("perfil-apellido").textContent = u.apellido;
+            document.getElementById("perfil-username").textContent = u.username;
+            document.getElementById("perfil-email").textContent = u.email;
+            document.getElementById("perfil-rol").textContent = u.rol;
+            document.getElementById("perfil-estado").textContent = u.estado;
 
-// Cerrar modales con cualquier botón .btn-cancelar
-const botonesCancelar = document.querySelectorAll(".btn-cancelar");
+            document.getElementById("sidebar-username").textContent = u.nombre;
+            document.getElementById("perfil-nombre-completo").textContent = `${u.nombre} ${u.apellido}`;
+        });
 
-botonesCancelar.forEach(btn => {
-    btn.addEventListener("click", () => {
-        modalPassword.style.display = "none";
-        modalEditar.style.display = "none";
-        modalActividad.style.display = "none";
+    // =============================
+    // 2. Abrir y cerrar modales
+    // =============================
+    document.querySelectorAll(".btn-accion").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-target");
+            document.getElementById(id).style.display = "flex";
+        });
     });
-});
 
-// Cerrar al hacer clic fuera del contenido
-window.addEventListener("click", (e) => {
-    if (e.target === modalPassword) modalPassword.style.display = "none";
-    if (e.target === modalEditar) modalEditar.style.display = "none";
-    if (e.target === modalActividad) modalActividad.style.display = "none";
+    document.querySelectorAll(".btn-cancelar").forEach(b => {
+        b.addEventListener("click", () => {
+            b.closest(".modal").style.display = "none";
+        });
+    });
+
+    // =============================
+    // 3. Cambiar contraseña
+    // =============================
+    document.getElementById("form-password").addEventListener("submit", e => {
+        e.preventDefault();
+
+        const id = document.getElementById("perfil-id").value;
+        const nuevaPass = document.getElementById("pass-nueva").value;
+        const confirmar = document.getElementById("pass-confirmar").value;
+
+        if (nuevaPass !== confirmar) {
+            alert("Las contraseñas no coinciden");
+            return;
+        }
+
+        fetch(`/api/usuarios/${id}/password?nuevaPassword=${nuevaPass}`, {
+            method: "PATCH"
+        })
+        .then(r => r.json())
+        .then(() => {
+            alert("Contraseña cambiada con éxito");
+            document.getElementById("modalPassword").style.display = "none";
+        });
+    });
+
+    // =============================
+    // 4. Editar información
+    // =============================
+    document.getElementById("form-editar").addEventListener("submit", e => {
+        e.preventDefault();
+
+        const id = document.getElementById("perfil-id").value;
+
+       const payload = {
+    nombre: document.getElementById("edit-nombre").value,
+    apellido: document.getElementById("edit-apellido").value,
+    email: document.getElementById("edit-email").value
+}
+
+        fetch(`/api/usuarios/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(r => r.json())
+        .then(() => {
+            alert("Datos actualizados correctamente");
+            location.reload(); // refresca la vista
+        });
+    });
+
 });

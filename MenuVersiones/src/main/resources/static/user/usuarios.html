@@ -18,7 +18,7 @@
 
         <div class="user-info">
             <div class="user-avatar">👤</div>
-            <p class="user-name">Empleado</p>
+            <p class="user-name" id="sidebar-username">Empleado</p>
         </div>
 
         <nav class="menu">
@@ -36,47 +36,51 @@
         <p class="subtitle">Información personal del usuario</p>
 
         <div class="profile-box">
-    <div class="profile-left">
-        <img class="profile-img" src="/static/img/user.png" alt="Foto de Perfil">
-    </div>
 
-    <div class="profile-right">
-        <h2 class="display-name">Tiofanes Flores</h2>
-
-        <div class="info-grid">
-            <div class="info-item">
-                <span class="label">Nombre:</span>
-                <span class="value">Tiofanes</span>
+            <div class="profile-left">
+                <img class="profile-img" src="/static/img/user.png" alt="Foto de Perfil">
             </div>
 
-            <div class="info-item">
-                <span class="label">Apellido:</span>
-                <span class="value">Flores</span>
-            </div>
+            <div class="profile-right">
+                <h2 class="display-name" id="perfil-nombre-completo">Nombre Apellido</h2>
 
-            <div class="info-item">
-                <span class="label">Usuario:</span>
-                <span class="value">Tiofanes</span>
-            </div>
+                <!-- Campo oculto donde guardaremos el ID -->
+                <input type="hidden" id="perfil-id">
 
-            <div class="info-item">
-                <span class="label">Correo:</span>
-                <span class="value">nuevoperu2022@gmail.com</span>
-            </div>
+                <div class="info-grid">
 
-            <div class="info-item">
-                <span class="label">Rol:</span>
-                <span class="value">Empleado</span>
-            </div>
+                    <div class="info-item">
+                        <span class="label">Nombre:</span>
+                        <span class="value" id="perfil-nombre">---</span>
+                    </div>
 
-            <div class="info-item">
-                <span class="label">Estado:</span>
-                <span class="value estado-activo">Activo</span>
+                    <div class="info-item">
+                        <span class="label">Apellido:</span>
+                        <span class="value" id="perfil-apellido">---</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Usuario:</span>
+                        <span class="value" id="perfil-username">---</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Correo:</span>
+                        <span class="value" id="perfil-email">---</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Rol:</span>
+                        <span class="value" id="perfil-rol">---</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Estado:</span>
+                        <span class="value estado-activo" id="perfil-estado">---</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
 
         <section class="acciones-perfil">
             <h2>Opciones de cuenta</h2>
@@ -107,15 +111,15 @@
         <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="mp-title">
             <h2 id="mp-title">Cambiar contraseña</h2>
 
-            <form>
+            <form id="form-password">
                 <label>Contraseña actual</label>
-                <input type="password" placeholder="Ingrese contraseña actual" autocomplete="current-password">
+                <input type="password" id="pass-actual" placeholder="Ingrese contraseña actual" autocomplete="current-password">
 
                 <label>Nueva contraseña</label>
-                <input type="password" placeholder="Ingrese nueva contraseña" autocomplete="new-password">
+                <input type="password" id="pass-nueva" placeholder="Ingrese nueva contraseña" autocomplete="new-password">
 
                 <label>Confirmar nueva contraseña</label>
-                <input type="password" placeholder="Repita la nueva contraseña" autocomplete="new-password">
+                <input type="password" id="pass-confirmar" placeholder="Repita la nueva contraseña" autocomplete="new-password">
 
                 <div class="modal-actions">
                     <button type="button" class="btn-cancelar">Cancelar</button>
@@ -130,15 +134,15 @@
         <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="me-title">
             <h2 id="me-title">Editar información</h2>
 
-            <form>
+            <form id="form-editar">
                 <label>Nombre</label>
-                <input type="text" id="edit-nombre" placeholder="Nuevo nombre" value="Tiofanes">
+                <input type="text" id="edit-nombre" placeholder="Nuevo nombre">
 
                 <label>Apellido</label>
-                <input type="text" id="edit-apellido" placeholder="Nuevo apellido" value="Flores">
+                <input type="text" id="edit-apellido" placeholder="Nuevo apellido">
 
                 <label>Correo</label>
-                <input type="email" id="edit-email" placeholder="Nuevo correo" value="nuevoperu2022@gmail.com">
+                <input type="email" id="edit-email" placeholder="Nuevo correo">
 
                 <div class="modal-actions">
                     <button type="button" class="btn-cancelar">Cancelar</button>
@@ -169,6 +173,6 @@
 
 </div>
 
-<script src="JS/usuarios.js"></script>
+<script src="js/usuarios.js"></script>
 </body>
 </html>

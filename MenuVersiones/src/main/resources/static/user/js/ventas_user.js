@@ -1,7 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
     obtenerUsuarioLogueado();
-    cargarProductos();
+    // cargar productos y luego, si viene menuId en la URL, seleccionarlo
+    await cargarProductos();
+    seleccionarPorQuery();
     cargarVentas();
 
     const cantidadInput = document.getElementById("cantidad");
@@ -41,24 +43,51 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===========================================
     // 🔥 CARGAR PRODUCTOS
     // ===========================================
-    function cargarProductos() {
-        fetch("/api/menus")
-            .then(res => res.json())
-            .then(data => {
-                const select = document.getElementById("productoSelect");
-                select.innerHTML = "";
+    async function cargarProductos() {
+        try {
+            const res = await fetch("/api/menus");
+            const data = await res.json();
+            const select = document.getElementById("productoSelect");
+            select.innerHTML = "";
 
-                data.forEach(menu => {
-                    const option = document.createElement("option");
-                    option.value = menu.id;
-                    option.textContent = menu.nombre;
-                    option.dataset.precio = menu.precio;
-                    select.appendChild(option);
-                });
+            data.forEach(menu => {
+                const option = document.createElement("option");
+                option.value = menu.id;
+                option.textContent = menu.nombre;
+                option.dataset.precio = menu.precio;
+                select.appendChild(option);
+            });
 
-                actualizarPrecio();
-            })
-            .catch(err => console.error("Error cargando productos:", err));
+            actualizarPrecio();
+            return data;
+        } catch (err) {
+            console.error("Error cargando productos:", err);
+            return [];
+        }
+    }
+
+    // Si la URL contiene ?menuId=NN, selecciona ese producto en el select
+    function seleccionarPorQuery() {
+        const params = new URLSearchParams(window.location.search);
+        const menuId = params.get('menuId');
+        const menuName = params.get('menuName');
+        if (!menuId) return;
+
+        const productoSelect = document.getElementById("productoSelect");
+        // Buscar opción por value
+        const decodedName = menuName ? decodeURIComponent(menuName) : null;
+        const opt = Array.from(productoSelect.options).find(o => o.value === menuId || (decodedName && o.text === decodedName));
+        if (opt) {
+            productoSelect.value = opt.value;
+            actualizarPrecio();
+
+            // Mostrar aviso de precarga
+            const notice = document.getElementById('preloadNotice');
+            if (notice) {
+                notice.innerText = `Producto precargado: ${opt.text}`;
+                notice.style.display = 'block';
+            }
+        }
     }
 
     // ===========================================

@@ -219,3 +219,28 @@ th {
 .table tr:hover {
     background: #f5f5f5;
 }
+
+/* Botón vender en tablas */
+.btn-vender {
+    display: inline-block;
+    padding: 6px 10px;
+    background: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.btn-vender:hover {
+    background: #0069d9;
+}
+
+/* Aviso de precarga en formulario de ventas */
+.preload-notice {
+    background: #fff8e1;
+    border-left: 4px solid #ffb74d;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    color: #5a4a00;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}

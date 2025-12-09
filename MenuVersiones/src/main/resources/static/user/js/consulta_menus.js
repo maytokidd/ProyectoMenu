@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const res = await fetch("http://localhost:8080/api/menus");
+    const res = await fetch("/api/menus");
     const menus = await res.json();
 
     const tabla = document.getElementById("tablaMenus");
@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td>${m.categoria}</td>
                     <td>S/ ${m.precio.toFixed(2)}</td>
                     <td>${m.disponible ? "Disponible" : "No Disponible"}</td>
+                    <td>
+                        <a class="btn-vender" href="/user/ventas_user.html?menuId=${m.id}&menuName=${encodeURIComponent(m.nombre)}">Vender</a>
+                    </td>
                 </tr>
             `;
         });
