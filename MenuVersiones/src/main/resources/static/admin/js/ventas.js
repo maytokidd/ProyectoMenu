@@ -90,13 +90,20 @@ document.addEventListener("DOMContentLoaded", () => {
         lista.forEach(v => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                <td>${v.id}</td>
-                <td>${formatearFecha(v.fechaVenta)}</td>
-                <td>${v.empleado || "-"}</td>
-                <td>${v.menuNombre || "-"}</td>
-                <td>${v.cantidad || 0}</td>
-                <td>S/ ${Number(v.total || 0).toFixed(2)}</td>
-            `;
+    <td>${v.id}</td>
+    <td>${formatearFecha(v.fechaVenta)}</td>
+    
+    <td><strong>${v.empleado || "Desconocido"}</strong></td>
+
+    <td>
+        ${v.nombreCliente || '<span class="muted">Público</span>'}
+        ${v.codigoCliente ? `<br><small style="color:#666; font-size:0.85em;">(${v.codigoCliente})</small>` : ''}
+    </td>
+
+    <td>${v.menuNombre || "-"}</td>
+    <td style="text-align:center;">${v.cantidad || 0}</td>
+    <td style="text-align:right;">S/ ${Number(v.total || 0).toFixed(2)}</td>
+    `;
             tbody.appendChild(tr);
         });
     };

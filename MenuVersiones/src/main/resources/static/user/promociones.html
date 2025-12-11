@@ -33,18 +33,15 @@
     </aside>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <main class="content">
+<main class="content">
+    <h1>🎁 Promociones Vigentes</h1>
+    <p class="subtitle">Ofertas especiales disponibles para venta hoy</p>
 
-        <h1>Promociones Activas</h1>
-        <p class="subtitle">Ofertas vigentes y próximas a iniciar</p>
+    <div id="loader" style="display:none; text-align:center; padding:20px;">Cargando ofertas...</div>
 
-        <!-- LISTA DE PROMOS -->
-        <div class="promo-list" id="promoList"></div>
-
-        <!-- PAGINACIÓN -->
-        <div id="paginacionPromos" class="pagination-container"></div>
-
-    </main>
+    <div id="promoList" class="promo-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top:20px;">
+        </div>
+</main>
 
 </div>
 

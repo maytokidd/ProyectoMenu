@@ -9,6 +9,8 @@ public class VentaDTO {
     private int cantidad;
     private double precioUnitario;
     private double total;
+    private String codigoCliente;
+    private String nombreCliente;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -30,4 +32,10 @@ public class VentaDTO {
 
     public double getTotal() { return total; }
     public void setTotal(double total) { this.total = total; }
+
+    public String getCodigoCliente() { return codigoCliente; }
+    public void setCodigoCliente(String codigoCliente) { this.codigoCliente = codigoCliente; }
+
+    public String getNombreCliente() { return nombreCliente; }
+    public void setNombreCliente(String nombreCliente) { this.nombreCliente = nombreCliente; }
 }

@@ -1,15 +1,20 @@
 package com.cafeteria.MenuVersiones.controladores;
 
-import com.cafeteria.MenuVersiones.clases.Usuario;
-import com.cafeteria.MenuVersiones.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpSession;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cafeteria.MenuVersiones.clases.Usuario;
+import com.cafeteria.MenuVersiones.service.UsuarioService;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class LoginController {
