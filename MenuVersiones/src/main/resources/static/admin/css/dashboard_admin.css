@@ -284,3 +284,92 @@ td {
 .promo-card-dashboard:hover {
     transform: translateY(-3px);
 }
+
+/* ============================
+   TARJETA COMPLETA DE PROMOCIONES ACTIVAS (IGUAL QUE EN GESTIÓN)
+   ============================ */
+
+.promo-card {
+    background: #ffffff;
+    padding: 18px 20px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 6px solid #ff5252;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+}
+
+.promo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+.promo-info {
+    width: 70%;
+}
+
+.promo-info h4 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.promo-info p {
+    margin: 2px 0 6px;
+    font-size: 14px;
+    color: #555;
+}
+
+.promo-items {
+    font-size: 13px;
+    color: #444;
+}
+
+.promo-prices {
+    display: flex;
+    gap: 12px;
+    margin: 5px 0 6px;
+    font-size: 14px;
+}
+
+.promo-prices .before {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.promo-prices .after {
+    font-weight: 700;
+    color: #27ae60;
+}
+
+.promo-extra {
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+    color: #666;
+}
+
+.promo-date,
+.promo-stock {
+    background: #f4f5f7;
+    padding: 3px 8px;
+    border-radius: 10px;
+}
+
+.promo-side {
+    text-align: center;
+    min-width: 80px;
+}
+
+.promo-side .discount {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ff5252;
+}
+
+.promo-side small {
+    font-size: 12px;
+    color: #666;
+}

@@ -41,21 +41,32 @@ public class PromocionController {
     }
 
     // ===========================================
-    // 🔥 GUARDAR PROMOCIÓN CON VALIDACIÓN DE STOCK
+    // GUARDAR PROMOCIÓN (OPCIÓN B: precioOferta = precio final)
     // ===========================================
     @PostMapping
     public Promocion crear(@RequestBody Promocion p) {
 
         // 1️⃣ Calcular stock máximo permitido
         Integer stockPermitido = calcularStockCombo(p);
+        Integer stockMaximo = p.getStockMaximo() != null ? p.getStockMaximo() : 0;
 
-        if (p.getStockMaximo() > stockPermitido) {
+        if (stockPermitido != null && stockPermitido > 0 && stockMaximo > stockPermitido) {
             throw new RuntimeException("Stock inválido. El máximo permitido es: " + stockPermitido);
         }
 
-        // 2️⃣ Calcular precio real total según los ítems
+        // 2️⃣ Calcular precio real total según los ítems del combo
         Double total = calcularPrecioCombo(p);
         p.setPrecioRealTotal(total);
+
+        // 3️⃣ Asegurar precioOferta como precio final
+        Integer descuento = p.getDescuento();
+        if (descuento != null && total != null) {
+            double precioFinal = total * (1 - (descuento / 100.0));
+            p.setPrecioOferta(redondear2Dec(precioFinal));
+        } else if (p.getPrecioOferta() == null && total != null) {
+            // si no viene descuento, pero sí total, usar total
+            p.setPrecioOferta(redondear2Dec(total));
+        }
 
         return promocionService.guardar(p);
     }
@@ -66,12 +77,22 @@ public class PromocionController {
         p.setId(id);
 
         Integer stockPermitido = calcularStockCombo(p);
+        Integer stockMaximo = p.getStockMaximo() != null ? p.getStockMaximo() : 0;
 
-        if (p.getStockMaximo() > stockPermitido) {
+        if (stockPermitido != null && stockPermitido > 0 && stockMaximo > stockPermitido) {
             throw new RuntimeException("Stock inválido. El máximo permitido es: " + stockPermitido);
         }
 
-        p.setPrecioRealTotal(calcularPrecioCombo(p));
+        Double total = calcularPrecioCombo(p);
+        p.setPrecioRealTotal(total);
+
+        Integer descuento = p.getDescuento();
+        if (descuento != null && total != null) {
+            double precioFinal = total * (1 - (descuento / 100.0));
+            p.setPrecioOferta(redondear2Dec(precioFinal));
+        } else if (p.getPrecioOferta() == null && total != null) {
+            p.setPrecioOferta(redondear2Dec(total));
+        }
 
         return promocionService.guardar(p);
     }
@@ -82,7 +103,7 @@ public class PromocionController {
     }
 
     // ===========================================
-    // 🔥 FUNCIONES AUXILIARES
+    // FUNCIONES AUXILIARES
     // ===========================================
 
     private Integer calcularStockCombo(Promocion p) {
@@ -90,16 +111,24 @@ public class PromocionController {
         List<Integer> stocks = new ArrayList<>();
 
         if (p.getPlatoFondoId() != null) {
-            stocks.add(menuRepository.findById(p.getPlatoFondoId()).get().getStock());
+            menuRepository.findById(p.getPlatoFondoId())
+                    .map(Menu::getStock)
+                    .ifPresent(stocks::add);
         }
         if (p.getEntradaId() != null) {
-            stocks.add(menuRepository.findById(p.getEntradaId()).get().getStock());
+            menuRepository.findById(p.getEntradaId())
+                    .map(Menu::getStock)
+                    .ifPresent(stocks::add);
         }
         if (p.getPostreId() != null) {
-            stocks.add(menuRepository.findById(p.getPostreId()).get().getStock());
+            menuRepository.findById(p.getPostreId())
+                    .map(Menu::getStock)
+                    .ifPresent(stocks::add);
         }
         if (p.getBebidaId() != null) {
-            stocks.add(menuRepository.findById(p.getBebidaId()).get().getStock());
+            menuRepository.findById(p.getBebidaId())
+                    .map(Menu::getStock)
+                    .ifPresent(stocks::add);
         }
 
         if (stocks.isEmpty()) return 0;
@@ -110,18 +139,34 @@ public class PromocionController {
     private Double calcularPrecioCombo(Promocion p) {
         double total = 0;
 
-        if (p.getPlatoFondoId() != null)
-            total += menuRepository.findById(p.getPlatoFondoId()).get().getPrecio();
+        if (p.getPlatoFondoId() != null) {
+            total += menuRepository.findById(p.getPlatoFondoId())
+                    .map(Menu::getPrecio)
+                    .orElse(0.0);
+        }
 
-        if (p.getEntradaId() != null)
-            total += menuRepository.findById(p.getEntradaId()).get().getPrecio();
+        if (p.getEntradaId() != null) {
+            total += menuRepository.findById(p.getEntradaId())
+                    .map(Menu::getPrecio)
+                    .orElse(0.0);
+        }
 
-        if (p.getPostreId() != null)
-            total += menuRepository.findById(p.getPostreId()).get().getPrecio();
+        if (p.getPostreId() != null) {
+            total += menuRepository.findById(p.getPostreId())
+                    .map(Menu::getPrecio)
+                    .orElse(0.0);
+        }
 
-        if (p.getBebidaId() != null)
-            total += menuRepository.findById(p.getBebidaId()).get().getPrecio();
+        if (p.getBebidaId() != null) {
+            total += menuRepository.findById(p.getBebidaId())
+                    .map(Menu::getPrecio)
+                    .orElse(0.0);
+        }
 
         return total;
+    }
+
+    private double redondear2Dec(double valor) {
+        return Math.round(valor * 100.0) / 100.0;
     }
 }

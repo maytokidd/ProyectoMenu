@@ -432,7 +432,11 @@ const aplicarFiltros = () => {
   );
 
   const filas = menus.map((m) => [
-    m.nombre,
+    (m.nombre || "")
+   .replace(/[\u{1F300}-\u{1FAFF}]/gu, "")
+   .replace(/\s\s+/g, " ")
+   .trim(),
+
     (m.categoria || "").replace(/[\u{1F300}-\u{1FAFF}]/gu, "").trim(),
     "S/ " + Number(m.precio).toFixed(2),
     m.disponible ? "Disponible" : "No disponible",
@@ -474,49 +478,62 @@ const aplicarFiltros = () => {
     });
     modal.style.display = "none";
   });
-  const promoDashboardContainer = document.getElementById("promoDashboardContainer");
+
+const promoDashboardContainer = document.getElementById("promoDashboardContainer");
 
 const cargarPromosParaDashboard = async () => {
-  try {
-    const resp = await fetch("/api/promociones/activas");
-    if (!resp.ok) throw new Error("Error obteniendo promociones");
+    try {
+        const resp = await fetch("/api/promociones/activas");
+        if (!resp.ok) throw new Error("Error obteniendo promociones");
 
-    const promos = await resp.json();
-    promoDashboardContainer.innerHTML = "";
+        const promos = await resp.json();
+        promoDashboardContainer.innerHTML = "";
 
-    if (promos.length === 0) {
-      promoDashboardContainer.innerHTML = "<p>No hay promociones activas actualmente.</p>";
-      return;
+        if (promos.length === 0) {
+            promoDashboardContainer.innerHTML = "<p>No hay promociones activas actualmente.</p>";
+            return;
+        }
+
+        promos.forEach(p => {
+            const card = document.createElement("div");
+            card.className = "promo-card";
+
+            card.innerHTML = `
+                <div class="promo-info">
+                    <h4>${p.titulo}</h4>
+                    <p>${p.descripcion}</p>
+
+                    <div class="promo-items">
+                        <strong>Items:</strong>
+                        ${p.itemsTexto ?? ""}
+                    </div>
+
+                    <div class="promo-prices">
+                        <span class="before">S/. ${p.precioRealTotal.toFixed(2)}</span>
+                        <span class="after">S/. ${p.precioOferta.toFixed(2)}</span>
+                    </div>
+
+                    <div class="promo-extra">
+                        <span class="promo-date">Vigencia: ${p.fechaInicio.substring(0,10)} → ${p.fechaFin.substring(0,10)}</span>
+                        <span class="promo-stock">Stock: ${p.stockMaximo}</span>
+                    </div>
+                </div>
+
+                <div class="promo-side">
+                    <div class="discount">${p.descuento}%</div>
+                    <small>Descuento</small>
+                </div>
+            `;
+
+            promoDashboardContainer.appendChild(card);
+        });
+
+    } catch (err) {
+        console.error(err);
     }
-
-    promos.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "promo-card-dashboard";
-
-      card.style.cssText = `
-        background: white;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        border-left: 5px solid #ff7b00;
-      `;
-
-      card.innerHTML = `
-        <h4 style="margin:0; font-weight:600;">${p.titulo}</h4>
-        <p style="margin:5px 0; color:#555;">${p.descripcion}</p>
-        <small style="color:#777;">Hasta: ${p.fechaFin.substring(0,10)}</small>
-        <div style="margin-top:8px; font-weight:bold; color:#e63946;">
-          ${p.precioOferta}% OFF
-        </div>
-      `;
-
-      promoDashboardContainer.appendChild(card);
-    });
-
-  } catch (err) {
-    console.error(err);
-  }
 };
+
+
 
 
   cargarMenus();

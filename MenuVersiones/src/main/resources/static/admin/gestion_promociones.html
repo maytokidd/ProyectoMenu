@@ -68,7 +68,6 @@
                               <th>Precio (antes → oferta)</th>
                               <th>Vigencia</th>
                               <th>Estado</th>
-                              <th>Responsable</th>
                               <th>Items</th>
                               <th>Stock</th>
                               <th style="text-align:right">Acciones</th>
@@ -91,8 +90,13 @@
                   <h3 class="card-title">Estadísticas</h3>
                   <div class="stat-row"><span>Total Promociones</span><strong id="totalPromos">0</strong></div>
                   <div class="stat-row"><span>Activas</span><strong id="activePromos">0</strong></div>
+                  <div class="stat-row"><span>Programadas</span><strong id="scheduledPromos">0</strong></div>
+                  <div class="stat-row"><span>Expiradas</span><strong id="expiredPromos">0</strong></div>
                   <div class="stat-row"><span>Descuento Promedio</span><strong id="avgDiscount">0%</strong></div>
+                  <div class="stat-row"><span>Precio Promedio Real</span><strong id="avgReal">S/0</strong></div>
                   <div class="stat-row"><span>Precio Promedio Oferta</span><strong id="avgOferta">S/0</strong></div>
+                  <div class="stat-row"><span>Ahorro Promedio</span><strong id="avgSaving">S/0</strong></div>
+                  <div class="stat-row"><span>Stock Total Promos</span><strong id="totalStockPromos">0</strong></div>
               </div>
 
           </aside>
@@ -118,9 +122,7 @@
         <label>Descripción *</label>
         <textarea id="descripcion" rows="2" required></textarea>
 
-        
-
-        <!-- NUEVOS SELECTS DE COMBO -->
+        <!-- SELECTS DEL COMBO -->
         <label>Plato de fondo</label>
         <select id="selectPlatoFondo"></select>
 
@@ -160,18 +162,28 @@
             <input id="fechaFin" type="date" required>
           </div>
         </div>
-      <label>Stock disponible para la promoción *</label>
-<input id="stockMaximo" type="number" min="1" placeholder="Ej: 5" required>
-<!-- NUEVO MENSAJE DE ERROR VISUAL -->
-<p id="stockError" style="color:#c0392b; font-size:14px; display:none; margin-top:4px;">
-</p>
-     
 
-        <!-- RESUMEN -->
-        <div class="resumen-box">
-          <div><strong>Precio real total:</strong> <span id="precioRealText">S/. 0.00</span></div>
-          <div><strong>Precio final:</strong> <span id="precioFinalText">S/. 0.00</span></div>
-          <div><strong>Stock combo:</strong> <span id="stockComboText">N/A</span></div>
+        <label>Stock disponible para la promoción *</label>
+        <input id="stockMaximo" type="number" min="1" placeholder="Ej: 5" required>
+        <small id="stockHint" style="display:block;font-size:13px;color:#555;margin-top:2px;">
+          El máximo se calcula según el stock de los productos seleccionados.
+        </small>
+
+        <!-- MENSAJE DE ERROR DE STOCK -->
+        <p id="stockError" style="color:#c0392b; font-size:14px; display:none; margin-top:4px;"></p>
+
+        <!-- VISTA PREVIA / RESUMEN -->
+        <div class="preview-box">
+          <h4>Vista previa de la promoción</h4>
+          <p class="preview-line"><strong>Combo:</strong> <span id="previewItems">Sin seleccionar</span></p>
+          <p class="preview-line"><strong>Vigencia:</strong> <span id="previewVigencia">-</span></p>
+
+          <div class="resumen-box">
+            <div><strong>Precio real total:</strong> <span id="precioRealText">S/. 0.00</span></div>
+            <div><strong>Precio final:</strong> <span id="precioFinalText">S/. 0.00</span></div>
+            <div><strong>Descuento aplicado:</strong> <span id="descuentoText">0%</span></div>
+            <div><strong>Stock combo máximo:</strong> <span id="stockComboText">N/A</span></div>
+          </div>
         </div>
 
         <div class="modal-actions">
