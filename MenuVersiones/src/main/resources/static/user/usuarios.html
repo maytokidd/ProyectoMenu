@@ -38,7 +38,7 @@
         <div class="profile-box">
 
             <div class="profile-left">
-                <img class="profile-img" src="/static/img/user.png" alt="Foto de Perfil">
+                <img class="profile-img" src="https://cdn-icons-png.flaticon.com/512/3849/3849119.png" alt="Foto de Perfil">
             </div>
 
             <div class="profile-right">
@@ -82,27 +82,51 @@
             </div>
         </div>
 
-        <section class="acciones-perfil">
-            <h2>Opciones de cuenta</h2>
+       <section class="acciones-perfil">
+    <h2>Opciones de cuenta</h2>
 
-            <div class="card-opcion">
-                <h3>Cambiar contraseña</h3>
-                <p>Actualiza tu contraseña para mantener tu cuenta segura.</p>
-                <button class="btn-accion" data-target="modalPassword">Cambiar contraseña</button>
-            </div>
+    <div class="opciones-grid">
+        <div class="card-opcion">
+            <h3>Cambiar contraseña</h3>
+            <p>Actualiza tu contraseña para mantener tu cuenta segura.</p>
+            <button class="btn-accion" data-target="modalPassword">Cambiar contraseña</button>
+        </div>
 
-            <div class="card-opcion">
-                <h3>Editar información</h3>
-                <p>Modifica tus datos personales como nombre, apellido o correo.</p>
-                <button class="btn-accion" data-target="modalEditar">Editar datos</button>
-            </div>
+        <div class="card-opcion">
+            <h3>Editar información</h3>
+            <p>Modifica tus datos personales como nombre, apellido o correo.</p>
+            <button class="btn-accion" data-target="modalEditar">Editar datos</button>
+        </div>
 
-            <div class="card-opcion">
-                <h3>Ver actividad</h3>
-                <p>Consulta registros recientes relacionados con tu cuenta.</p>
-                <button class="btn-accion" data-target="modalActividad">Ver actividad</button>
-            </div>
-        </section>
+        <div class="card-opcion">
+            <h3>Ver actividad</h3>
+            <p>Consulta registros recientes relacionados con tu cuenta.</p>
+            <button class="btn-accion" data-target="modalActividad">Ver actividad</button>
+        </div>
+
+ <!-- Sesiones activas -->
+        <div class="card-opcion">
+            <h3>Sesiones activas</h3>
+            <p>Revisa y cierra sesiones iniciadas en otros dispositivos.</p>
+            <button class="btn-accion" data-target="modalSesiones">Ver sesiones</button>
+        </div>
+
+        <!-- Privacidad -->
+        <div class="card-opcion">
+            <h3>Privacidad</h3>
+            <p>Controla la visibilidad de tu información dentro del sistema.</p>
+            <button class="btn-accion" data-target="modalPrivacidad">Configurar privacidad</button>
+        </div>
+
+        <!-- Eliminar cuenta -->
+        <div class="card-opcion">
+            <h3>Eliminar cuenta</h3>
+            <p>Solicita la desactivación o eliminación de tu cuenta.</p>
+            <button class="btn-accion btn-danger" data-target="modalEliminarCuenta">Eliminar cuenta</button>
+        </div>
+
+    </div>
+</section>
 
     </main>
 

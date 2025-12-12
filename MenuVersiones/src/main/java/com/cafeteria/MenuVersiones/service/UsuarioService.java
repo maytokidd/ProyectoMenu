@@ -98,9 +98,12 @@ public class UsuarioService {
     Usuario usuario = usuarioRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No encontrado"));
 
-    usuario.setPassword(nuevaPass);
+    String encrypted = passwordEncoder.encode(nuevaPass); // ✔ encriptar
+    usuario.setPassword(encrypted);
+
     return usuarioRepository.save(usuario);
 }
+
 
     
 }
