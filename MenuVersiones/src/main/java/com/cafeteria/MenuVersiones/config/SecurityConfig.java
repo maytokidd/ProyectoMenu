@@ -16,12 +16,25 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Configuración de seguridad básica (desarrollo)
+    // Configuración de seguridad
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
-            .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF temporalmente
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()); // Permitir todas las solicitudes
+            // 🔓 CSRF deshabilitado (como ya lo tenías)
+            .csrf(csrf -> csrf.disable())
+
+            // 🔓 Permitir todas las rutas (tu sistema usa filtros propios)
+            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+
+            // ✅ CONFIGURACIÓN CORRECTA DE LOGOUT
+            .logout(logout -> logout
+                .logoutUrl("/logout")           // URL del botón "Cerrar Sesión"
+                .logoutSuccessUrl("/login.html")          // 🔁 REDIRECCIÓN CORRECTA (login)
+                .invalidateHttpSession(true)    // ❌ Elimina sesión
+                .clearAuthentication(true)      // ❌ Limpia autenticación
+                .deleteCookies("JSESSIONID")    // ❌ Borra cookie
+            );
 
         return http.build();
     }
