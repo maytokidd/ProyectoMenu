@@ -49,23 +49,23 @@
         <div id="loader" class="loader" style="display: none;">Cargando datos...</div>
 
         <!-- TABLA -->
-        <div class="table-container">
-            <table class="table-modern">
-                <thead>
-                <tr>
-                    <th>Plato</th>
-                    <th>Categoría</th>
-                    <th>Precio (S/)</th>
-                    <th>Disponibilidad</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody id="tablaMenus">
-                    
-                <!-- Los datos se llenarán desde consulta_menus.js -->
-                </tbody>
-                <div id="paginacion" style="margin-top: 15px; text-align: center;"></div>
-            </table>
+       <div class="table-container">
+    <table class="table-modern" id="tablaMenus">
+        <thead>
+            <tr>
+                <th>Plato</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th style="text-align:right;">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            </tbody>
+    </table>
+    <div id="paginacion" style="margin-top: 15px; text-align: center;"></div>
+</div>
         </div>
 
     </main>

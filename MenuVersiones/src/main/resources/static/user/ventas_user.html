@@ -10,7 +10,6 @@
 
 <div class="layout">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="brand">
             <h2>UTP</h2>
@@ -32,74 +31,86 @@
         <a href="/logout" class="logout">Cerrar Sesión</a>
     </aside>
 
-    <!-- ========================================= -->
-    <!--   👉 Usuario logueado (para registrar venta) -->
-    <!-- ========================================= -->
-    <input type="hidden" id="usuarioLogueado" value="">
+    <main class="content"> <h1 class="title">Registro de Ventas</h1>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="main-content">
-        <h1 class="title">Registro de Ventas</h1>
+        <div id="preloadNotice" class="alert-info" style="display:none;"></div>
 
-        <!-- FORMULARIO DE VENTAS -->
         <section class="card">
-            <form id="ventaForm" class="form">
+            <form id="ventaForm">
+                
+                <input type="hidden" id="usuarioLogueado" value="">
 
-                <label>Producto:</label>
-                <select id="productoSelect" required class="input"></select>
+                <h3 class="subtitle" style="margin-top:0;">👤 Datos del Cliente</h3>
+                <div style="display:grid; grid-template-columns: 1fr 2fr; gap:10px;">
+                    <div>
+                        <label>Código Universitario:</label>
+                        <input type="text" id="codigoCliente" class="input" placeholder="Código UTP/DNI">
 
-                <label>Cantidad:</label>
-                <input type="number" id="cantidad" min="1" value="1" required class="input">
+        
+                    </div>
+                    <div>
+                          <label>Nombre del Cliente:</label>
+                            <input type="text" id="nombreCliente" class="input" placeholder="Nombre completo">                    </div>
+                    </div>
+                
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
 
-                <label>Precio Unitario (S/):</label>
-                <input type="number" id="precio" step="0.01" readonly class="input">
+                <h3 class="subtitle">🛒 Producto a Vender</h3>
+                
+                <label>Tipo de Venta:</label>
+                <select id="tipoVenta" class="input">
+                    <option value="MENU">🍽️ Menú Individual</option>
+                    <option value="PROMOCION">🎁 Promoción / Combo</option>
+                </select>
 
-                <label>Total (S/):</label>
-                <input type="number" id="total" step="0.01" readonly class="input">
+                <label>Seleccionar Ítem:</label>
+                <select id="productoSelect" required class="input">
+                    </select>
+                
+                <div style="margin-bottom:12px; font-size:0.9rem; color:#555;">
+                    Stock Disponible: <strong id="stockDisplay" style="color:#d35400;">Cargando...</strong>
+                </div>
 
-                <button class="btn-primary" type="submit">Registrar Venta</button>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                    <div>
+                        <label>Cantidad:</label>
+                        <input type="number" id="cantidad" min="1" value="1" required class="input">
+                    </div>
+                    <div>
+                        <label>Precio Unit. (S/):</label>
+                        <input type="number" id="precio" step="0.01" readonly class="input" style="background:#f9f9f9;">
+                    </div>
+                </div>
+
+                <label style="margin-top:15px; display:block; font-weight:bold; font-size:1.1rem;">Total a Pagar (S/):</label>
+                <input type="number" id="total" step="0.01" readonly class="input" 
+                       style="background:#e8f5e9; font-weight:bold; font-size:1.2rem; color:#2e7d32;">
+
+                <button class="btn-primary" type="submit" style="margin-top:20px;">✅ Registrar Venta</button>
             </form>
         </section>
 
-        <!-- LISTA DE VENTAS -->
         <section class="card">
-            <h2 class="subtitle">Ventas Realizadas</h2>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Total</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody id="ventasTableBody"></tbody>
-            </table>
+            <h3 class="subtitle">Ventas Realizadas Hoy</h3>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                            <th>Total</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ventasTableBody"></tbody>
+                </table>
+            </div>
         </section>
 
     </main>
 </div>
-
-<script>
-    // =======================================
-    //   IMPORTANTE — EXTRAER USUARIO LOGUEADO
-    // =======================================
-    async function obtenerUsuarioLogueado() {
-        try {
-            const resp = await fetch("/api/usuario/mi-info");
-            if (!resp.ok) return;
-
-            const data = await resp.json();
-            document.getElementById("usuarioLogueado").value = data.username;
-        } catch (e) {
-            console.error("No se pudo obtener el usuario logueado:", e);
-        }
-    }
-
-    obtenerUsuarioLogueado();
-</script>
 
 <script src="js/ventas_user.js"></script>
 

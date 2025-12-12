@@ -1,85 +1,92 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const res = await fetch("/api/menus");
-    const menus = await res.json();
-
-    const tabla = document.getElementById("tablaMenus");
+    const tablaBody = document.querySelector("#tablaMenus tbody");
     const buscar = document.getElementById("buscar");
     const paginacion = document.getElementById("paginacion");
 
-    const filasPorPagina = 5; // ← Cambia este número si quieres más o menos filas
+    let menus = [];
+    let menusFiltrados = [];
     let paginaActual = 1;
-    let menusFiltrados = menus;
+    const filasPorPagina = 9;
 
-    function mostrarTabla() {
+    // 1. Cargar datos
+    try {
+        const res = await fetch("/api/menus");
+        menus = await res.json();
+        menusFiltrados = [...menus];
+        renderTabla();
+    } catch (err) {
+        console.error("Error cargando menús:", err);
+    }
+
+    // 2. Renderizar tabla
+    function renderTabla() {
         const inicio = (paginaActual - 1) * filasPorPagina;
         const fin = inicio + filasPorPagina;
+        const datosPagina = menusFiltrados.slice(inicio, fin);
 
-        tabla.innerHTML = "";
+        tablaBody.innerHTML = "";
 
-        menusFiltrados.slice(inicio, fin).forEach(m => {
-            tabla.innerHTML += `
-                <tr>
-                    <td>${m.nombre}</td>
-                    <td>${m.categoria}</td>
-                    <td>S/ ${m.precio.toFixed(2)}</td>
-                    <td>${m.disponible ? "Disponible" : "No Disponible"}</td>
-                    <td>
-                        <a class="btn-vender" href="/user/ventas_user.html?menuId=${m.id}&menuName=${encodeURIComponent(m.nombre)}">Vender</a>
-                    </td>
-                </tr>
+        datosPagina.forEach(m => {
+            // Badges para el estado (Igual que en admin)
+            const estadoBadge = m.disponible 
+                ? `<span style="background:#d5f5dd; color:#1e7b34; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:12px;">🟢 Disponible</span>` 
+                : `<span style="background:#fdecec; color:#c62828; padding:4px 8px; border-radius:6px; font-weight:bold; font-size:12px;">🔴 Agotado</span>`;
+
+            // Fila
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td style="font-weight:600; color:#2c3e50;">${m.nombre}</td>
+                <td><span style="background:#f0f4f8; color:#555; padding:4px 8px; border-radius:4px; font-size:12px;">${m.categoria || 'General'}</span></td>
+                <td style="font-weight:bold;">S/ ${m.precio.toFixed(2)}</td>
+                <td>${m.stock !== null ? m.stock : '0'}</td>
+                <td>${estadoBadge}</td>
+                <td style="text-align:right;">
+                    ${m.disponible && m.stock > 0 
+                        ? `<a class="btn-vender" href="ventas_user.html?menuId=${m.id}&menuName=${encodeURIComponent(m.nombre)}" 
+                             style="background:#007bff; color:white; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:13px;">🛒 Vender</a>` 
+                        : `<span style="color:#aaa; font-size:13px;">No disponible</span>`
+                    }
+                </td>
             `;
+            tablaBody.appendChild(tr);
         });
 
-        generarPaginacion();
+        renderPaginacion();
     }
 
-    function generarPaginacion() {
+    // 3. Paginación
+    function renderPaginacion() {
+        paginacion.innerHTML = "";
         const totalPaginas = Math.ceil(menusFiltrados.length / filasPorPagina);
 
-        paginacion.innerHTML = "";
+        if (totalPaginas <= 1) return;
 
-        // Botón anterior
-        paginacion.innerHTML += `
-            <button ${paginaActual === 1 ? "disabled" : ""} class="page-btn" data-page="${paginaActual - 1}">
-                «
-            </button>
-        `;
-
-        // Botones de número
         for (let i = 1; i <= totalPaginas; i++) {
-            paginacion.innerHTML += `
-                <button class="page-btn ${i === paginaActual ? "active" : ""}" data-page="${i}">
-                    ${i}
-                </button>
-            `;
+            const btn = document.createElement("button");
+            btn.textContent = i;
+            btn.className = i === paginaActual ? "active" : "";
+            // Estilos inline para simplicidad (puedes moverlos al CSS)
+            btn.style.margin = "0 2px";
+            btn.style.padding = "6px 12px";
+            btn.style.border = "1px solid #ddd";
+            btn.style.background = i === paginaActual ? "#007bff" : "#fff";
+            btn.style.color = i === paginaActual ? "#fff" : "#333";
+            btn.style.borderRadius = "4px";
+            btn.style.cursor = "pointer";
+            
+            btn.onclick = () => {
+                paginaActual = i;
+                renderTabla();
+            };
+            paginacion.appendChild(btn);
         }
-
-        // Botón siguiente
-        paginacion.innerHTML += `
-            <button ${paginaActual === totalPaginas ? "disabled" : ""} class="page-btn" data-page="${paginaActual + 1}">
-                »
-            </button>
-        `;
-
-        document.querySelectorAll(".page-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const page = Number(e.target.getAttribute("data-page"));
-                if (!isNaN(page)) {
-                    paginaActual = page;
-                    mostrarTabla();
-                }
-            });
-        });
     }
 
-    function filtrar() {
-        const texto = buscar.value.toLowerCase();
+    // 4. Filtro
+    buscar.addEventListener("input", (e) => {
+        const texto = e.target.value.toLowerCase();
         menusFiltrados = menus.filter(m => m.nombre.toLowerCase().includes(texto));
         paginaActual = 1;
-        mostrarTabla();
-    }
-
-    buscar.addEventListener("input", filtrar);
-
-    mostrarTabla();
+        renderTabla();
+    });
 });

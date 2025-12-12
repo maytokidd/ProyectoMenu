@@ -1,7 +1,12 @@
 package com.cafeteria.MenuVersiones.clases;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ventas")
@@ -19,6 +24,8 @@ public class Venta {
     private double total;
 
     private String empleado;       // nombre o usuario del empleado
+    private String codigoCliente;
+    private String nombreCliente;
 
     private LocalDateTime fechaVenta = LocalDateTime.now();
 
@@ -47,4 +54,10 @@ public class Venta {
 
     public LocalDateTime getFechaVenta() { return fechaVenta; }
     public void setFechaVenta(LocalDateTime fechaVenta) { this.fechaVenta = fechaVenta; }
+    
+    public String getCodigoCliente() { return codigoCliente; }
+    public void setCodigoCliente(String codigoCliente) { this.codigoCliente = codigoCliente; }
+
+    public String getNombreCliente() { return nombreCliente; }
+    public void setNombreCliente(String nombreCliente) { this.nombreCliente = nombreCliente; }
 }

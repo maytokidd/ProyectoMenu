@@ -1,5 +1,16 @@
 package com.cafeteria.MenuVersiones.controladores;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.cafeteria.MenuVersiones.clases.Usuario;
 import com.cafeteria.MenuVersiones.clases.Venta;
 import com.cafeteria.MenuVersiones.dto.VentaDTO;
@@ -7,12 +18,6 @@ import com.cafeteria.MenuVersiones.repositorios.UsuarioRepository;
 import com.cafeteria.MenuVersiones.repositorios.VentaRepository;
 
 import jakarta.servlet.http.HttpSession;
-
-import org.springframework.web.bind.annotation.*;
-
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/ventas")
@@ -43,14 +48,16 @@ public List<VentaDTO> listarVentas() {
 
         VentaDTO dto = new VentaDTO();
 
-        dto.setId(v.getId());
+       dto.setId(v.getId());
         dto.setMenuNombre(v.getMenuNombre());
         dto.setCantidad(v.getCantidad());
         dto.setPrecioUnitario(v.getPrecioUnitario());
         dto.setTotal(v.getTotal());
-
-        // Fecha formateada
         dto.setFechaVenta(v.getFechaVenta().format(formato));
+        dto.setCodigoCliente(v.getCodigoCliente());
+        dto.setNombreCliente(v.getNombreCliente());
+
+      
 
         // Buscar nombre real del empleado
         Usuario usuario = usuarioRepository
