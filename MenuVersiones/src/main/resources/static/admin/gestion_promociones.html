@@ -107,91 +107,122 @@
 </div>
 
 <!-- MODAL -->
+<!-- ================= MODAL NUEVA PROMOCIÓN ================= -->
 <div id="modalPromocion" class="modal">
-  <div class="modal-content">
-      <button class="cerrar" id="closeModal">&times;</button>
-      <h2 id="modalTitulo">Nueva Promoción</h2>
+  <div class="modal-content modal-xxl">
 
-      <form id="formPromocion">
+    <button class="cerrar" id="closeModal">&times;</button>
+    <h2 id="modalTitulo">Nueva Promoción</h2>
 
-        <input type="hidden" id="promoId">
+    <form id="formPromocion">
 
-        <label>Nombre *</label>
-        <input id="nombre" required>
+      <input type="hidden" id="promoId">
 
-        <label>Descripción *</label>
-        <textarea id="descripcion" rows="2" required></textarea>
+      <div class="modal-grid">
 
-        <!-- SELECTS DEL COMBO -->
-        <label>Plato de fondo</label>
-        <select id="selectPlatoFondo"></select>
+        <!-- ========= COLUMNA IZQUIERDA ========= -->
+        <div class="modal-left">
 
-        <label>Entrada</label>
-        <select id="selectEntrada"></select>
+          <!-- DATOS GENERALES -->
+          <section class="modal-section">
+            <h4>Datos generales</h4>
 
-        <label>Postre</label>
-        <select id="selectPostre"></select>
+            <label>Nombre *</label>
+            <input id="nombre" required>
 
-        <label>Bebida</label>
-        <select id="selectBebida"></select>
+            <label>Descripción *</label>
+            <textarea id="descripcion" rows="2" required></textarea>
+          </section>
 
-        <div class="form-row">
-          <div class="input-group">
-            <label>Descuento (%)</label>
-            <input id="descuento" type="number" min="0" max="100" value="0">
-          </div>
+          <!-- PRODUCTOS -->
+          <section class="modal-section">
+            <h4>Productos del combo</h4>
 
-          <div class="input-group">
-            <label>Estado</label>
-            <select id="estado">
-              <option>Activa</option>
-              <option>Programada</option>
-              <option>Inactiva</option>
-            </select>
-          </div>
+            <label>Plato de fondo</label>
+            <select id="selectPlatoFondo"></select>
+
+            <label>Entrada</label>
+            <select id="selectEntrada"></select>
+
+            <label>Postre</label>
+            <select id="selectPostre"></select>
+
+            <label>Bebida</label>
+            <select id="selectBebida"></select>
+          </section>
+
+          <!-- DESCUENTO / FECHAS / STOCK -->
+          <section class="modal-section">
+            <h4>Descuento y vigencia</h4>
+
+            <div class="form-row">
+              <div>
+                <label>Descuento (%)</label>
+                <input id="descuento" type="number" min="0" max="100" value="0">
+              </div>
+
+              <div>
+                <label>Estado</label>
+                <select id="estado">
+                  <option>Activa</option>
+                  <option>Programada</option>
+                  <option>Inactiva</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div>
+                <label>Fecha Inicio</label>
+                <input id="fechaInicio" type="date" required>
+              </div>
+
+              <div>
+                <label>Fecha Fin</label>
+                <input id="fechaFin" type="date" required>
+              </div>
+            </div>
+
+            <label>Stock disponible *</label>
+            <input id="stockMaximo" type="number" min="1" required>
+
+            <small id="stockHint">
+              El máximo se calcula según el stock de los productos seleccionados.
+            </small>
+
+            <p id="stockError" class="error-text"></p>
+          </section>
+
         </div>
 
-        <div class="form-row">
-          <div class="input-group">
-            <label>Fecha Inicio</label>
-            <input id="fechaInicio" type="date" required>
+        <!-- ========= COLUMNA DERECHA ========= -->
+        <aside class="modal-right">
+
+          <div class="preview-box">
+            <h4>Vista previa</h4>
+
+            <p><strong>Combo:</strong> <span id="previewItems">Sin seleccionar</span></p>
+            <p><strong>Vigencia:</strong> <span id="previewVigencia">-</span></p>
+
+            <div class="preview-divider"></div>
+
+            <p><strong>Precio real:</strong> <span id="precioRealText">S/. 0.00</span></p>
+            <p><strong>Precio final:</strong> <span id="precioFinalText">S/. 0.00</span></p>
+            <p><strong>Descuento:</strong> <span id="descuentoText">0%</span></p>
+            <p><strong>Stock máximo:</strong> <span id="stockComboText">N/A</span></p>
           </div>
 
-          <div class="input-group">
-            <label>Fecha Fin</label>
-            <input id="fechaFin" type="date" required>
-          </div>
-        </div>
+        </aside>
 
-        <label>Stock disponible para la promoción *</label>
-        <input id="stockMaximo" type="number" min="1" placeholder="Ej: 5" required>
-        <small id="stockHint" style="display:block;font-size:13px;color:#555;margin-top:2px;">
-          El máximo se calcula según el stock de los productos seleccionados.
-        </small>
+      </div>
 
-        <!-- MENSAJE DE ERROR DE STOCK -->
-        <p id="stockError" style="color:#c0392b; font-size:14px; display:none; margin-top:4px;"></p>
+      <!-- ACCIONES -->
+      <div class="modal-actions">
+        <button type="button" id="btnCancel" class="btn secondary">Cancelar</button>
+        <button type="submit" class="btn">Guardar</button>
+      </div>
 
-        <!-- VISTA PREVIA / RESUMEN -->
-        <div class="preview-box">
-          <h4>Vista previa de la promoción</h4>
-          <p class="preview-line"><strong>Combo:</strong> <span id="previewItems">Sin seleccionar</span></p>
-          <p class="preview-line"><strong>Vigencia:</strong> <span id="previewVigencia">-</span></p>
-
-          <div class="resumen-box">
-            <div><strong>Precio real total:</strong> <span id="precioRealText">S/. 0.00</span></div>
-            <div><strong>Precio final:</strong> <span id="precioFinalText">S/. 0.00</span></div>
-            <div><strong>Descuento aplicado:</strong> <span id="descuentoText">0%</span></div>
-            <div><strong>Stock combo máximo:</strong> <span id="stockComboText">N/A</span></div>
-          </div>
-        </div>
-
-        <div class="modal-actions">
-            <button type="button" id="btnCancel" class="btn secondary">Cancelar</button>
-            <button type="submit" class="btn">Guardar</button>
-        </div>
-
-      </form>
+    </form>
   </div>
 </div>
 

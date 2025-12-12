@@ -1,18 +1,21 @@
-/* =========================================
-   VARIABLES UTP DEL DASHBOARD
-========================================= */
+/* =====================================================
+   🎨 VARIABLES GENERALES UTP
+===================================================== */
 :root {
     --bg:#f6f8fb;
     --card:#ffffff;
     --muted:#7b7f86;
     --accent:#b71c24;
     --success:#1fbf73;
-    --radius:12px;
-    --shadow:0 6px 18px rgba(15,23,42,0.06);
+    --radius:16px;
+    --shadow:0 8px 22px rgba(15,23,42,0.08);
     --border:#e8ebf0;
     --text:#0f1724;
 }
 
+/* =====================================================
+   RESET
+===================================================== */
 body {
     margin: 0;
     background: var(--bg);
@@ -20,378 +23,185 @@ body {
     color: var(--text);
 }
 
-/* =========================================
+/* =====================================================
    LAYOUT GENERAL
-========================================= */
+===================================================== */
 .layout {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-/* CONTENIDO PRINCIPAL */
 .content {
     width: 100%;
-    padding: 30px;
-    padding-left: 250px; /* espacio del sidebar */
+    padding: 40px 40px;
+    padding-left: 280px; /* sidebar */
+    box-sizing: border-box;
 }
 
-/* TITULO */
+/* =====================================================
+   HEADER (🔥 ARREGLADO – YA NO PEGADO)
+===================================================== */
+.header-main {
+    margin-bottom: 26px;
+}
+
 .header-main h1 {
     margin: 0;
-    color:#0f3a66;
-    font-size:26px;
-}
-.subtitle { 
-    color: var(--muted); 
-    margin-top: 4px; 
+    font-size: 30px;
+    font-weight: 800;
+    color: #0f3a66;
 }
 
-/* BOTONES */
-.actions { margin: 15px 0; }
+.subtitle {
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* Separador elegante */
+.header-main::after {
+    content: "";
+    display: block;
+    margin-top: 20px;
+    height: 1px;
+    background: #e6e8ee;
+}
+
+/* =====================================================
+   BOTONES
+===================================================== */
+.actions {
+    margin-top: 18px;
+    margin-bottom: 22px;
+}
 
 .btn {
     background: var(--accent);
-    color: white;
-    padding: 10px 16px;
-    border-radius: 8px;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
     border: none;
     cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    transition: .2s ease;
+}
+
+.btn:hover {
+    background: #9e1620;
 }
 
 .btn.secondary {
-    background:white;
-    border:1px solid var(--border);
-    color:#333;
+    background: white;
+    border: 1px solid var(--border);
+    color: #333;
 }
 
-/* GRID */
+/* =====================================================
+   GRID PRINCIPAL
+===================================================== */
 .grid-2 {
-    display:grid;
-    grid-template-columns: 2fr 1fr;
-    gap:20px;
+    display: grid;
+    grid-template-columns: 2.4fr 1.2fr;
+    gap: 26px;
 }
 
-/* CARD */
+/* =====================================================
+   TARJETAS GENERALES
+===================================================== */
 .card {
     background: var(--card);
-    padding: 20px;
+    padding: 26px;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
 }
 
 .card-title {
-    margin: 0;
-    color:#0f3a66;
-    font-size:18px;
+    margin: 0 0 12px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f3a66;
 }
 
-/* TABLA */
-.table-wrapper { 
-    overflow:auto; 
+/* =====================================================
+   TABLA PROMOCIONES
+===================================================== */
+.table-wrapper {
+    overflow-x: auto;
 }
 
 table {
-    width:100%;
-    border-collapse:collapse;
-    font-size:14px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
 }
 
 th {
-    color:var(--muted);
-    padding:12px;
-    border-bottom:1px solid var(--border);
+    text-align: left;
+    padding: 14px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
 }
 
 td {
-    padding:12px;
-    border-bottom:1px solid #f1f3f6;
+    padding: 14px;
+    border-bottom: 1px solid #f1f3f6;
 }
 
-/* BADGES */
+/* =====================================================
+   BADGES
+===================================================== */
 .badge {
-    padding:6px 8px;
-    border-radius:6px;
-    color:white;
-    font-weight:bold;
+    padding: 6px 14px;
+    border-radius: 14px;
     font-size: 13px;
-}
-
-.badge.activa { background:#1fbf73; }
-.badge.programada { background:#7b61ff; }
-.badge.inactiva { background:#9ca3af; }
-
-/* PROMOCIÓN CARDS DERECHA */
-.promo-cards{ 
-    display:flex; 
-    flex-direction:column; 
-    gap:12px; 
-}
-
-.promo-card{
-    background:white;
-    padding:12px;
-    border-radius:12px;
-    border-left:6px solid #fdecec;
-    box-shadow: var(--shadow);
-}
-
-.promo-card h4 { margin:0; }
-.promo-card p { margin:3px 0; color:var(--muted); }
-
-/* STATS */
-.stat-row {
-    display:flex;
-    justify-content:space-between;
-    padding:8px 0;
-    border-bottom:1px dashed #ccc;
-}
-
-/* MODAL */
-.modal {
-    position:fixed;
-    inset:0;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    background:rgba(0,0,0,0.5);
-}
-
-.modal-content {
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    width:400px;
-    box-shadow: var(--shadow);
-    position: relative;
-}
-
-.modal-content label {
-    display:block;
-    margin-top:12px;
-}
-
-.modal-content input,
-.modal-content textarea,
-.modal-content select {
-    width:100%;
-    padding:10px;
-    border-radius:8px;
-    border:1px solid #ccc;
-}
-
-/* FORM ROWS */
-.form-row {
-    display:flex;
-    gap:15px;
-    margin-top:10px;
-}
-
-/* MODAL ACTIONS */
-.modal-actions {
-    display:flex;
-    justify-content:flex-end;
-    margin-top:20px;
-    gap:10px;
-}
-
-.cerrar {
-    background:none;
-    border:none;
-    font-size:24px;
-    cursor:pointer;
-    position:absolute;
-    right:15px;
-    top:10px;
-}
-/* BADGES DE ESTADO */
-.badge {
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    display: inline-block;
+    font-weight: 700;
     color: #fff;
 }
 
-/* Estado REAL: Activa */
-.badge.activa {
-    background-color: #28a745;   /* verde */
-}
+.badge.activa { background: #1fbf73; }
+.badge.programada { background: #ffc107; color:#000; }
+.badge.expirada { background: #dc3545; }
+.badge.inactiva { background: #6c757d; }
 
-/* Estado REAL: Expirada */
-.badge.expirada {
-    background-color: #dc3545;   /* rojo */
-}
-
-/* Estado REAL: Programada */
-.badge.programada {
-    background-color: #ffc107;   /* amarillo */
-    color: #000;
-}
-
-/* Estado REAL: Inactiva manualmente */
-.badge.inactiva {
-    background-color: #6c757d;   /* gris */
-}
-.input-error {
-    border: 2px solid #e74c3c !important;
-    background-color: #fdecea;
-}
 /* =====================================================
-   🔥 NUEVO DISEÑO PROFESIONAL PARA PROMOCIONES ACTIVAS
-   ===================================================== */
-
+   PROMOCIONES ACTIVAS (CARDS)
+===================================================== */
 .promo-cards {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 18px;
 }
 
 .promo-card {
-    background: #ffffff;
-    padding: 18px 20px;
-    border-radius: 14px;
+    background: #fff;
+    padding: 22px 24px;
+    border-radius: 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-left: 6px solid #ff5252;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: all 0.2s ease;
+    box-shadow: var(--shadow);
+    transition: .25s ease;
 }
 
 .promo-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0,0,0,.15);
 }
 
 .promo-info {
-    width: 70%;
+    width: 72%;
 }
 
 .promo-info h4 {
     margin: 0;
-    font-size: 17px;
-    font-weight: 700;
-}
-
-.promo-info p {
-    margin: 2px 0 8px;
-    font-size: 14px;
-    color: #666;
-}
-
-/* Precios */
-.promo-prices {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 6px;
-    font-size: 14px;
-}
-
-.promo-prices .before {
-    text-decoration: line-through;
-    color: #999;
-}
-
-.promo-prices .after {
-    font-weight: 700;
-    color: #27ae60;
-}
-
-/* Fecha */
-.promo-date {
-    background: #eef0f3;
-    padding: 4px 8px;
-    border-radius: 8px;
-    font-size: 12px;
-    color: #444;
-    display: inline-block;
-}
-
-/* Descuento lado derecho */
-.promo-side {
-    text-align: center;
-    min-width: 70px;
-}
-
-.promo-side .discount {
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 800;
-    color: #ff5252;
-}
-
-.promo-side small {
-    font-size: 12px;
-    color: #666;
-}
-/* ========================================
-   📊 ESTADÍSTICAS MEJORADAS
-   ======================================== */
-
-.card .stat-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 5px;
-    border-bottom: 1px solid #eee;
-}
-
-.card .stat-row:last-child {
-    border-bottom: none;
-}
-
-.card .stat-row span {
-    font-size: 14px;
-    color: #555;
-}
-
-.card .stat-row strong {
-    font-size: 15px;
-    font-weight: 700;
-    color: #222;
-}
-
-#avgOferta {
-    color: #27ae60 !important;
-    font-weight: bold;
-}
-/* ============================
-   TARJETAS PROMOCIONES ACTIVAS
-   ============================ */
-.promo-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.promo-card {
-    background: #ffffff;
-    padding: 18px 20px;
-    border-radius: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-left: 6px solid #ff5252;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: all 0.2s ease;
-}
-
-.promo-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-}
-
-.promo-info {
-    width: 70%;
-}
-
-.promo-info h4 {
-    margin: 0;
-    font-size: 17px;
-    font-weight: 700;
 }
 
 .promo-info p {
-    margin: 2px 0 6px;
+    margin: 4px 0 6px;
     font-size: 14px;
     color: #555;
 }
@@ -401,12 +211,10 @@ td {
     color: #444;
 }
 
-/* Precios */
 .promo-prices {
     display: flex;
-    gap: 12px;
-    margin: 5px 0 6px;
-    font-size: 14px;
+    gap: 14px;
+    margin: 6px 0;
 }
 
 .promo-prices .before {
@@ -415,14 +223,13 @@ td {
 }
 
 .promo-prices .after {
-    font-weight: 700;
+    font-weight: 800;
     color: #27ae60;
 }
 
-/* Extras: vigencia + stock */
 .promo-extra {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     font-size: 12px;
     color: #666;
 }
@@ -430,19 +237,18 @@ td {
 .promo-date,
 .promo-stock {
     background: #f4f5f7;
-    padding: 3px 8px;
-    border-radius: 10px;
+    padding: 5px 12px;
+    border-radius: 14px;
 }
 
-/* Columna derecha (descuento) */
 .promo-side {
     text-align: center;
-    min-width: 80px;
+    min-width: 90px;
 }
 
 .promo-side .discount {
-    font-size: 26px;
-    font-weight: 800;
+    font-size: 28px;
+    font-weight: 900;
     color: #ff5252;
 }
 
@@ -451,29 +257,28 @@ td {
     color: #666;
 }
 
-/* ============================
+/* =====================================================
    ESTADÍSTICAS
-   ============================ */
-.card .stat-row {
+===================================================== */
+.stat-row {
     display: flex;
     justify-content: space-between;
-    padding: 8px 4px;
+    padding: 10px 4px;
     border-bottom: 1px solid #eee;
 }
 
-.card .stat-row:last-child {
+.stat-row:last-child {
     border-bottom: none;
 }
 
-.card .stat-row span {
+.stat-row span {
     font-size: 14px;
     color: #555;
 }
 
-.card .stat-row strong {
+.stat-row strong {
     font-size: 15px;
-    font-weight: 700;
-    color: #222;
+    font-weight: 800;
 }
 
 #avgOferta,
@@ -482,35 +287,173 @@ td {
     color: #27ae60;
 }
 
-/* ============================
-   PREVIEW EN EL MODAL
-   ============================ */
-.preview-box {
-    margin-top: 15px;
-    padding: 12px 14px;
-    border-radius: 10px;
-    background: #f8f9fb;
-    border: 1px solid #e1e4eb;
+/* =====================================================
+   MODAL NUEVA PROMOCIÓN (🔥 MÁS BONITO Y ANCHO)
+===================================================== */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,.6);
+    z-index: 999;
 }
 
-.preview-box h4 {
-    margin: 0 0 6px;
-    font-size: 15px;
+.modal-content {
+    background: white;
+    padding: 32px 36px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 760px; /* 🔥 NO ESTRECHO */
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 18px 42px rgba(0,0,0,.28);
+    position: relative;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 16px;
     font-weight: 700;
 }
 
-.preview-line {
-    margin: 2px 0;
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+
+.form-row {
+    display: flex;
+    gap: 18px;
+    margin-top: 14px;
+}
+
+/* Preview */
+.preview-box {
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: #f8f9fb;
+    border: 1px solid #e1e4eb;
     font-size: 13px;
+}
+
+.preview-box h4 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 800;
 }
 
 .resumen-box {
-    margin-top: 8px;
+    margin-top: 10px;
     border-top: 1px dashed #d0d3dd;
-    padding-top: 6px;
-    font-size: 13px;
+    padding-top: 8px;
 }
 
-.resumen-box div {
-    margin-bottom: 2px;
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 26px;
+    gap: 14px;
+}
+
+.cerrar {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 16px;
+}
+/* ================= MODAL XXL PROFESIONAL ================= */
+
+.modal-xxl {
+    max-width: 1100px;
+}
+
+/* GRID */
+.modal-grid {
+    display: grid;
+    grid-template-columns: 2.3fr 1.2fr;
+    gap: 28px;
+    margin-top: 20px;
+}
+
+/* SECCIONES */
+.modal-section {
+    background: #f9fafc;
+    border: 1px solid #e6e9f0;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.modal-section h4 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f3a66;
+}
+
+/* COLUMNA DERECHA */
+.modal-right {
+    position: sticky;
+    top: 20px;
+}
+
+/* PREVIEW */
+.preview-box {
+    background: #fff;
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.12);
+}
+
+.preview-box h4 {
+    margin: 0 0 14px;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.preview-box p {
+    font-size: 14px;
+    margin: 6px 0;
+}
+
+.preview-divider {
+    margin: 14px 0;
+    border-top: 1px dashed #ccc;
+}
+
+/* INPUTS */
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+
+/* ERRORES */
+.error-text {
+    display: none;
+    color: #c0392b;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+/* ACCIONES */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 28px;
 }
